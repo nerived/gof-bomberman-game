@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { Button, PageContainer } from '../ui-kit'
 import { Logo } from '../ui-kit/Logo/Logo'
+import { RoutesPaths } from '../routes/constants'
 
 export const MainPage: FC = () => {
   return (
@@ -8,7 +9,7 @@ export const MainPage: FC = () => {
       <Logo src="/logo.png" alt="bomberman logo" />
 
       <div style={{ marginTop: '40px' }}>
-        <Button title="START" href="/registration" type="8bit" />
+        <Button title="START" href={RoutesPaths.Game} type="8bit" />
       </div>
     </PageContainer>
   )

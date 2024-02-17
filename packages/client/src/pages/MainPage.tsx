@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Button, PageContainer } from '../ui-kit'
-import { Logo } from '../ui-kit/Logo/Logo'
+import { Logo } from '../ui-kit/Logo/Logo.styled'
 import { RoutesPaths } from '../routes/constants'
 
 export const MainPage: FC = () => {

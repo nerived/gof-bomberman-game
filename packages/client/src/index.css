@@ -47,3 +47,12 @@ h6 {
   width: inherit;
   height: inherit;
 }
+
+/* fonts */
+
+@font-face {
+  font-family: PressStart2P;
+  font-style: normal;
+  src: local('PressStart2P'),
+    url('./assets/fonts/PressStart2P-Regular.ttf') format('truetype');
+}

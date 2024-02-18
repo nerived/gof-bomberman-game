@@ -43,4 +43,13 @@ export const Button = styled.a<ButtonProps>`
       background-color: transparent;
       border: 2px solid ${Colors.YELLOW};
     `}
+
+    ${({ type }) =>
+    type === '8bit' &&
+    css`
+      color: ${Colors.WHITE};
+      font-size: 48px;
+      font-family: PressStart2P, Arial, sans-serif;
+      text-shadow: 5px 5px ${Colors.GRAY};
+    `}
 `

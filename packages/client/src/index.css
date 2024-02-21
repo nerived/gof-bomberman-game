@@ -3,6 +3,8 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
 }
 
 *,
@@ -13,6 +15,7 @@ body {
 
 * {
   margin: 0;
+  box-sizing: border-box;
 }
 
 img,
@@ -27,6 +30,15 @@ button,
 textarea,
 select {
   font: inherit;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
 }
 
 a {
@@ -46,4 +58,5 @@ h6 {
 #root {
   width: inherit;
   height: inherit;
+  background-color: #1a282f;
 }

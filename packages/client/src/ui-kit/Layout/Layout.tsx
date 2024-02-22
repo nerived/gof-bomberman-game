@@ -2,7 +2,7 @@ import { FC, PropsWithChildren } from 'react'
 
 import * as S from './Layout.styled'
 
-export const Layout: FC<{ title: string } & PropsWithChildren> = ({
+export const Layout: FC<{ title?: string } & PropsWithChildren> = ({
   children,
   title,
 }) => {

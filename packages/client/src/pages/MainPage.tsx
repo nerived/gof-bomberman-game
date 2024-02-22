@@ -1,8 +1,9 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 import { RoutesPaths } from './../routes/constants'
-import { Button, Layout } from '../ui-kit'
+import { Button, ButtonMode, Layout } from '../ui-kit'
 import { Logo } from '../ui-kit/Logo/Logo.styled'
+import { ContainerFlex } from '../ui-kit/ContainerFlex/ContainerFlex.styled'
 
 export const Item = styled.div`
   color: #fff;
@@ -12,23 +13,25 @@ export const Link = styled.a`
 `
 export const MainPage: FC = () => {
   return (
-    <Layout title="Bomberman game">
-      <Logo src="/logo.png" alt="bomberman logo" />
+    <Layout>
+      <ContainerFlex>
+        <Logo src="/logo.png" alt="bomberman logo" />
 
-      <div style={{ marginTop: '40px' }}>
-        <Button title="START" href={RoutesPaths.Game} type="8bit" />
-      </div>
+        <div style={{ margin: '40px 0' }}>
+          <Button content="START" mode={ButtonMode.PIXEL} />
+        </div>
 
-      <div>
-        {Object.keys(RoutesPaths).map(route => {
-          const href = RoutesPaths[route as keyof typeof RoutesPaths]
-          return (
-            <Item>
-              <Link href={href}>{route}</Link>
-            </Item>
-          )
-        })}
-      </div>
+        <div>
+          {Object.keys(RoutesPaths).map(route => {
+            const href = RoutesPaths[route as keyof typeof RoutesPaths]
+            return (
+              <Item>
+                <Link href={href}>{route}</Link>
+              </Item>
+            )
+          })}
+        </div>
+      </ContainerFlex>
     </Layout>
   )
 }

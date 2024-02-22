@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components'
-
 import { Colors } from '../../tokens'
-
 import { ButtonMode } from './ButtonTypes'
+import { PixelText } from '../helpers/BaseStyles.styled'
 
 export interface SButtonProps {
   mode?: ButtonMode
@@ -47,10 +46,7 @@ export const Button = styled.button<SButtonProps>`
     ${({ mode }) =>
     mode === ButtonMode.PIXEL &&
     css`
-      color: ${Colors.WHITE};
-      font-size: 48px;
-      font-family: PressStart2P, Arial, sans-serif;
-      text-shadow: 5px 5px ${Colors.GRAY};
+      ${PixelText}
       border: 0;
     `}
 `

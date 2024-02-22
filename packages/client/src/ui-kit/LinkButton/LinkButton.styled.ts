@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 import { Colors } from '../../tokens'
 
 import { LinkButtonMode } from './LinkButtonTypes'
+import { PixelText } from '../helpers/BaseStyles.styled'
 
 export interface LinkButtonProps {
   mode?: LinkButtonMode
@@ -41,5 +42,12 @@ export const LinkButton = styled.a<LinkButtonProps>`
     css`
       color: ${Colors.WHITE};
       background-color: transparent;
+    `}
+
+    ${({ mode }) =>
+    mode === LinkButtonMode.PIXEL &&
+    css`
+      ${PixelText}
+      border: 0;
     `}
 `

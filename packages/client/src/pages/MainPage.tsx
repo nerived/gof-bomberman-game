@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { RoutesPaths } from './../routes/constants'
 import { Button, ButtonMode, Layout } from '../ui-kit'
 import { Logo } from '../ui-kit/Logo/Logo.styled'
-import { ContainerFlex } from '../ui-kit/ContainerFlex/ContainerFlex.styled'
 
 export const Item = styled.div`
   color: #fff;
@@ -14,6 +13,13 @@ export const Link = styled.a`
 
 const MarginWrapper = styled.div`
   margin: 40px 0;
+`
+
+const ContainerFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 72px;
 `
 
 export const MainPage: FC = () => {

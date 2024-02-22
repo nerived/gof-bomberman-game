@@ -11,15 +11,20 @@ export const Item = styled.div`
 export const Link = styled.a`
   color: #fff;
 `
+
+const MarginWrapper = styled.div`
+  margin: 40px 0;
+`
+
 export const MainPage: FC = () => {
   return (
     <Layout>
       <ContainerFlex>
         <Logo src="/logo.png" alt="bomberman logo" />
 
-        <div style={{ margin: '40px 0' }}>
+        <MarginWrapper>
           <Button content="START" mode={ButtonMode.PIXEL} />
-        </div>
+        </MarginWrapper>
 
         <div>
           {Object.keys(RoutesPaths).map(route => {

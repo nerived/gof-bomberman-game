@@ -11,6 +11,7 @@ import {
 } from '../../ui-kit'
 
 import * as S from './ProfilePassword.styled'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const userFields = [
   {
@@ -42,32 +43,34 @@ export const ProfilePassword: FC = () => {
   return (
     <Layout title={'Изменить пароль'}>
       <S.Root>
-        <FormLayout>
-          <Form onSubmit={handleSave}>
-            <S.Content>
-              {userFields.map(field => {
-                return <RowField isEditable {...field} />
-              })}
-            </S.Content>
+        <ErrorBoundary>
+          <FormLayout>
+            <Form onSubmit={handleSave}>
+              <S.Content>
+                {userFields.map(field => {
+                  return <RowField isEditable {...field} />
+                })}
+              </S.Content>
 
-            <S.Actions>
-              <S.Action>
-                <Button
-                  type="submit"
-                  content="Сохранить"
-                  mode={ButtonMode.MAIN}
-                />
-              </S.Action>
-              <S.Action>
-                <LinkButton
-                  content="Отмена"
-                  mode={LinkButtonMode.OUTLINE}
-                  href="/profile"
-                />
-              </S.Action>
-            </S.Actions>
-          </Form>
-        </FormLayout>
+              <S.Actions>
+                <S.Action>
+                  <Button
+                    type="submit"
+                    content="Сохранить"
+                    mode={ButtonMode.MAIN}
+                  />
+                </S.Action>
+                <S.Action>
+                  <LinkButton
+                    content="Отмена"
+                    mode={LinkButtonMode.OUTLINE}
+                    href="/profile"
+                  />
+                </S.Action>
+              </S.Actions>
+            </Form>
+          </FormLayout>
+        </ErrorBoundary>
       </S.Root>
     </Layout>
   )

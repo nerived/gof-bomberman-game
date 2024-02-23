@@ -15,6 +15,7 @@ import {
 } from '../../ui-kit'
 
 import * as S from './Profile.styled'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const userFields = [
   {
@@ -61,41 +62,45 @@ export const Profile: FC = () => {
 
   return (
     <Layout title={'Профиль'}>
-      <FormLayout>
-        <S.Head>
-          <Avatar name="Иван" isEditAlloved={true} />
-        </S.Head>
+      <ErrorBoundary>
+        <FormLayout>
+          <S.Head>
+            <ErrorBoundary>
+              <Avatar name="Иван" isEditAlloved={true} />
+            </ErrorBoundary>
+          </S.Head>
 
-        <S.Content>
-          {userFields.map(field => {
-            return <RowField {...field} />
-          })}
-        </S.Content>
+          <S.Content>
+            {userFields.map(field => {
+              return <RowField {...field} />
+            })}
+          </S.Content>
 
-        <S.Actions>
-          <S.Action>
-            <LinkButton
-              mode={LinkButtonMode.MAIN}
-              href={RoutesPaths.EditProfile}
-              content="Изменить данные"
-            />
-          </S.Action>
-          <S.Action>
-            <LinkButton
-              mode={LinkButtonMode.MAIN}
-              href={RoutesPaths.EditPassword}
-              content="Изменить пароль"
-            />
-          </S.Action>
-          <S.Action>
-            <Button
-              content="Выйти"
-              mode={ButtonMode.OUTLINE}
-              onClick={handleLogput}
-            />
-          </S.Action>
-        </S.Actions>
-      </FormLayout>
+          <S.Actions>
+            <S.Action>
+              <LinkButton
+                mode={LinkButtonMode.MAIN}
+                href={RoutesPaths.EditProfile}
+                content="Изменить данные"
+              />
+            </S.Action>
+            <S.Action>
+              <LinkButton
+                mode={LinkButtonMode.MAIN}
+                href={RoutesPaths.EditPassword}
+                content="Изменить пароль"
+              />
+            </S.Action>
+            <S.Action>
+              <Button
+                content="Выйти"
+                mode={ButtonMode.OUTLINE}
+                onClick={handleLogput}
+              />
+            </S.Action>
+          </S.Actions>
+        </FormLayout>
+      </ErrorBoundary>
     </Layout>
   )
 }

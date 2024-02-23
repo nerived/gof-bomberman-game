@@ -10,6 +10,7 @@ const ErrorContainer = styled.div`
 
 const ErrorText = styled.p`
   color: ${Colors.YELLOW};
+  font-weight: 700;
 `
 
 interface ErrorBoundaryProps {

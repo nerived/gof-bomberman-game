@@ -65,7 +65,7 @@ class Explode extends BombState {
   private _update() {
     this._frame++
 
-    if (this._frame === 1) {
+    if (this._frame === 4) {
       this._bomb.command?.execute()
     }
 

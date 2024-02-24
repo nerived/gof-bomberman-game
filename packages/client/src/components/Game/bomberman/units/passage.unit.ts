@@ -4,7 +4,6 @@ export class PassageUnit extends RectGameUnit {
   public passable = true
   public destroyable = true
 
-  draw() {
-    //important function;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  draw() {}
 }

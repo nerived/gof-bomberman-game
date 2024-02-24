@@ -8,9 +8,8 @@ export abstract class PlayerState {
 }
 
 class Idle extends PlayerState {
-  public useAction(): void {
-    //imoprtant function
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public useAction() {}
 }
 
 class Bomb extends PlayerState {
@@ -44,9 +43,8 @@ class MoveState extends PlayerState {
     }
   }
 
-  public useAction(): void {
-    //imoprtant function
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public useAction(): void {}
 }
 
 class MoveLeft extends MoveState {

@@ -198,7 +198,6 @@ export class MazeBuilder {
       const posY = this._computePosFor(y)
 
       if (unit instanceof BrickUnit) {
-        //TO DO if Brick, call destroy for random pick Thing, Door
         this._maze[posY][posX] = new PassageUnit(
           x,
           y,
@@ -211,16 +210,6 @@ export class MazeBuilder {
 
     return this._collectStaticUnits()
   }
-
-  // public deleteBricks(bricks: unknown[]) {}
-
-  // public addThing() {}
-
-  // public deleteThing() {}
-
-  // public addDoor() {}
-
-  // public deleteEnemies(enemies: unknown[]) {}
 }
 
 const LEVEL = [

@@ -9,10 +9,9 @@ export class ThingUnit extends RectGameUnit {
     super(x, y, width, heigth)
 
     this._image = new Image()
-    // this._image.src = brickImageSrc;
   }
 
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
-    // canvasCtx.drawImage(this._image, this.x + offsetX, this.y);
+    canvasCtx.drawImage(this._image, this.x + offsetX, this.y)
   }
 }

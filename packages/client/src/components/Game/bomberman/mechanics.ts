@@ -38,7 +38,6 @@ export class Mechanics {
   public minusLife() {
     this._lifes--
 
-    // show information for player and then restart level by command
     if (this._lifes === -1) {
       alert('game over')
       // TO DO route to game over page

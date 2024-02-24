@@ -1,5 +1,5 @@
 import { Queue } from '../basics/queue'
-import { RectGameUnit, TGameUnit } from '../basics/unit'
+import { RectGameUnit } from '../basics/unit'
 
 const brickImageSrc = '/src/components/Game/bomberman/assets/brick.png'
 
@@ -7,7 +7,7 @@ export class BrickUnit extends RectGameUnit {
   private _image: HTMLImageElement
   public passable = false
   public destroyable = true
-  public queue = new Queue<TGameUnit>()
+  public queue = new Queue<RectGameUnit>()
 
   constructor(x = 0, y = 0, width = 0, heigth = 0) {
     super(x, y, width, heigth)

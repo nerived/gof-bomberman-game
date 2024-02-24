@@ -5,8 +5,7 @@ import { BrickUnit } from './units/brick.unit'
 import { PlayerUnit } from './units/player/player.unit'
 import { EnemyUnit } from './units/enemy.unit'
 import { BombUnit } from './units/bomb/bomb.unit'
-import { ThingUnit } from './units/thing.unit'
-import { DoorUnit } from './units/door.unit'
+import { TThingTypeUnion, ThingUnit } from './units/thing/thing.unit'
 
 const TILE_TYPE = {
   PLAYER: '%',
@@ -48,6 +47,33 @@ export class MazeBuilder {
     return Math.trunc(coordinate / this._tileSize)
   }
 
+  private _putThings(bricks: BrickUnit[]) {
+    let remains: TThingTypeUnion[] = ['DOOR', 'POWER', 'LIFE', 'AMMO']
+
+    while (remains.length) {
+      const thingIdx = Math.floor(Math.random() * remains.length)
+      const thingType = remains[thingIdx]
+
+      remains = remains.filter(sThing => sThing !== thingType)
+
+      let listIdx = 0
+      for (;;) {
+        if (Math.trunc(Math.random() * 10000) > 2) {
+          listIdx = (listIdx + 1) % bricks.length
+          continue
+        }
+
+        const brick = bricks[listIdx]
+        const { x, y, width, height } = brick
+        const thing = new ThingUnit(thingType, x, y, width, height)
+        brick.queue.enqueue(thing)
+        break
+      }
+    }
+
+    return bricks
+  }
+
   public buildMaze(player: PlayerUnit, level = 1) {
     const matrix: Array<RectGameUnit[]> = Array(this._mazeLines)
       .fill(null)
@@ -68,7 +94,7 @@ export class MazeBuilder {
           player.radius = this._tileSize * 0.5
           player.x = x
           player.y = y
-          matrix[i][j] = new PassageUnit(x, y)
+          matrix[i][j] = new PassageUnit(x, y, width, height)
         }
 
         if (tileType === TILE_TYPE.PASSAGE) {
@@ -90,14 +116,32 @@ export class MazeBuilder {
           enemies.push(
             new EnemyUnit(this._pixelRatio, x, y, this._tileSize * 0.5)
           )
-          matrix[i][j] = new PassageUnit(x, y)
+          matrix[i][j] = new PassageUnit(x, y, width, height)
         }
       }
     }
 
+    this._putThings(bricks)
+
     this._maze = matrix
 
     return { matrix, bricks, enemies }
+  }
+
+  private _getBricks() {
+    const bricks = []
+
+    for (let i = 0; i < this._maze.length; i++) {
+      for (let j = 0; j < this._maze[i].length; j++) {
+        const unit = this._maze[i][j]
+
+        if (unit instanceof BrickUnit) {
+          bricks.push(unit)
+        }
+      }
+    }
+
+    return bricks
   }
 
   private _computeBombMagnitude(
@@ -117,7 +161,7 @@ export class MazeBuilder {
 
         const unit = this._maze[curPosY]?.[curPosX]
 
-        if (!unit.destroyable) break
+        if (unit instanceof WallUnit) break
 
         bomb.magnitude.push(unit)
 
@@ -130,32 +174,6 @@ export class MazeBuilder {
     }
   }
 
-  private _collectStaticUnits() {
-    const bricks = []
-    const things = []
-    const doors = []
-
-    for (let i = 0; i < this._maze.length; i++) {
-      for (let j = 0; j < this._maze[i].length; j++) {
-        const unit = this._maze[i][j]
-
-        if (unit instanceof BrickUnit) {
-          bricks.push(unit)
-        }
-
-        if (unit instanceof ThingUnit) {
-          things.push(unit)
-        }
-
-        if (unit instanceof DoorUnit) {
-          doors.push(unit)
-        }
-      }
-    }
-
-    return { bricks, things, doors }
-  }
-
   public addBomb(x: number, y: number, power: number) {
     const cX = x
     const cY = y
@@ -163,7 +181,11 @@ export class MazeBuilder {
     const posX = this._computePosFor(cX)
     const posY = this._computePosFor(cY)
 
-    if (this._maze[posY][posX] instanceof BombUnit) return
+    const unitInCurPos = this._maze[posY][posX]
+
+    if (unitInCurPos instanceof BombUnit || unitInCurPos instanceof ThingUnit) {
+      return
+    }
 
     const bomb = new BombUnit(
       power,
@@ -181,34 +203,29 @@ export class MazeBuilder {
   }
 
   public deleteBomb(bomb: BombUnit) {
-    const { x, y, magnitude } = bomb
-    const posX = this._computePosFor(x)
-    const posY = this._computePosFor(y)
+    const { magnitude } = bomb
 
-    this._maze[posY][posX] = new PassageUnit(
-      x,
-      y,
-      this._tileSize,
-      this._tileSize
-    )
+    const things: ThingUnit[] = []
 
-    magnitude.forEach(unit => {
+    for (const unit of magnitude) {
       const { x, y } = unit
       const posX = this._computePosFor(x)
       const posY = this._computePosFor(y)
 
-      if (unit instanceof BrickUnit) {
-        this._maze[posY][posX] = new PassageUnit(
-          x,
-          y,
-          this._tileSize,
-          this._tileSize
-        )
-        return
-      }
-    })
+      this._maze[posY][posX] = new PassageUnit(
+        x,
+        y,
+        this._tileSize,
+        this._tileSize
+      )
 
-    return this._collectStaticUnits()
+      if (unit instanceof BrickUnit && unit.queue.size) {
+        const potentialThing = unit.queue.dequeue()
+        potentialThing instanceof ThingUnit && things.push(potentialThing)
+      }
+    }
+
+    return { bricks: this._getBricks(), things }
   }
 }
 
@@ -230,17 +247,17 @@ const LEVEL = [
   ],
   [
     '###################################',
-    '#-$$----$$$$-------------@--------#',
-    '#-#$#-#-#-#$#$#-#-#-#-#-#-#-#-#-#-#',
-    '#----$--------$$----$$------------#',
-    '#-#-#-#-#-#$#-#-#-#$#$#-#-#-#-#-#-#',
-    '#%------$$$$------@---------------#',
-    '#-#-#$#-#-#$#-#-#-#-#-#-#-#-#-#-#-#',
-    '#----$-------$$----------@-$$$$$--#',
-    '#-#-#-#$#-#-#$#-#-#-#-#-#-#-#-#$#-#',
-    '#--$-------$$$---@---$$$-------$$$#',
-    '#-#$#-#-#$#-#-#-#-#-#-#$#-#-#-#-#-#',
-    '#--@---$$$-----@-------$$$--@-----#',
+    '#$$$-----$$$-------$$----@------$$#',
+    '#-#$#$#-#-#$#$#$#$#$#$#-#-#-#$#-#$#',
+    '#---$$---$$---$$----$$------$$----#',
+    '#-#$#@#$#-#$#-#$#-#$#$#$#-#-#$#-#-#',
+    '#%-$-----$$$---$--@-----$----$$---#',
+    '#-#-#$#-#$#$#$#-#-#$#-#-#-#-#-#-#-#',
+    '#---$$$$-$--$$$----$-----@-$$$$$--#',
+    '#-#-#$#$#$#-#$#-#-#-#-#-#-#-#-#$#-#',
+    '#$$$---$$$$--$$--@--$$$$----$--$$$#',
+    '#$#$#-#$#$#-#$#$#$#-#-#$#-#-#-#$#$#',
+    '#$-@---$$$---$-@-------$$$--@-----#',
     '###################################',
   ],
 ]

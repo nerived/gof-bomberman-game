@@ -1,5 +1,5 @@
 import { FC, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { Bomberman } from './bomberman/bomberman'
+import { Bomberman } from './bomberman'
 import styled from 'styled-components'
 import { Colors } from '../../tokens'
 

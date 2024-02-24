@@ -52,7 +52,7 @@ export class PlayerUnit extends CircleGameUnit {
   public levelMatrix: TLevelMatrix = [[]]
 
   constructor(protected readonly context: TContext) {
-    super()
+    super(0, 0, 0)
     this._image = new Image()
     this._image.src = playerImageSrc
     this.maxVelocity = 4 * context.pixelRatio
@@ -74,7 +74,8 @@ export class PlayerUnit extends CircleGameUnit {
 
   public start() {
     this._curState = [this._stateList[STATE_INDEX.IDLE]]
-    this.bombAmmo = 1
+    // debug ammo 100
+    this.bombAmmo = 100
     this.bombPower = 1
   }
 

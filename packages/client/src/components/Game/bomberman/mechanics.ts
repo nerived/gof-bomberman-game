@@ -35,6 +35,10 @@ export class Mechanics {
     this._score += score
   }
 
+  public plusLife() {
+    this._lifes++
+  }
+
   public minusLife() {
     this._lifes--
 

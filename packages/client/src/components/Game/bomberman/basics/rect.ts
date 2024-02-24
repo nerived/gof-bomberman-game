@@ -6,7 +6,7 @@ export class Rect {
   private _width: number
   private _height: number
 
-  constructor(x = 0, y = 0, width = 0, height = 0) {
+  constructor(x: number, y: number, width: number, height: number) {
     this._checkWidthOrHeight(width, height)
     this._x = x
     this._y = y

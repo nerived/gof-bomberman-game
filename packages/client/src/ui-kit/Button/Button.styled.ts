@@ -1,46 +1,46 @@
 import styled, { css } from 'styled-components'
+
 import { Colors } from '../../tokens'
 
-interface ButtonProps {
+import { ButtonMode } from './ButtonTypes'
+
+export interface SButtonProps {
+  mode?: ButtonMode
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  content?: string
   type?: string
 }
 
-export const Button = styled.a<ButtonProps>`
-  margin: 0 auto;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: ${Colors.BLACK};
-  border: none;
-  outline: none;
-  background: none;
-  border-radius: 30px;
-
+export const Button = styled.button<SButtonProps>`
+  color: ${Colors.WHITE};
+  font-size: 16px;
+  line-height: 20px;
   font-weight: bold;
-  width: fit-content;
-  height: fit-content;
-  min-width: 200px;
-  min-height: 50px;
-
+  text-align: center;
+  border-radius: 4px;
+  border: 2px solid ${Colors.YELLOW};
+  padding: 6px 10px;
+  min-width: 120px;
   transition: all 0.4s ease-in-out;
 
   &:focus {
     outline: none;
   }
 
-  ${({ type }) =>
-    type === 'main' &&
+  &:hover {
+    opacity: 0.85;
+  }
+
+  ${({ mode }) =>
+    mode === 'main' &&
     css`
       background-color: ${Colors.YELLOW};
     `}
 
-  ${({ type }) =>
-    type === 'outline' &&
+  ${({ mode }) =>
+    mode === 'outline' &&
     css`
       color: ${Colors.WHITE};
       background-color: transparent;
-      border: 2px solid ${Colors.YELLOW};
     `}
 `

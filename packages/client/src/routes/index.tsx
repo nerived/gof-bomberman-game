@@ -10,7 +10,9 @@ import {
   LoginPage,
   MainPage,
   NotFoundPage,
-  ProfilePage,
+  Profile,
+  ProfileEdit,
+  ProfilePassword,
   RegistrationPage,
 } from '../pages'
 
@@ -19,7 +21,9 @@ export const PagesRoutes: FC = () => {
     { path: RoutesPaths.Main, element: <MainPage /> },
     { path: RoutesPaths.Login, element: <LoginPage /> },
     { path: RoutesPaths.Registration, element: <RegistrationPage /> },
-    { path: RoutesPaths.Profile, element: <ProfilePage /> },
+    { path: RoutesPaths.Profile, element: <Profile /> },
+    { path: RoutesPaths.EditProfile, element: <ProfileEdit /> },
+    { path: RoutesPaths.EditPassword, element: <ProfilePassword /> },
     { path: RoutesPaths.Game, element: <GamePage /> },
     { path: RoutesPaths.Liders, element: <LidersPage /> },
     { path: RoutesPaths.Forum, element: <ForumMainPage /> },

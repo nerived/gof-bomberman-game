@@ -1,23 +1,18 @@
 import styled from 'styled-components'
 import { Colors } from '../../tokens'
 
-export const Label = styled.label`
-  display: inline-block;
-
-  margin: 0 auto;
-  border: 2px solid ${Colors.TERRACOTTA};
-`
-
 export const Input = styled.input`
-  padding: 5px;
+  padding: 0 5px;
   margin: 0;
   outline: none;
-  border: none;
-
-  background-color: ${Colors.BLACK};
+  height: 36px;
+  font-size: 16px;
+  line-height: 20px;
+  border-radius: 2px;
+  border: 2px solid ${Colors.TERRACOTTA};
+  background-color: ${Colors.MAIN_BG};
   color: ${Colors.WHITE};
-
-  width: 300px;
+  width: 100%;
 
   &::placeholder {
     color: inherit;

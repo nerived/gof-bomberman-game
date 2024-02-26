@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Colors } from '../../tokens'
 
-export const PageContainer = styled.div`
+export const LayoutCentered = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,7 +10,7 @@ export const PageContainer = styled.div`
   width: 100%;
   height: 100%;
 
-  background-color: ${Colors.BLACK};
+  background-color: ${Colors.MAIN_BG};
 
   padding: 30px;
 `

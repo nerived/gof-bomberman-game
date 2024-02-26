@@ -1,22 +1,48 @@
 import { FC, FormEvent } from 'react'
-import { Title, PageContainer, Input, Form, Button } from '../../ui-kit'
+import {
+  Title,
+  LayoutCentered,
+  Field,
+  Form,
+  Button,
+  ButtonMode,
+  LinkButton,
+  LinkButtonMode,
+} from '../../ui-kit'
 import { config } from './Config'
+import { RoutesPaths } from '../../routes/constants'
+
+import * as S from './Login.styled'
 
 export const LoginPage: FC = () => {
-  const FormSubmit = (evt: Event) => {
-    evt.preventDefault()
+  const handleLogin = (e: FormEvent) => {
+    e.preventDefault()
+    console.log('handleLogin')
   }
 
   return (
-    <PageContainer>
-      <Title>Вход</Title>
-      <Form>
-        {config.map(item => {
-          return <Input key={item.id} placeholder={item.placeholder} />
-        })}
-        <Button title="Вход" onClick={FormSubmit} type="main" />
-      </Form>
-      <Button title="Регистрация" href="/registration" type="outline" />
-    </PageContainer>
+    <LayoutCentered>
+      <S.Content>
+        <Title>Вход</Title>
+        <Form onSubmit={handleLogin}>
+          {config.map(item => {
+            return <Field key={item.id} placeholder={item.placeholder} />
+          })}
+
+          <S.Actions>
+            <S.Action>
+              <Button content="Вход" type="submit" mode={ButtonMode.MAIN} />
+            </S.Action>
+            <S.Action>
+              <LinkButton
+                content="Регистрация"
+                to={RoutesPaths.Registration}
+                mode={LinkButtonMode.OUTLINE}
+              />
+            </S.Action>
+          </S.Actions>
+        </Form>
+      </S.Content>
+    </LayoutCentered>
   )
 }

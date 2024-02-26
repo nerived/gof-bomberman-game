@@ -1,12 +1,15 @@
 import { FC } from 'react'
 
 import * as S from './Button.styled'
-import { ButtonProps } from './Types'
 
-export const Button: FC<ButtonProps> = ({ title, onClick, href, type }) => {
+export const Button: FC<S.SButtonProps> = ({
+  content,
+  onClick,
+  ...otherProps
+}) => {
   return (
-    <S.Button type={type} href={href} onClick={() => onClick}>
-      {title}
+    <S.Button onClick={onClick} {...otherProps}>
+      {content}
     </S.Button>
   )
 }

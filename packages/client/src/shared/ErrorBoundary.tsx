@@ -3,13 +3,17 @@ import styled from 'styled-components'
 import { Colors } from '../tokens'
 
 const ErrorContainer = styled.div`
+  height: 100%;
+  padding: 56px;
   flex-direction: column;
   display: flex;
   align-items: center;
+  justify-content: center;
 `
 
 const ErrorText = styled.p`
   color: ${Colors.YELLOW};
+  font-size: 32px;
   font-weight: 700;
 `
 

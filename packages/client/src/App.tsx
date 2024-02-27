@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { PagesRoutes } from './routes'
+import ErrorBoundary from './shared/ErrorBoundary'
 
 function App() {
   useEffect(() => {
@@ -13,10 +14,13 @@ function App() {
 
     fetchServerData()
   }, [])
+
   return (
-    <BrowserRouter>
-      <PagesRoutes />
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <PagesRoutes />
+      </BrowserRouter>
+    </ErrorBoundary>
   )
 }
 

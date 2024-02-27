@@ -12,7 +12,6 @@ import {
 import { RoutesPaths } from '../../routes/constants'
 
 import * as S from './ProfilePassword.styled'
-import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const userFields = [
   {
@@ -44,34 +43,32 @@ export const ProfilePassword: FC = () => {
   return (
     <Layout title={'Изменить пароль'}>
       <S.Root>
-        <ErrorBoundary>
-          <FormLayout>
-            <Form onSubmit={handleSave}>
-              <S.Content>
-                {userFields.map(field => {
-                  return <RowField isEditable {...field} />
-                })}
-              </S.Content>
+        <FormLayout>
+          <Form onSubmit={handleSave}>
+            <S.Content>
+              {userFields.map(field => {
+                return <RowField isEditable {...field} />
+              })}
+            </S.Content>
 
-              <S.Actions>
-                <S.Action>
-                  <Button
-                    type="submit"
-                    content="Сохранить"
-                    mode={ButtonMode.MAIN}
-                  />
-                </S.Action>
-                <S.Action>
-                  <LinkButton
-                    content="Отмена"
-                    mode={LinkButtonMode.OUTLINE}
-                    to={RoutesPaths.Profile}
-                  />
-                </S.Action>
-              </S.Actions>
-            </Form>
-          </FormLayout>
-        </ErrorBoundary>
+            <S.Actions>
+              <S.Action>
+                <Button
+                  type="submit"
+                  content="Сохранить"
+                  mode={ButtonMode.MAIN}
+                />
+              </S.Action>
+              <S.Action>
+                <LinkButton
+                  content="Отмена"
+                  mode={LinkButtonMode.OUTLINE}
+                  to={RoutesPaths.Profile}
+                />
+              </S.Action>
+            </S.Actions>
+          </Form>
+        </FormLayout>
       </S.Root>
     </Layout>
   )

@@ -7,6 +7,7 @@ export enum RoutesPaths {
   EditPassword = '/edit-password',
   Liders = '/liders',
   Game = '/game',
+  GameOver = '/game-over',
   Forum = '/forum',
   Error = '/error',
   NotFound = '*',

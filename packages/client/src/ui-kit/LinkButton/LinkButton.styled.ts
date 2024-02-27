@@ -52,5 +52,6 @@ export const LinkButton = styled(Link)<LinkButtonProps>`
       font-size: 48px;
       font-family: PressStart2P, Arial, sans-serif;
       text-shadow: 5px 5px ${Colors.GRAY};
+      border: 0;
     `}
 `

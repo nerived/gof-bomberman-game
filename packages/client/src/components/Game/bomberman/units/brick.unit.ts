@@ -9,8 +9,8 @@ export class BrickUnit extends RectGameUnit {
   public destroyable = true
   public queue = new Queue<RectGameUnit>()
 
-  constructor(x = 0, y = 0, width = 0, heigth = 0) {
-    super(x, y, width, heigth)
+  constructor(x = 0, y = 0, width = 0, height = 0) {
+    super(x, y, width, height)
 
     this._image = new Image()
     this._image.src = brickImageSrc

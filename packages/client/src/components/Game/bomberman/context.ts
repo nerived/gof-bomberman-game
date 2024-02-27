@@ -1,11 +1,11 @@
-export class Context {
+export class GameContext {
   static lines = 13
   static visibleColumns = 22
   static columns = 35
   static tileSize = 56
 
-  public mazeLines = Context.lines
-  public mazeColumns = Context.columns
+  public mazeLines = GameContext.lines
+  public mazeColumns = GameContext.columns
   public worldWidth = 0
   public worldHeight = 0
   public pixelRatio: number
@@ -28,14 +28,14 @@ export class Context {
   }
 
   private _computeWorldSize() {
-    const tileSize = Context.tileSize * globalThis.devicePixelRatio
-    const worldHeight = Context.lines * tileSize
-    const worldWidth = Context.columns * tileSize
+    const tileSize = GameContext.tileSize * globalThis.devicePixelRatio
+    const worldHeight = GameContext.lines * tileSize
+    const worldWidth = GameContext.columns * tileSize
     return [tileSize, worldWidth, worldHeight]
   }
 
   private _computeVisibleSize() {
-    const visibleWidth = Context.visibleColumns * this.tileSize
+    const visibleWidth = GameContext.visibleColumns * this.tileSize
     const visibleHeight = this.worldHeight
     return [visibleWidth, visibleHeight]
   }

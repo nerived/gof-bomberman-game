@@ -1,7 +1,7 @@
 import type { PlayerUnit } from './units/player/player.unit'
 const backgroundSrc = '/src/components/Game/bomberman/assets/background.png'
 
-interface TContext {
+interface TGameContext {
   tileSize: number
   stickyZoneStart: number
   stickyZoneEnd: number
@@ -13,7 +13,7 @@ interface TDrawable {
   draw: (canvasCtx: CanvasRenderingContext2D, offsetX: number) => void
 }
 
-export class Window {
+export class GameWindow {
   private _canvasCtx
   private _tileSize
   private _stickyZoneStart
@@ -23,13 +23,13 @@ export class Window {
   private _worldOffsetX
   private _backgroundImage
 
-  constructor(canvasCtx: CanvasRenderingContext2D, context: TContext) {
+  constructor(canvasCtx: CanvasRenderingContext2D, GameContext: TGameContext) {
     this._canvasCtx = canvasCtx
-    this._tileSize = context.tileSize
-    this._stickyZoneStart = context.stickyZoneStart
-    this._stickyZoneEnd = context.stickyZoneEnd
-    this._visibleWidth = context.visibleWidth
-    this._visibleHeight = context.visibleHeight
+    this._tileSize = GameContext.tileSize
+    this._stickyZoneStart = GameContext.stickyZoneStart
+    this._stickyZoneEnd = GameContext.stickyZoneEnd
+    this._visibleWidth = GameContext.visibleWidth
+    this._visibleHeight = GameContext.visibleHeight
     this._worldOffsetX = 0
     this._canvasCtx.canvas.width = this._visibleWidth
     this._canvasCtx.canvas.height = this._visibleHeight

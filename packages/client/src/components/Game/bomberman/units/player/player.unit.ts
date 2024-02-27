@@ -4,7 +4,7 @@ import { PlayerState, STATE } from './player.state'
 
 const playerImageSrc = '/src/components/Game/bomberman/assets/player.png'
 
-interface TContext {
+interface TGameContext {
   pixelRatio: number
 }
 
@@ -51,11 +51,11 @@ export class PlayerUnit extends CircleGameUnit {
   public command: ICommand | undefined
   public levelMatrix: TLevelMatrix = [[]]
 
-  constructor(protected readonly context: TContext) {
+  constructor(protected readonly GameContext: TGameContext) {
     super(0, 0, 0)
     this._image = new Image()
     this._image.src = playerImageSrc
-    this.maxVelocity = 4 * context.pixelRatio
+    this.maxVelocity = 4 * GameContext.pixelRatio
   }
 
   public onMove?: () => void

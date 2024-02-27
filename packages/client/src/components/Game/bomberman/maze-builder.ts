@@ -22,7 +22,7 @@ const explodeDirections = [
   { x: 0, y: 1 },
 ]
 
-interface TContext {
+interface TGameContext {
   pixelRatio: number
   tileSize: number
   mazeLines: number
@@ -36,11 +36,11 @@ export class MazeBuilder {
   private _mazeLines: number
   private _mazeColumns: number
 
-  constructor(context: TContext) {
-    this._pixelRatio = context.pixelRatio
-    this._tileSize = context.tileSize
-    this._mazeLines = context.mazeLines
-    this._mazeColumns = context.mazeColumns
+  constructor(GameContext: TGameContext) {
+    this._pixelRatio = GameContext.pixelRatio
+    this._tileSize = GameContext.tileSize
+    this._mazeLines = GameContext.mazeLines
+    this._mazeColumns = GameContext.mazeColumns
   }
 
   private _computePosFor(coordinate: number) {

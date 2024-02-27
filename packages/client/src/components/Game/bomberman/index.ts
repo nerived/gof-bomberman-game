@@ -1,13 +1,13 @@
 import { PlayerUnit } from './units/player/player.unit'
 import { PlantBomb } from './commands/add-bomb'
 import { PlayerAction } from './commands/player-action'
-import { Context } from './context'
+import { GameContext } from './context'
 import { InputHandler } from './input-handler'
 import { MazeBuilder } from './maze-builder'
 import { Playground } from './playground'
 import { Mechanics } from './mechanics'
 import { RestartLevel } from './commands/restart-level'
-import { Window } from './window'
+import { GameWindow } from './window'
 import { StickToPlayer } from './commands/stick-to-player'
 
 const STATE = {
@@ -26,11 +26,11 @@ export class Bomberman {
     const canvasCtx = canvasEl.getContext('2d')
 
     if (!canvasCtx) {
-      throw Error('Canvas context is not define')
+      throw Error('Canvas GameContext is not define')
     }
 
-    const context = new Context()
-    const window = new Window(canvasCtx, context)
+    const context = new GameContext()
+    const window = new GameWindow(canvasCtx, context)
     const player = new PlayerUnit(context)
     const mazeBuilder = new MazeBuilder(context)
     const mechanics = new Mechanics()
@@ -41,7 +41,7 @@ export class Bomberman {
 
     player.setCommand(new PlantBomb(playground))
     inputHandler.setCommand(new PlayerAction(player, inputHandler))
-    playground.setComand(new StickToPlayer(window, player))
+    playground.setCommand(new StickToPlayer(window, player))
     mechanics.setCommand(
       new RestartLevel(window, playground, inputHandler, mechanics.level)
     )
@@ -59,22 +59,22 @@ export class Bomberman {
       ;[width, height] = [height, width]
     }
 
-    const curLines = Math.trunc(height / Context.tileSize)
+    const curLines = Math.trunc(height / GameContext.tileSize)
 
-    if (curLines >= Context.lines) {
-      height -= (curLines - Context.lines) * Context.tileSize
-      while (height / Context.tileSize !== Context.lines) {
+    if (curLines >= GameContext.lines) {
+      height -= (curLines - GameContext.lines) * GameContext.tileSize
+      while (height / GameContext.tileSize !== GameContext.lines) {
         height--
       }
 
-      width = Context.visibleColumns * Context.tileSize
+      width = GameContext.visibleColumns * GameContext.tileSize
     } else {
-      let px = Context.tileSize
-      while (Math.trunc(height / px) < Context.lines) {
+      let px = GameContext.tileSize
+      while (Math.trunc(height / px) < GameContext.lines) {
         px -= 2
       }
-      height = px * Context.lines
-      width = px * Context.visibleColumns
+      height = px * GameContext.lines
+      width = px * GameContext.visibleColumns
     }
 
     const result = { height, width }

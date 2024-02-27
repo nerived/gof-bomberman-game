@@ -1,10 +1,10 @@
 import { ICommand } from '../basics/command'
 import { PlayerUnit } from '../units/player/player.unit'
-import { Window } from '../window'
+import { GameWindow } from '../window'
 
 export class StickToPlayer implements ICommand {
   constructor(
-    private readonly receiver: Window,
+    private readonly receiver: GameWindow,
     private readonly player: PlayerUnit
   ) {}
 

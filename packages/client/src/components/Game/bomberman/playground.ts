@@ -86,7 +86,7 @@ export class Playground {
     this._doPlayerCollideLogicWithEnemies()
   }
 
-  public setComand(command: ICommand) {
+  public setCommand(command: ICommand) {
     this._command = command
   }
 

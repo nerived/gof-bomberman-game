@@ -13,7 +13,6 @@ import {
 import { RoutesPaths } from '../../routes/constants'
 
 import * as S from './ProfileEdit.styled'
-import ErrorBoundary from '../../shared/ErrorBoundary'
 
 const userFields = [
   {
@@ -50,40 +49,36 @@ export const ProfileEdit: FC = () => {
 
   return (
     <Layout title={'Изменить данные'}>
-      <ErrorBoundary>
-        <FormLayout>
-          <Form onSubmit={handleSave}>
-            <S.Head>
-              <ErrorBoundary>
-                <Avatar name="Иван" />
-              </ErrorBoundary>
-            </S.Head>
+      <FormLayout>
+        <Form onSubmit={handleSave}>
+          <S.Head>
+            <Avatar name="Иван" />
+          </S.Head>
 
-            <S.Content>
-              {userFields.map(field => {
-                return <RowField {...field} isEditable />
-              })}
-            </S.Content>
+          <S.Content>
+            {userFields.map(field => {
+              return <RowField {...field} isEditable />
+            })}
+          </S.Content>
 
-            <S.Actions>
-              <S.Action>
-                <Button
-                  content="Сохранить"
-                  mode={ButtonMode.MAIN}
-                  type="submit"
-                />
-              </S.Action>
-              <S.Action>
-                <LinkButton
-                  content="Отмена"
-                  mode={LinkButtonMode.OUTLINE}
-                  to={RoutesPaths.Profile}
-                />
-              </S.Action>
-            </S.Actions>
-          </Form>
-        </FormLayout>
-      </ErrorBoundary>
+          <S.Actions>
+            <S.Action>
+              <Button
+                content="Сохранить"
+                mode={ButtonMode.MAIN}
+                type="submit"
+              />
+            </S.Action>
+            <S.Action>
+              <LinkButton
+                content="Отмена"
+                mode={LinkButtonMode.OUTLINE}
+                to={RoutesPaths.Profile}
+              />
+            </S.Action>
+          </S.Actions>
+        </Form>
+      </FormLayout>
     </Layout>
   )
 }

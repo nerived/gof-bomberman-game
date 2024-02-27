@@ -31,10 +31,12 @@ export class Playground {
   }
 
   private _switchBobmToImpassable = (bomb: BombUnit) => {
-    this._player.getRight() <= bomb.getLeft() && bomb.setToImpassable()
-    this._player.getLeft() >= bomb.getRight() && bomb.setToImpassable()
-    this._player.getBottom() <= bomb.getTop() && bomb.setToImpassable()
-    this._player.getTop() >= bomb.getBottom() && bomb.setToImpassable()
+    !(
+      this._player.getRight() >= bomb.getLeft() &&
+      this._player.getLeft() <= bomb.getRight() &&
+      this._player.getBottom() >= bomb.getTop() &&
+      this._player.getTop() <= bomb.getBottom()
+    ) && bomb.setToImpassable()
   }
 
   private _doPlayerCollideLogicWithThings() {

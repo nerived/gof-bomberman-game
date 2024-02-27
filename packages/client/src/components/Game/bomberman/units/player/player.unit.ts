@@ -74,8 +74,7 @@ export class PlayerUnit extends CircleGameUnit {
 
   public start() {
     this._curState = [this._stateList[STATE_INDEX.IDLE]]
-    // debug ammo 100
-    this.bombAmmo = 100
+    this.bombAmmo = 1
     this.bombPower = 1
   }
 

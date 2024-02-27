@@ -81,14 +81,14 @@ export class PlayerUnit extends CircleGameUnit {
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
     this._curState.forEach(state => state.useAction())
 
-    // debug circle >>>
+    //debug circle >>>
     canvasCtx.beginPath()
     canvasCtx.arc(this.pX + offsetX, this.pY, this.radius, 0, 2 * Math.PI)
     canvasCtx.strokeStyle = 'magenta'
     canvasCtx.fillStyle = 'rgba(200 200 200 / 30%)'
     canvasCtx.stroke()
     canvasCtx.fill()
-    // <<< debug circle
+    //<<<debug circle
 
     canvasCtx.drawImage(this._image, this.x + offsetX, this.y)
   }

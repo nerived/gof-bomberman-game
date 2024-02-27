@@ -6,7 +6,7 @@ export { GameOverPage } from './GameOverPage'
 export { LidersPage } from './LidersPage'
 export { ForumMainPage } from './ForumMainPage'
 export { ForumTopicPage } from './ForumTopicPage'
-export { ErrorPage } from './ErrorPage'
+export { ServerErrorPage } from './ServerErrorPage'
 export { NotFoundPage } from './NotFoundPage'
 
 export * from './Profile'

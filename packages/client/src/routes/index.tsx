@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { useRoutes } from 'react-router-dom'
 import { RoutesPaths } from './constants'
 import {
-  ErrorPage,
+  ServerErrorPage,
   ForumMainPage,
   ForumTopicPage,
   GamePage,
@@ -30,7 +30,7 @@ export const PagesRoutes: FC = () => {
     { path: RoutesPaths.Liders, element: <LidersPage /> },
     { path: RoutesPaths.Forum, element: <ForumMainPage /> },
     { path: `${RoutesPaths.Forum}/:id`, element: <ForumTopicPage /> },
-    { path: RoutesPaths.Error, element: <ErrorPage /> },
+    { path: RoutesPaths.ServerError, element: <ServerErrorPage /> },
     { path: RoutesPaths.NotFound, element: <NotFoundPage /> },
   ])
 

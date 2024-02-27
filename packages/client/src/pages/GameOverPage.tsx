@@ -4,13 +4,6 @@ import { RoutesPaths } from './../routes/constants'
 import { Layout, LinkButton, LinkButtonMode } from '../ui-kit'
 import { PixelText } from '../ui-kit/helpers/BaseStyles.styled'
 
-export const Item = styled.div`
-  color: #fff;
-`
-export const Link = styled.a`
-  color: #fff;
-`
-
 const ContainerFlex = styled.div`
   display: flex;
   flex-direction: column;

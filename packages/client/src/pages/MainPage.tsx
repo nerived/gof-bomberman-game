@@ -1,25 +1,21 @@
 import { FC } from 'react'
-import styled from 'styled-components'
+import { LinkButton, LinkButtonMode, LayoutCentered } from '../ui-kit'
 
-import { RoutesPaths } from './../routes/constants'
+import { Logo } from '../ui-kit/Logo/Logo.styled'
+import { RoutesPaths } from '../routes/constants'
 
-export const Item = styled.div`
-  color: #fff;
-`
-export const Link = styled.a`
-  color: #fff;
-`
 export const MainPage: FC = () => {
   return (
-    <div>
-      {Object.keys(RoutesPaths).map(route => {
-        const href = RoutesPaths[route as keyof typeof RoutesPaths]
-        return (
-          <Item>
-            <Link href={href}>{route}</Link>
-          </Item>
-        )
-      })}
-    </div>
+    <LayoutCentered>
+      <Logo src="/logo.png" alt="bomberman logo" />
+
+      <div style={{ marginTop: '40px', textAlign: 'center' }}>
+        <LinkButton
+          content="START"
+          to={RoutesPaths.Game}
+          mode={LinkButtonMode.BIT}
+        />
+      </div>
+    </LayoutCentered>
   )
 }

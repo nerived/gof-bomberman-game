@@ -1,4 +1,6 @@
 import styled, { css } from 'styled-components'
+import { Link } from 'react-router-dom'
+
 import { Colors } from '../../tokens'
 
 import { LinkButtonMode } from './LinkButtonTypes'
@@ -6,10 +8,10 @@ import { LinkButtonMode } from './LinkButtonTypes'
 export interface LinkButtonProps {
   mode?: LinkButtonMode
   content?: string
-  href: string
+  to: string
 }
 
-export const LinkButton = styled.a<LinkButtonProps>`
+export const LinkButton = styled(Link)<LinkButtonProps>`
   color: ${Colors.WHITE};
   font-size: 16px;
   line-height: 20px;
@@ -41,5 +43,14 @@ export const LinkButton = styled.a<LinkButtonProps>`
     css`
       color: ${Colors.WHITE};
       background-color: transparent;
+    `}
+
+    ${({ mode }) =>
+    mode === LinkButtonMode.BIT &&
+    css`
+      color: ${Colors.WHITE};
+      font-size: 48px;
+      font-family: PressStart2P, Arial, sans-serif;
+      text-shadow: 5px 5px ${Colors.GRAY};
     `}
 `

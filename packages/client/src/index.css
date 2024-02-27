@@ -60,3 +60,12 @@ h6 {
   height: inherit;
   background-color: #1a282f;
 }
+
+/* fonts */
+
+@font-face {
+  font-family: PressStart2P;
+  font-style: normal;
+  src: local('PressStart2P'),
+    url('./assets/fonts/PressStart2P-Regular.ttf') format('truetype');
+}

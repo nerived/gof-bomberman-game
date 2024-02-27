@@ -80,14 +80,14 @@ export const Profile: FC = () => {
             <S.Action>
               <LinkButton
                 mode={LinkButtonMode.MAIN}
-                href={RoutesPaths.EditProfile}
+                to={RoutesPaths.EditProfile}
                 content="Изменить данные"
               />
             </S.Action>
             <S.Action>
               <LinkButton
                 mode={LinkButtonMode.MAIN}
-                href={RoutesPaths.EditPassword}
+                to={RoutesPaths.EditPassword}
                 content="Изменить пароль"
               />
             </S.Action>

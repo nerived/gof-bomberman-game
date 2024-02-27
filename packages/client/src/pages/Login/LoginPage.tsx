@@ -10,6 +10,8 @@ import {
   LinkButtonMode,
 } from '../../ui-kit'
 import { config } from './Config'
+import { RoutesPaths } from '../../routes/constants'
+
 import * as S from './Login.styled'
 
 export const LoginPage: FC = () => {
@@ -34,7 +36,7 @@ export const LoginPage: FC = () => {
             <S.Action>
               <LinkButton
                 content="Регистрация"
-                href="/registration"
+                to={RoutesPaths.Registration}
                 mode={LinkButtonMode.OUTLINE}
               />
             </S.Action>

@@ -9,6 +9,7 @@ import {
   LinkButton,
   LinkButtonMode,
 } from '../../ui-kit'
+import { RoutesPaths } from '../../routes/constants'
 
 import * as S from './ProfilePassword.styled'
 import ErrorBoundary from '../../shared/ErrorBoundary'
@@ -64,7 +65,7 @@ export const ProfilePassword: FC = () => {
                   <LinkButton
                     content="Отмена"
                     mode={LinkButtonMode.OUTLINE}
-                    href="/profile"
+                    to={RoutesPaths.Profile}
                   />
                 </S.Action>
               </S.Actions>

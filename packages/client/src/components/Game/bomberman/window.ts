@@ -9,6 +9,7 @@ interface TGameContext {
   worldHeight: number
   visibleWidth: number
   visibleHeight: number
+  pixelRatio: number
 }
 
 interface TDrawable {
@@ -37,6 +38,10 @@ export class GameWindow {
     this._stickyZoneStart = context.stickyZoneStart
     this._stickyZoneEnd = context.stickyZoneEnd
     this._worldOffsetX = 0
+    this._canvasCtx.canvas.style.width =
+      this._visibleWidth / context.pixelRatio + 'px'
+    this._canvasCtx.canvas.style.height =
+      this._visibleHeight / context.pixelRatio + 'px'
     this._canvasCtx.canvas.width = this._visibleWidth
     this._canvasCtx.canvas.height = this._visibleHeight
 

@@ -5,7 +5,7 @@ import { PlayerState, STATE } from './player.state'
 const playerImageSrc = '/src/components/Game/bomberman/assets/player.png'
 
 interface TGameContext {
-  pixelRatio: number
+  unitVelocity: number
 }
 
 type TLevelMatrix = Array<
@@ -55,7 +55,7 @@ export class PlayerUnit extends CircleGameUnit {
     super(0, 0, 0)
     this._image = new Image()
     this._image.src = playerImageSrc
-    this.maxVelocity = 4 * context.pixelRatio
+    this.maxVelocity = context.unitVelocity
   }
 
   public onMove?: () => void

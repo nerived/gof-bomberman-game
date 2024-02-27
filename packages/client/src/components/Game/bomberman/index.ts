@@ -21,6 +21,7 @@ export class Bomberman {
   private mechanics
   private playground
   private inputHandler
+  private context
 
   constructor(canvasEl: HTMLCanvasElement) {
     const canvasCtx = canvasEl.getContext('2d')
@@ -46,39 +47,13 @@ export class Bomberman {
       new RestartLevel(window, playground, inputHandler, mechanics.level)
     )
 
+    this.context = context
     this.window = window
     this.inputHandler = inputHandler
     this.mechanics = mechanics
     this.playground = playground
 
     this.state = STATE.STOP
-  }
-
-  static computeGameLayout(width: number, height: number) {
-    if (globalThis.screen.orientation.type === 'portrait-primary') {
-      ;[width, height] = [height, width]
-    }
-
-    const curLines = Math.trunc(height / GameContext.tileSize)
-
-    if (curLines >= GameContext.lines) {
-      height -= (curLines - GameContext.lines) * GameContext.tileSize
-      while (height / GameContext.tileSize !== GameContext.lines) {
-        height--
-      }
-
-      width = GameContext.visibleColumns * GameContext.tileSize
-    } else {
-      let px = GameContext.tileSize
-      while (Math.trunc(height / px) < GameContext.lines) {
-        px -= 2
-      }
-      height = px * GameContext.lines
-      width = px * GameContext.visibleColumns
-    }
-
-    const result = { height, width }
-    return result
   }
 
   private _loopEngine = () => {

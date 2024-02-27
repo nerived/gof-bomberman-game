@@ -1,11 +1,11 @@
-import { circlVsRectCollision, circleVsCircleCollision } from './_lib'
+import { circleVsRectCollision, circleVsCircleCollision } from './_lib'
 import { ExplodeBomb } from './commands/explode-bomb'
 import { DeleteBomb } from './commands/delete-bomb'
 import { BrickUnit } from './units/brick.unit'
 import { PlayerUnit } from './units/player/player.unit'
 import { EnemyUnit } from './units/enemy.unit'
 import { BombUnit } from './units/bomb/bomb.unit'
-import { ThingUnit } from './units/thing/thing.unit'
+import { THING_TYPE, ThingUnit } from './units/thing/thing.unit'
 import { MazeBuilder } from './maze-builder'
 import { Mechanics } from './mechanics'
 import { ICommand } from './basics/command'
@@ -30,28 +30,30 @@ export class Playground {
     this._mechanics = mechanics
   }
 
-  private _switchBobmToImpassable = (bomb: BombUnit) => {
+  private _switchBombToImpassable = (bomb: BombUnit) => {
     !(
-      this._player.getRight() >= bomb.getLeft() &&
-      this._player.getLeft() <= bomb.getRight() &&
-      this._player.getBottom() >= bomb.getTop() &&
-      this._player.getTop() <= bomb.getBottom()
+      this._player.getRight() > bomb.getLeft() &&
+      this._player.getLeft() < bomb.getRight() &&
+      this._player.getBottom() > bomb.getTop() &&
+      this._player.getTop() < bomb.getBottom()
     ) && bomb.setToImpassable()
   }
 
   private _doPlayerCollideLogicWithThings() {
     for (const thing of this._things) {
-      if (circlVsRectCollision(this._player, thing, 0.1).isOverlap) {
-        if (thing.getThingType() === 'DOOR') {
+      if (circleVsRectCollision(this._player, thing, 0.1).isOverlap) {
+        if (thing.getThingType() === THING_TYPE.DOOR) {
           this._enemies.length === 0 && alert('level complete')
-          break
         }
 
-        thing.getThingType() === 'AMMO' && this._player.bombAmmo++
-        thing.getThingType() === 'POWER' && this._player.bombPower++
-        thing.getThingType() === 'LIFE' && this._mechanics.plusLife()
+        thing.getThingType() === THING_TYPE.AMMO && this._player.bombAmmo++
+        thing.getThingType() === THING_TYPE.POWER && this._player.bombPower++
+        thing.getThingType() === THING_TYPE.LIFE && this._mechanics.plusLife()
 
-        this._things = this._things.filter(sThing => sThing !== thing)
+        this._things = this._things.filter(
+          sThing =>
+            sThing.getThingType() !== THING_TYPE.DOOR && sThing !== thing
+        )
       }
     }
   }
@@ -60,7 +62,7 @@ export class Playground {
     for (const enemy of this._enemies) {
       if (!circleVsCircleCollision(this._player, enemy, 0.8)) continue
       this._mechanics.minusLife()
-      break
+      return
     }
   }
 
@@ -69,17 +71,17 @@ export class Playground {
       if (!bomb.exploded) continue
 
       for (const flame of bomb.magnitude) {
-        const { isOverlap } = circlVsRectCollision(this._player, flame, 0.4)
+        const { isOverlap } = circleVsRectCollision(this._player, flame, 0.4)
         if (!isOverlap) continue
         this._mechanics.minusLife()
-        break
+        return
       }
     }
   }
 
   public watchOnPlayer = () => {
     this._command?.execute()
-    this._bombs.forEach(this._switchBobmToImpassable)
+    this._bombs.forEach(this._switchBombToImpassable)
 
     this._doPlayerCollideLogicWithFlame()
     this._doPlayerCollideLogicWithThings()

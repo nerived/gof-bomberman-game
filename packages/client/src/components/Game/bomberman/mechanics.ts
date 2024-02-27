@@ -1,14 +1,20 @@
 import { ICommand } from './basics/command'
 
+interface TGameContext {
+  pixelRatio: number
+}
+
 export class Mechanics {
   private _endTime: number
   private _time = '0:00'
   private _command: ICommand | undefined
   private _lifes = 3
   private _score = 0
+  private _context
   public level = 1
 
-  constructor() {
+  constructor(context: TGameContext) {
+    this._context = context
     this._endTime = this.start()
   }
 
@@ -65,15 +71,31 @@ export class Mechanics {
   public draw(canvasCtx: CanvasRenderingContext2D) {
     this._update()
 
+    const fontSize = 20 * this._context.pixelRatio
+    const textShadowX = 6 * this._context.pixelRatio
+    const textShadowY = 6 * this._context.pixelRatio
+    const textX = 5 * this._context.pixelRatio
+    const textY = 5 * this._context.pixelRatio
+
     canvasCtx.textBaseline = 'top'
-    canvasCtx.font = '40px Helvetica'
+    canvasCtx.font = `${fontSize}px Helvetica`
+
     canvasCtx.fillStyle = 'black'
-    canvasCtx.fillText('Time: ' + this._time, 12, 12)
-    canvasCtx.fillText('Life: ' + this._lifes, 12, 12 + 40 * 1)
-    canvasCtx.fillText('Score: ' + this._score, 12, 12 + 40 * 2)
+    canvasCtx.fillText('Time: ' + this._time, textShadowX, textShadowY)
+    canvasCtx.fillText(
+      'Life: ' + this._lifes,
+      textShadowX,
+      textShadowY + fontSize * 1
+    )
+    canvasCtx.fillText(
+      'Score: ' + this._score,
+      textShadowX,
+      textShadowY + fontSize * 2
+    )
+
     canvasCtx.fillStyle = 'white'
-    canvasCtx.fillText('Time: ' + this._time, 10, 10)
-    canvasCtx.fillText('Life: ' + this._lifes, 10, 10 + 40 * 1)
-    canvasCtx.fillText('Score: ' + this._score, 10, 10 + 40 * 2)
+    canvasCtx.fillText('Time: ' + this._time, textX, textY)
+    canvasCtx.fillText('Life: ' + this._lifes, textX, textY + fontSize * 1)
+    canvasCtx.fillText('Score: ' + this._score, textX, textY + fontSize * 2)
   }
 }

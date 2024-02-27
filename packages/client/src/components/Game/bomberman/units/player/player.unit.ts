@@ -51,11 +51,11 @@ export class PlayerUnit extends CircleGameUnit {
   public command: ICommand | undefined
   public levelMatrix: TLevelMatrix = [[]]
 
-  constructor(protected readonly GameContext: TGameContext) {
+  constructor(protected readonly context: TGameContext) {
     super(0, 0, 0)
     this._image = new Image()
     this._image.src = playerImageSrc
-    this.maxVelocity = 4 * GameContext.pixelRatio
+    this.maxVelocity = 4 * context.pixelRatio
   }
 
   public onMove?: () => void
@@ -90,6 +90,12 @@ export class PlayerUnit extends CircleGameUnit {
     canvasCtx.fill()
     //<<<debug circle
 
-    canvasCtx.drawImage(this._image, this.x + offsetX, this.y)
+    canvasCtx.drawImage(
+      this._image,
+      this.x + offsetX,
+      this.y,
+      this.radius * 2,
+      this.radius * 2
+    )
   }
 }

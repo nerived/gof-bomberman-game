@@ -4,11 +4,11 @@ import { InputHandler } from '../input-handler'
 
 export class PlayerAction implements ICommand {
   constructor(
-    private readonly receiver: PlayerUnit,
+    private readonly player: PlayerUnit,
     private readonly invoker: InputHandler
   ) {}
 
   execute() {
-    this.receiver.action(this.invoker.actionList)
+    this.player.action(this.invoker.actionList)
   }
 }

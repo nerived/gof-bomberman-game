@@ -33,7 +33,7 @@ export function circleVsCircleCollision(
   return Math.pow(distX, 2) + Math.pow(distY, 2) <= Math.pow(radSum, 2)
 }
 
-export function circlVsRectCollision(
+export function circleVsRectCollision(
   circle: TCircle,
   rect: TRect,
   circleScale = 1

@@ -33,7 +33,7 @@ export class Bomberman {
     const window = new GameWindow(canvasCtx, context)
     const player = new PlayerUnit(context)
     const mazeBuilder = new MazeBuilder(context)
-    const mechanics = new Mechanics()
+    const mechanics = new Mechanics(context)
     const playground = new Playground(player, mazeBuilder, mechanics)
     const inputHandler = new InputHandler()
 

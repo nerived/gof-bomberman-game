@@ -5,7 +5,7 @@ import { BrickUnit } from './units/brick.unit'
 import { PlayerUnit } from './units/player/player.unit'
 import { EnemyUnit } from './units/enemy.unit'
 import { BombUnit } from './units/bomb/bomb.unit'
-import { TThingTypeUnion, ThingUnit } from './units/thing/thing.unit'
+import { THING_TYPE, ThingUnit } from './units/thing/thing.unit'
 
 const TILE_TYPE = {
   PLAYER: '%',
@@ -31,16 +31,12 @@ interface TGameContext {
 
 export class MazeBuilder {
   private _maze: Array<RectGameUnit[]> = [[]]
+  private _context: TGameContext
   private _tileSize: number
-  private _pixelRatio: number
-  private _mazeLines: number
-  private _mazeColumns: number
 
-  constructor(GameContext: TGameContext) {
-    this._pixelRatio = GameContext.pixelRatio
-    this._tileSize = GameContext.tileSize
-    this._mazeLines = GameContext.mazeLines
-    this._mazeColumns = GameContext.mazeColumns
+  constructor(context: TGameContext) {
+    this._context = context
+    this._tileSize = context.tileSize
   }
 
   private _computePosFor(coordinate: number) {
@@ -48,7 +44,12 @@ export class MazeBuilder {
   }
 
   private _putThings(bricks: BrickUnit[]) {
-    let remains: TThingTypeUnion[] = ['DOOR', 'POWER', 'LIFE', 'AMMO']
+    let remains: THING_TYPE[] = [
+      THING_TYPE.DOOR,
+      THING_TYPE.POWER,
+      THING_TYPE.LIFE,
+      THING_TYPE.AMMO,
+    ]
 
     while (remains.length) {
       const thingIdx = Math.floor(Math.random() * remains.length)
@@ -75,9 +76,9 @@ export class MazeBuilder {
   }
 
   public buildMaze(player: PlayerUnit, level = 1) {
-    const matrix: Array<RectGameUnit[]> = Array(this._mazeLines)
+    const matrix: Array<RectGameUnit[]> = Array(this._context.mazeLines)
       .fill(null)
-      .map(() => Array(this._mazeColumns))
+      .map(() => Array(this._context.mazeColumns))
 
     const enemies: EnemyUnit[] = []
     const bricks: BrickUnit[] = []
@@ -113,9 +114,7 @@ export class MazeBuilder {
         }
 
         if (tileType === TILE_TYPE.ENEMY) {
-          enemies.push(
-            new EnemyUnit(this._pixelRatio, x, y, this._tileSize * 0.5)
-          )
+          enemies.push(new EnemyUnit(this._context, x, y, this._tileSize * 0.5))
           matrix[i][j] = new PassageUnit(x, y, width, height)
         }
       }

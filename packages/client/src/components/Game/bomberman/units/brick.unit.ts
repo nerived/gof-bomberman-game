@@ -17,6 +17,12 @@ export class BrickUnit extends RectGameUnit {
   }
 
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
-    canvasCtx.drawImage(this._image, this.x + offsetX, this.y)
+    canvasCtx.drawImage(
+      this._image,
+      this.x + offsetX,
+      this.y,
+      this.width,
+      this.height
+    )
   }
 }

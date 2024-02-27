@@ -4,26 +4,31 @@ import { DoorThingUnit } from './door.state'
 import { LifeThingUnit } from './life.state'
 import { PowerThingUnit } from './power.state'
 
+export const enum THING_TYPE {
+  DOOR = 'DOOR',
+  AMMO = 'AMMO',
+  POWER = 'POWER',
+  LIFE = 'LIFE',
+}
+
 const STATE_INDEX = {
+  DOOR: DoorThingUnit,
   AMMO: AmmoThingUnit,
   POWER: PowerThingUnit,
   LIFE: LifeThingUnit,
-  DOOR: DoorThingUnit,
 }
 
 export interface IThingState {
   image: HTMLImageElement
-  getType(): TThingTypeUnion
+  getType(): THING_TYPE
 }
-
-export type TThingTypeUnion = 'DOOR' | 'AMMO' | 'POWER' | 'LIFE'
 
 export class ThingUnit extends RectGameUnit {
   public passable = true
   private _state: IThingState
 
   constructor(
-    type: TThingTypeUnion,
+    type: THING_TYPE,
     x: number,
     y: number,
     width: number,
@@ -38,6 +43,12 @@ export class ThingUnit extends RectGameUnit {
   }
 
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
-    canvasCtx.drawImage(this._state.image, this.x + offsetX, this.y)
+    canvasCtx.drawImage(
+      this._state.image,
+      this.x + offsetX,
+      this.y,
+      this.width,
+      this.height
+    )
   }
 }

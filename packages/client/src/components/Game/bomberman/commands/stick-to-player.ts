@@ -4,11 +4,11 @@ import { GameWindow } from '../window'
 
 export class StickToPlayer implements ICommand {
   constructor(
-    private readonly receiver: GameWindow,
+    private readonly window: GameWindow,
     private readonly player: PlayerUnit
   ) {}
 
   public execute() {
-    this.receiver.stickWorldToPlayer(this.player)
+    this.window.stickWorldToPlayer(this.player)
   }
 }

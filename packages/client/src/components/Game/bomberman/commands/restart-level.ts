@@ -5,14 +5,14 @@ import { GameWindow } from '../window'
 
 export class RestartLevel implements ICommand {
   constructor(
-    private readonly GameWindow: GameWindow,
+    private readonly window: GameWindow,
     private readonly playground: Playground,
     private readonly inputHandler: InputHandler,
     private readonly level: number
   ) {}
 
   execute() {
-    this.GameWindow.resetOffset()
+    this.window.resetOffset()
     this.playground.start(this.level)
     this.inputHandler.reset()
   }

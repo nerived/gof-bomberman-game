@@ -27,6 +27,7 @@ interface TGameContext {
   tileSize: number
   mazeLines: number
   mazeColumns: number
+  unitVelocity: number
 }
 
 export class MazeBuilder {

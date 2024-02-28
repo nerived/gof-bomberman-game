@@ -67,7 +67,6 @@ export class GameContext {
 
   private _computeVisibleSize() {
     const visibleWidth = GameContext.visibleColumns * this.tileSize
-    console.log(visibleWidth)
     const visibleHeight = this.worldHeight
     return { visibleWidth, visibleHeight }
   }

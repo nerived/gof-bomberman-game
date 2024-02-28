@@ -1,6 +1,5 @@
 import { IThingState, THING_TYPE } from './thing.unit'
-
-const powerImageSrc = '/src/components/Game/bomberman/assets/thing-power.png'
+import powerImageSrc from '../../assets/thing-power.png'
 
 export class PowerThingUnit implements IThingState {
   public image

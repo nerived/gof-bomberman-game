@@ -1,6 +1,5 @@
 import { IThingState, THING_TYPE } from './thing.unit'
-
-const ammoImageSrc = '/src/components/Game/bomberman/assets/thing-ammo.png'
+import ammoImageSrc from '../../assets/thing-ammo.png'
 
 export class AmmoThingUnit implements IThingState {
   public image

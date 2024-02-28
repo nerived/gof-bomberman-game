@@ -1,5 +1,5 @@
 import type { PlayerUnit } from './units/player/player.unit'
-const backgroundSrc = '/src/components/Game/bomberman/assets/background.png'
+import backgroundSrc from './assets/background.png'
 
 interface TGameContext {
   tileSize: number

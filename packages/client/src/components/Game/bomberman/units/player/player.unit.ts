@@ -1,8 +1,7 @@
 import { ICommand } from '../../basics/command'
 import { CircleGameUnit } from '../../basics/unit'
 import { PlayerState, STATE } from './player.state'
-
-const playerImageSrc = '/src/components/Game/bomberman/assets/player.png'
+import playerImageSrc from '../../assets/player.png'
 
 interface TGameContext {
   unitVelocity: number

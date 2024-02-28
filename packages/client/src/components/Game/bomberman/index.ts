@@ -21,7 +21,6 @@ export class Bomberman {
   private mechanics
   private playground
   private inputHandler
-  private context
 
   constructor(canvasEl: HTMLCanvasElement) {
     const canvasCtx = canvasEl.getContext('2d')
@@ -47,7 +46,6 @@ export class Bomberman {
       new RestartLevel(window, playground, inputHandler, mechanics.level)
     )
 
-    this.context = context
     this.window = window
     this.inputHandler = inputHandler
     this.mechanics = mechanics

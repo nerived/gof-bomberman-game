@@ -1,6 +1,5 @@
 import { IThingState, THING_TYPE } from './thing.unit'
-
-const lifeImageSrc = '/src/components/Game/bomberman/assets/thing-life.png'
+import lifeImageSrc from '../../assets/thing-life.png'
 
 export class LifeThingUnit implements IThingState {
   public image

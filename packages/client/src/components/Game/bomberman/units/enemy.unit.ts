@@ -2,15 +2,19 @@ import { CircleGameUnit } from '../basics/unit'
 
 const enemyImageSrc = '/src/components/Game/bomberman/assets/enemy.png'
 
+interface TGameContext {
+  unitVelocity: number
+}
+
 export class EnemyUnit extends CircleGameUnit {
   private _image: HTMLImageElement
   public passable = true
   public destroyable = false
   public maxVelocity: number
 
-  constructor(pixelRatio: number, x = 0, y = 0, radius = 0) {
+  constructor(context: TGameContext, x = 0, y = 0, radius = 0) {
     super(x, y, radius)
-    this.maxVelocity = 4 * pixelRatio
+    this.maxVelocity = context.unitVelocity
 
     this._image = new Image()
     this._image.src = enemyImageSrc
@@ -28,7 +32,13 @@ export class EnemyUnit extends CircleGameUnit {
     canvasCtx.fill()
     // <<< debug circle
 
-    canvasCtx.drawImage(this._image, this.x + offsetX, this.y)
+    canvasCtx.drawImage(
+      this._image,
+      this.x + offsetX,
+      this.y,
+      this.radius * 2,
+      this.radius * 2
+    )
 
     canvasCtx.restore()
   }

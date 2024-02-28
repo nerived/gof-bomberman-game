@@ -1,7 +1,26 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { GameComponent } from '../components/Game/GameComponent'
 import styled from 'styled-components'
 import { Colors } from '../tokens'
+
+const PAGE_ID = 'game-page'
+
+function toggleFullScreen() {
+  const wrapper = document.getElementById(PAGE_ID)
+  if (wrapper && !document.fullscreenElement) {
+    wrapper.requestFullscreen()
+  } else {
+    document.exitFullscreen()
+  }
+}
+
+function fullScreenOnFkey(e: KeyboardEvent) {
+  const { code } = e
+
+  if (code === 'KeyF') {
+    toggleFullScreen()
+  }
+}
 
 const Main = styled.main`
   height: 100%;
@@ -13,8 +32,16 @@ const Main = styled.main`
 `
 
 export const GamePage: FC = () => {
+  useEffect(() => {
+    globalThis.addEventListener('keydown', fullScreenOnFkey)
+
+    return () => {
+      globalThis.removeEventListener('keydown', fullScreenOnFkey)
+    }
+  }, [])
+
   return (
-    <Main>
+    <Main id={PAGE_ID}>
       <GameComponent />
     </Main>
   )

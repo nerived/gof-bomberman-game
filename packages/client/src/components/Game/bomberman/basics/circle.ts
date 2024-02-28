@@ -5,7 +5,7 @@ export class Circle {
   private _pY: number
   private _radius: number
 
-  constructor(x = 0, y = 0, radius = 0) {
+  constructor(x: number, y: number, radius: number) {
     this._pX = x + radius
     this._pY = y + radius
     this._x = x

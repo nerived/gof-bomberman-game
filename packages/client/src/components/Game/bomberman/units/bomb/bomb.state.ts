@@ -42,7 +42,13 @@ class Idle extends BombState {
 
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
     this._update()
-    canvasCtx.drawImage(this._image, this._bomb.x + offsetX, this._bomb.y)
+    canvasCtx.drawImage(
+      this._image,
+      this._bomb.x + offsetX,
+      this._bomb.y,
+      this._bomb.width,
+      this._bomb.height
+    )
   }
 }
 
@@ -65,7 +71,7 @@ class Explode extends BombState {
   private _update() {
     this._frame++
 
-    if (this._frame === 1) {
+    if (this._frame === 4) {
       this._bomb.command?.execute()
     }
 
@@ -81,11 +87,15 @@ class Explode extends BombState {
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
     this._update()
 
-    canvasCtx.drawImage(this._image, this._bomb.x + offsetX, this._bomb.y)
-
-    this._bomb.magnitude.forEach(unit => {
-      canvasCtx.drawImage(this._image, unit.x + offsetX, unit.y)
-    })
+    for (const drawable of [this._bomb, ...this._bomb.magnitude]) {
+      canvasCtx.drawImage(
+        this._image,
+        drawable.x + offsetX,
+        drawable.y,
+        drawable.width,
+        drawable.height
+      )
+    }
   }
 }
 

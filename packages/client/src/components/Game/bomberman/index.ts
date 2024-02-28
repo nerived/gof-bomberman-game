@@ -1,13 +1,13 @@
 import { PlayerUnit } from './units/player/player.unit'
 import { PlantBomb } from './commands/add-bomb'
 import { PlayerAction } from './commands/player-action'
-import { Context } from './context'
+import { GameContext } from './context'
 import { InputHandler } from './input-handler'
 import { MazeBuilder } from './maze-builder'
 import { Playground } from './playground'
 import { Mechanics } from './mechanics'
 import { RestartLevel } from './commands/restart-level'
-import { Window } from './window'
+import { GameWindow } from './window'
 import { StickToPlayer } from './commands/stick-to-player'
 
 const STATE = {
@@ -21,19 +21,20 @@ export class Bomberman {
   private mechanics
   private playground
   private inputHandler
+  private context
 
   constructor(canvasEl: HTMLCanvasElement) {
     const canvasCtx = canvasEl.getContext('2d')
 
     if (!canvasCtx) {
-      throw Error('Canvas context is not define')
+      throw Error('Canvas GameContext is not define')
     }
 
-    const context = new Context()
-    const window = new Window(canvasCtx, context)
+    const context = new GameContext()
+    const window = new GameWindow(canvasCtx, context)
     const player = new PlayerUnit(context)
     const mazeBuilder = new MazeBuilder(context)
-    const mechanics = new Mechanics()
+    const mechanics = new Mechanics(context)
     const playground = new Playground(player, mazeBuilder, mechanics)
     const inputHandler = new InputHandler()
 
@@ -41,44 +42,18 @@ export class Bomberman {
 
     player.setCommand(new PlantBomb(playground))
     inputHandler.setCommand(new PlayerAction(player, inputHandler))
-    playground.setComand(new StickToPlayer(window, player))
+    playground.setCommand(new StickToPlayer(window, player))
     mechanics.setCommand(
       new RestartLevel(window, playground, inputHandler, mechanics.level)
     )
 
+    this.context = context
     this.window = window
     this.inputHandler = inputHandler
     this.mechanics = mechanics
     this.playground = playground
 
     this.state = STATE.STOP
-  }
-
-  static computeGameLayout(width: number, height: number) {
-    if (globalThis.screen.orientation.type === 'portrait-primary') {
-      ;[width, height] = [height, width]
-    }
-
-    const curLines = Math.trunc(height / Context.tileSize)
-
-    if (curLines >= Context.lines) {
-      height -= (curLines - Context.lines) * Context.tileSize
-      while (height / Context.tileSize !== Context.lines) {
-        height--
-      }
-
-      width = Context.visibleColumns * Context.tileSize
-    } else {
-      let px = Context.tileSize
-      while (Math.trunc(height / px) < Context.lines) {
-        px -= 2
-      }
-      height = px * Context.lines
-      width = px * Context.visibleColumns
-    }
-
-    const result = { height, width }
-    return result
   }
 
   private _loopEngine = () => {

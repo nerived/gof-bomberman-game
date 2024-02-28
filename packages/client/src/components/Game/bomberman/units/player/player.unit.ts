@@ -4,8 +4,8 @@ import { PlayerState, STATE } from './player.state'
 
 const playerImageSrc = '/src/components/Game/bomberman/assets/player.png'
 
-interface TContext {
-  pixelRatio: number
+interface TGameContext {
+  unitVelocity: number
 }
 
 type TLevelMatrix = Array<
@@ -51,11 +51,11 @@ export class PlayerUnit extends CircleGameUnit {
   public command: ICommand | undefined
   public levelMatrix: TLevelMatrix = [[]]
 
-  constructor(protected readonly context: TContext) {
-    super()
+  constructor(protected readonly context: TGameContext) {
+    super(0, 0, 0)
     this._image = new Image()
     this._image.src = playerImageSrc
-    this.maxVelocity = 4 * context.pixelRatio
+    this.maxVelocity = context.unitVelocity
   }
 
   public onMove?: () => void
@@ -81,15 +81,21 @@ export class PlayerUnit extends CircleGameUnit {
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
     this._curState.forEach(state => state.useAction())
 
-    // debug circle >>>
+    //debug circle >>>
     canvasCtx.beginPath()
     canvasCtx.arc(this.pX + offsetX, this.pY, this.radius, 0, 2 * Math.PI)
     canvasCtx.strokeStyle = 'magenta'
     canvasCtx.fillStyle = 'rgba(200 200 200 / 30%)'
     canvasCtx.stroke()
     canvasCtx.fill()
-    // <<< debug circle
+    //<<<debug circle
 
-    canvasCtx.drawImage(this._image, this.x + offsetX, this.y)
+    canvasCtx.drawImage(
+      this._image,
+      this.x + offsetX,
+      this.y,
+      this.radius * 2,
+      this.radius * 2
+    )
   }
 }

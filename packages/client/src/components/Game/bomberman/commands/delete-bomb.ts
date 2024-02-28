@@ -4,11 +4,11 @@ import { Playground } from '../playground'
 
 export class DeleteBomb implements ICommand {
   constructor(
-    private readonly receiver: Playground,
+    private readonly playground: Playground,
     private readonly bomb: BombUnit
   ) {}
 
   public execute() {
-    this.receiver.endExplode(this.bomb)
+    this.playground.endExplode(this.bomb)
   }
 }

@@ -1,4 +1,4 @@
-import { circVsRectCollision, potentialPositions } from '../../_lib'
+import { circleVsRectCollision, potentialPositions } from '../../_lib'
 import { PlayerUnit } from './player.unit'
 
 export abstract class PlayerState {
@@ -31,7 +31,7 @@ class MoveState extends PlayerState {
 
       if (potentialTile.passable) continue
 
-      const { pX, pY, isOverlap } = circVsRectCollision(
+      const { pX, pY, isOverlap } = circleVsRectCollision(
         this.player,
         potentialTile
       )

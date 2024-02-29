@@ -82,7 +82,6 @@ export class Playground {
   public watchOnPlayer = () => {
     this._command?.execute()
     this._bombs.forEach(this._switchBombToImpassable)
-
     this._doPlayerCollideLogicWithFlame()
     this._doPlayerCollideLogicWithThings()
     this._doPlayerCollideLogicWithEnemies()

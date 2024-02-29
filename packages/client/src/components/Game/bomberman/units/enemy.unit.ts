@@ -1,6 +1,5 @@
 import { CircleGameUnit } from '../basics/unit'
-
-const enemyImageSrc = '/src/components/Game/bomberman/assets/enemy.png'
+import enemyImageSrc from '../assets/enemy.png'
 
 interface TGameContext {
   unitVelocity: number

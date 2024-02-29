@@ -1,7 +1,6 @@
 import { Queue } from '../basics/queue'
 import { RectGameUnit } from '../basics/unit'
-
-const brickImageSrc = '/src/components/Game/bomberman/assets/brick.png'
+import brickImageSrc from '../assets//brick.png'
 
 export class BrickUnit extends RectGameUnit {
   private _image: HTMLImageElement

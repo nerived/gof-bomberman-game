@@ -1,8 +1,7 @@
 import { BombUnit } from './bomb.unit'
-
-const bombImageSrc = '/src/components/Game/bomberman/assets/bomb.png'
-const flameImageSrc = '/src/components/Game/bomberman/assets/flame.png'
-const explodeSoundSrc = '/src/components/Game/bomberman/assets/explode.flac'
+import bombImageSrc from '../../assets/bomb.png'
+import flameImageSrc from '../../assets/flame.png'
+import explodeSoundSrc from '../../assets/explode.flac'
 
 export abstract class BombState {
   constructor(protected bomb: BombUnit) {}

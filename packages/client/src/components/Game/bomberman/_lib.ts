@@ -1,13 +1,12 @@
-export const potentialPositions = [
-  [-1, 0],
-  [-1, -1],
-  [0, -1],
-  [1, -1],
-  [1, 0],
-  [1, 1],
-  [0, 1],
-  [-1, 1],
-]
+interface TMatrixTile {
+  x: number
+  y: number
+  width: number
+  height: number
+  passable: boolean
+}
+
+export type TLevelMatrix = TMatrixTile[][]
 
 interface TCircle {
   pX: number
@@ -21,6 +20,17 @@ interface TRect {
   width: number
   height: number
 }
+
+export const potentialPositions = [
+  [-1, 0],
+  [-1, -1],
+  [0, -1],
+  [1, -1],
+  [1, 0],
+  [1, 1],
+  [0, 1],
+  [-1, 1],
+]
 
 export function circleVsCircleCollision(
   circleA: TCircle,

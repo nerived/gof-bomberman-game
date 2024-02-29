@@ -3,9 +3,10 @@ import { WallUnit } from './units/wall.unit'
 import { PassageUnit } from './units/passage.unit'
 import { BrickUnit } from './units/brick.unit'
 import { PlayerUnit } from './units/player/player.unit'
-import { EnemyUnit } from './units/enemy.unit'
+import { EnemyUnit } from './units/enemy/enemy.unit'
 import { BombUnit } from './units/bomb/bomb.unit'
 import { THING_TYPE, ThingUnit } from './units/thing/thing.unit'
+import { DragonStrategy } from './units/enemy/dragon.strategy'
 
 const TILE_TYPE = {
   PLAYER: '%',
@@ -115,7 +116,16 @@ export class MazeBuilder {
         }
 
         if (tileType === TILE_TYPE.ENEMY) {
-          enemies.push(new EnemyUnit(this._context, x, y, this._tileSize * 0.5))
+          const enemy = new EnemyUnit(
+            this._context,
+            x,
+            y,
+            this._tileSize * 0.5,
+            matrix,
+            'DRAGON'
+          )
+          enemy.setStrategy(new DragonStrategy(enemy))
+          enemies.push(enemy)
           matrix[i][j] = new PassageUnit(x, y, width, height)
         }
       }

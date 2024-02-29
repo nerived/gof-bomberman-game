@@ -1,21 +1,12 @@
 import { ICommand } from '../../basics/command'
 import { CircleGameUnit } from '../../basics/unit'
+import { TLevelMatrix } from '../../_lib'
 import { PlayerState, STATE } from './player.state'
 import playerImageSrc from '../../assets/player.png'
 
 interface TGameContext {
   unitVelocity: number
 }
-
-type TLevelMatrix = Array<
-  Array<{
-    x: number
-    y: number
-    width: number
-    height: number
-    passable: boolean
-  }>
->
 
 const STATE_INDEX = {
   IDLE: 0,

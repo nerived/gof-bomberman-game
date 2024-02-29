@@ -1,7 +1,11 @@
-import { FC, useEffect } from 'react'
-import { RoutesPaths } from '../../routes/constants'
+import { FC, useEffect, useMemo } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
-import AuthAPI from '../../api/AuthAPI'
+import { RoutesPaths } from '../../routes/constants'
+import type { RootState } from '../../store'
+
+import { userThunks, userSelectors } from '../../features/user'
 
 import {
   Layout,
@@ -15,48 +19,70 @@ import {
 } from '../../ui-kit'
 
 import * as S from './Profile.styled'
-
+type UserFields = {
+  label: string
+  key: string
+  value: string
+}
 const userFields = [
   {
     label: 'Почта',
-    value: 'dawljn@dawda.daw',
+    key: 'email',
+    value: '',
   },
   {
     label: 'Логин',
-    value: 'dAwdAWdawd',
+    key: 'login',
+    value: '',
   },
   {
     label: 'Имя',
-    value: 'dawdadwa',
+    key: 'first_name',
+    value: '',
   },
   {
     label: 'Фамилия',
-    value: 'dkajwdnaw',
+    key: 'second_name',
+    value: '',
   },
   {
     label: 'Отображаемое имя',
-    value: 'Вшфоцвдол',
+    key: 'display_name',
+    value: '',
   },
   {
     label: 'Телефон',
-    value: '1849142',
+    key: 'phone',
+    value: '',
   },
 ]
 
+const mapUserField = (user: RootState['user']) => {
+  return userFields.reduce<UserFields[]>((acc, item) => {
+    item.value =
+      user[item.key as keyof Omit<RootState['user'], 'id'>] || 'not set'
+    acc.push(item)
+    return acc
+  }, [] as UserFields[])
+}
+
 export const Profile: FC = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const user = useSelector(userSelectors.getUser)
+
   const handleLogput = () => {
-    console.log('handleLogput')
+    dispatch(userThunks.userLogout())
+    navigate(RoutesPaths.Login)
   }
 
+  const preparedField = useMemo(() => {
+    return mapUserField(user)
+  }, [user])
+
   useEffect(() => {
-    AuthAPI.read()
-      .then(data => {
-        console.log('data', data)
-      })
-      .catch(error => {
-        console.log('error', error)
-        console.dir(error)
-      })
+    dispatch(userThunks.fetchUser())
   }, [])
 
   return (
@@ -67,7 +93,7 @@ export const Profile: FC = () => {
         </S.Head>
 
         <S.Content>
-          {userFields.map(field => {
+          {preparedField.map(field => {
             return <RowField {...field} />
           })}
         </S.Content>

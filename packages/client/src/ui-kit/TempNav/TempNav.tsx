@@ -22,7 +22,7 @@ export const TempNav = () => {
       {Object.keys(RoutesPaths).map(route => {
         const href = RoutesPaths[route as keyof typeof RoutesPaths]
         return (
-          <Item>
+          <Item key={href}>
             <Link href={href}>{route}</Link>
           </Item>
         )

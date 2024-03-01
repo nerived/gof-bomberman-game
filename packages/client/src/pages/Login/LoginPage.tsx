@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, FormEvent, useState } from 'react'
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react'
 import {
   Title,
   LayoutCentered,
@@ -14,8 +14,19 @@ import { RoutesPaths } from '../../routes/constants'
 
 import * as S from './Login.styled'
 import AuthAPI from '../../api/AuthAPI'
+import { useAuth } from '../../shared/model/auth/useAuth'
 
 export const LoginPage: FC = () => {
+  const { login, isLoggedIn } = useAuth()
+
+  const [isLogged, setIsLogged] = useState(isLoggedIn)
+
+  useEffect(() => {
+    console.log('user is logged in', isLogged)
+
+    setIsLogged(true)
+  }, [isLoggedIn])
+
   const [formData, setFormData] = useState({
     login: '',
     password: '',
@@ -32,20 +43,44 @@ export const LoginPage: FC = () => {
     })
   }
 
-  const handleLogin = (e: FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault()
-    AuthAPI.signin(formData)
 
-    setFormData({
-      login: '',
-      password: '',
-    })
+    try {
+      const response = await AuthAPI.signin(formData)
+
+      console.log('response', response)
+
+      if (response === 'OK') {
+        login()
+        console.log('log user in, change user isLoggedIn state to true')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+    console.log('is logged in?', isLogged)
+
+    // setFormData({
+    //   login: '',
+    //   password: '',
+    // })
+  }
+
+  const handleLogOut = async () => {
+    AuthAPI.logout()
+  }
+
+  const handleGetUser = async () => {
+    AuthAPI.read()
   }
 
   return (
     <LayoutCentered>
       <S.Content>
-        <Title>Вход</Title>
+        <Title>
+          Вход, {isLoggedIn ? 'user logged in' : 'user not logged in'}
+        </Title>
 
         <Form onSubmit={handleLogin}>
           {config.map(item => {
@@ -65,6 +100,18 @@ export const LoginPage: FC = () => {
             <S.Action>
               <Button content="Вход" type="submit" mode={ButtonMode.MAIN} />
             </S.Action>
+            <Button
+              content="Log Out"
+              type="button"
+              mode={ButtonMode.OUTLINE}
+              onClick={handleLogOut}
+            />
+            <Button
+              content="Get User"
+              type="button"
+              mode={ButtonMode.OUTLINE}
+              onClick={handleGetUser}
+            />
             <S.Action>
               <LinkButton
                 content="Регистрация"

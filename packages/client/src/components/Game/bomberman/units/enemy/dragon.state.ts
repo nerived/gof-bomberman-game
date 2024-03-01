@@ -1,17 +1,25 @@
 import { EnemyUnit } from './enemy.unit'
 import enemyImageSrc from '../../assets/enemy.png'
 import { IEnemyState } from './state'
+import { rectVsRect } from '../../_lib'
 
 export abstract class DragonState implements IEnemyState {
   private _image
   private _score
   protected _velocity
 
-  constructor(protected readonly enemy: EnemyUnit) {
+  constructor(protected readonly _enemy: EnemyUnit) {
     this._image = new Image()
     this._image.src = enemyImageSrc
     this._score = 200
-    this._velocity = this.enemy.velocity * 0.5
+    this._velocity = this._enemy.velocity * 0.5
+  }
+
+  protected _getCurPos() {
+    const titleSize = this._enemy.levelMatrix[0][0].width
+    const curPosX = Math.trunc(this._enemy.pX / titleSize)
+    const curPosY = Math.trunc(this._enemy.pY / titleSize)
+    return { curPosX, curPosY }
   }
 
   protected abstract _update(): void
@@ -28,9 +36,9 @@ export abstract class DragonState implements IEnemyState {
     // debug circle >>>
     canvasCtx.beginPath()
     canvasCtx.arc(
-      this.enemy.pX + offsetX,
-      this.enemy.pY,
-      this.enemy.radius,
+      this._enemy.pX + offsetX,
+      this._enemy.pY,
+      this._enemy.radius,
       0,
       2 * Math.PI
     )
@@ -42,10 +50,10 @@ export abstract class DragonState implements IEnemyState {
 
     canvasCtx.drawImage(
       this._image,
-      this.enemy.x + offsetX,
-      this.enemy.y,
-      this.enemy.radius * 2,
-      this.enemy.radius * 2
+      this._enemy.x + offsetX,
+      this._enemy.y,
+      this._enemy.radius * 2,
+      this._enemy.radius * 2
     )
 
     canvasCtx.restore()
@@ -59,29 +67,69 @@ class Idle extends DragonState {
 
 class MoveLeft extends DragonState {
   protected _update() {
-    this.enemy.x -= this._velocity
-    this.enemy.onMove?.()
+    const { curPosX, curPosY } = this._getCurPos()
+
+    const adjUnit = this._enemy.levelMatrix[curPosY][curPosX - 1]
+
+    if (!adjUnit.passable && rectVsRect(this._enemy, adjUnit)) {
+      this._enemy.x = adjUnit.getRight()
+      this._enemy.setState('IDLE')
+      return
+    }
+
+    this._enemy.x -= this._velocity
+    this._enemy.onMove?.()
   }
 }
 
 class MoveRight extends DragonState {
   protected _update() {
-    this.enemy.x += this._velocity
-    this.enemy.onMove?.()
+    const { curPosX, curPosY } = this._getCurPos()
+
+    const adjUnit = this._enemy.levelMatrix[curPosY][curPosX + 1]
+
+    if (!adjUnit.passable && rectVsRect(this._enemy, adjUnit)) {
+      this._enemy.x = adjUnit.getLeft() - adjUnit.width
+      this._enemy.setState('IDLE')
+      return
+    }
+
+    this._enemy.x += this._velocity
+    this._enemy.onMove?.()
   }
 }
 
 class MoveUp extends DragonState {
   protected _update() {
-    this.enemy.y -= this._velocity
-    this.enemy.onMove?.()
+    const { curPosX, curPosY } = this._getCurPos()
+
+    const adjUnit = this._enemy.levelMatrix[curPosY - 1][curPosX]
+
+    if (!adjUnit.passable && rectVsRect(this._enemy, adjUnit)) {
+      this._enemy.y = adjUnit.getBottom()
+      this._enemy.setState('IDLE')
+      return
+    }
+
+    this._enemy.y -= this._velocity
+    this._enemy.onMove?.()
   }
 }
 
 class MoveDown extends DragonState {
   protected _update() {
-    this.enemy.y += this._velocity
-    this.enemy.onMove?.()
+    const { curPosX, curPosY } = this._getCurPos()
+
+    const adjUnit = this._enemy.levelMatrix[curPosY + 1][curPosX]
+
+    if (!adjUnit.passable && rectVsRect(this._enemy, adjUnit)) {
+      this._enemy.y = adjUnit.getTop() - adjUnit.height
+      this._enemy.setState('IDLE')
+      return
+    }
+
+    this._enemy.y += this._velocity
+    this._enemy.onMove?.()
   }
 }
 

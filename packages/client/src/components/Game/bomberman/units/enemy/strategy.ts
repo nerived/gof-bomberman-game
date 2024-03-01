@@ -1,15 +1,15 @@
 import { EnemyUnit } from './enemy.unit'
 
 export abstract class EnemyStrategy {
-  protected curPosX = 0
-  protected curPosY = 0
-  protected tileSize
-  protected levelMatrix
+  protected _curPosX = 0
+  protected _curPosY = 0
+  protected _tileSize
+  protected _levelMatrix
 
   constructor(protected readonly _enemyUnit: EnemyUnit) {
-    this.levelMatrix = this._enemyUnit.levelMatrix
-    this.tileSize = this.levelMatrix[0][0].width
+    this._levelMatrix = this._enemyUnit.levelMatrix
+    this._tileSize = this._levelMatrix[0][0].width
   }
 
-  public abstract doMovingAlgorythm(): void
+  public abstract doMovingAlgorithm(): void
 }

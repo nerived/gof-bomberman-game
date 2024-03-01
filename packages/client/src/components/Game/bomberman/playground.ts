@@ -1,4 +1,8 @@
-import { circleVsRectCollision, circleVsCircleCollision } from './_lib'
+import {
+  circleVsRectCollision,
+  circleVsCircleCollision,
+  rectVsRect,
+} from './_lib'
 import { ExplodeBomb } from './commands/explode-bomb'
 import { DeleteBomb } from './commands/delete-bomb'
 import { BrickUnit } from './units/brick.unit'
@@ -31,12 +35,7 @@ export class Playground {
   }
 
   private _switchBombToImpassable = (bomb: BombUnit) => {
-    !(
-      this._player.getRight() > bomb.getLeft() &&
-      this._player.getLeft() < bomb.getRight() &&
-      this._player.getBottom() > bomb.getTop() &&
-      this._player.getTop() < bomb.getBottom()
-    ) && bomb.setToImpassable()
+    !rectVsRect(this._player, bomb) && bomb.setToImpassable()
   }
 
   private _doPlayerCollideLogicWithThings() {

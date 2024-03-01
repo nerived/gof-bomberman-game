@@ -1,4 +1,11 @@
-interface TMatrixTile {
+interface TWithSides {
+  getLeft: () => number
+  getRight: () => number
+  getTop: () => number
+  getBottom: () => number
+}
+
+interface TMatrixTile extends TWithSides {
   x: number
   y: number
   width: number
@@ -8,13 +15,13 @@ interface TMatrixTile {
 
 export type TLevelMatrix = TMatrixTile[][]
 
-interface TCircle {
+interface TCircle extends TWithSides {
   pX: number
   pY: number
   radius: number
 }
 
-interface TRect {
+interface TRect extends TWithSides {
   x: number
   y: number
   width: number
@@ -31,6 +38,15 @@ export const potentialPositions = [
   [0, 1],
   [-1, 1],
 ]
+
+export function rectVsRect(rectA: TWithSides, rectB: TWithSides) {
+  return (
+    rectA.getRight() > rectB.getLeft() &&
+    rectA.getLeft() < rectB.getRight() &&
+    rectA.getBottom() > rectB.getTop() &&
+    rectA.getTop() < rectB.getBottom()
+  )
+}
 
 export function circleVsCircleCollision(
   circleA: TCircle,

@@ -8,7 +8,11 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 
   const location = useLocation()
 
-  if (!user.id) {
+  if (user.isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (!user.isAuthenticated) {
     return (
       <Navigate to={RoutesPaths.Login} state={{ from: location }} replace />
     )

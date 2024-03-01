@@ -72,7 +72,7 @@ export const Profile: FC = () => {
 
   const user = useSelector(userSelectors.getUser)
 
-  const handleLogput = () => {
+  const handleLogout = () => {
     dispatch(userThunks.userLogout())
     navigate(RoutesPaths.Login)
   }
@@ -113,7 +113,7 @@ export const Profile: FC = () => {
             <Button
               content="Выйти"
               mode={ButtonMode.OUTLINE}
-              onClick={handleLogput}
+              onClick={handleLogout}
             />
           </S.Action>
         </S.Actions>

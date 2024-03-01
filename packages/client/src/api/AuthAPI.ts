@@ -24,6 +24,8 @@ export type User = {
   password: string
   phone: string
   avatar: string
+  isAuthenticated: boolean | null
+  isLoading: boolean
 }
 
 export type UserError = {

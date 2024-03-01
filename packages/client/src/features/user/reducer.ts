@@ -13,6 +13,8 @@ const initialState: User = {
   password: '',
   phone: '',
   avatar: '',
+  isAuthenticated: null,
+  isLoading: true,
 }
 
 export const userSlice = createSlice({
@@ -20,14 +22,25 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     updateUser: (state, action: PayloadAction<User>) => {
-      return { ...state, ...action.payload }
+      Object.assign(state, action.payload)
+      state.isAuthenticated = true
     },
+
     resetUser: () => {
       return { ...initialState }
+    },
+
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload
+    },
+
+    setAuthentication: (state, action: PayloadAction<boolean | null>) => {
+      state.isAuthenticated = action.payload
     },
   },
 })
 
-export const { updateUser, resetUser } = userSlice.actions
+export const { updateUser, resetUser, setLoading, setAuthentication } =
+  userSlice.actions
 
 export const userReducer = userSlice.reducer

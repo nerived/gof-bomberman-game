@@ -20,9 +20,26 @@ import {
 
 export const PagesRoutes: FC = () => {
   const pages = useRoutes([
-    { path: RoutesPaths.Main, element: <MainPage /> },
-    { path: RoutesPaths.Login, element: <LoginPage /> },
-    { path: RoutesPaths.Registration, element: <RegistrationPage /> },
+    {
+      path: RoutesPaths.Main,
+      element: (
+        <ProtectedRoute>
+          <MainPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.Login,
+      element: <LoginPage />,
+    },
+    {
+      path: RoutesPaths.Registration,
+      element: (
+        <ProtectedRoute>
+          <RegistrationPage />
+        </ProtectedRoute>
+      ),
+    },
     {
       path: RoutesPaths.Profile,
       element: (
@@ -31,15 +48,78 @@ export const PagesRoutes: FC = () => {
         </ProtectedRoute>
       ),
     },
-    { path: RoutesPaths.EditProfile, element: <ProfileEdit /> },
-    { path: RoutesPaths.EditPassword, element: <ProfilePassword /> },
-    { path: RoutesPaths.Game, element: <GamePage /> },
-    { path: RoutesPaths.GameOver, element: <GameOverPage /> },
-    { path: RoutesPaths.Liders, element: <LidersPage /> },
-    { path: RoutesPaths.Forum, element: <ForumMainPage /> },
-    { path: `${RoutesPaths.Forum}/:id`, element: <ForumTopicPage /> },
-    { path: RoutesPaths.Error, element: <ErrorPage /> },
-    { path: RoutesPaths.NotFound, element: <NotFoundPage /> },
+    {
+      path: RoutesPaths.EditProfile,
+      element: (
+        <ProtectedRoute>
+          <ProfileEdit />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.EditPassword,
+      element: (
+        <ProtectedRoute>
+          <ProfilePassword />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.Game,
+      element: (
+        <ProtectedRoute>
+          <GamePage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.GameOver,
+      element: (
+        <ProtectedRoute>
+          <GameOverPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.Liders,
+      element: (
+        <ProtectedRoute>
+          <LidersPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.Forum,
+      element: (
+        <ProtectedRoute>
+          <ForumMainPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: `${RoutesPaths.Forum}/:id`,
+      element: (
+        <ProtectedRoute>
+          <ForumTopicPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.Error,
+      element: (
+        <ProtectedRoute>
+          <ErrorPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.NotFound,
+      element: (
+        <ProtectedRoute>
+          <NotFoundPage />
+        </ProtectedRoute>
+      ),
+    },
   ])
 
   return <>{pages}</>

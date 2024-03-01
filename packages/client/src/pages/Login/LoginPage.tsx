@@ -1,4 +1,4 @@
-import { FC, useState, FormEvent, ChangeEvent } from 'react'
+import { FC, useState, FormEvent, ChangeEvent, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -17,6 +17,8 @@ import { RoutesPaths } from '../../routes/constants'
 import { SigninData } from '../../api/AuthAPI'
 
 import { userThunks } from '../../features/user'
+import { userSelectors } from '../../features/user'
+import { useSelector } from 'react-redux'
 
 import * as S from './Login.styled'
 
@@ -34,16 +36,27 @@ import * as S from './Login.styled'
 export const LoginPage: FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const user = useSelector(userSelectors.getUser)
 
   const [formValue, setFormValue] = useState<SigninData>({
     login: '',
     password: '',
   })
 
+  useEffect(() => {
+    if (user.isAuthenticated) {
+      navigate(RoutesPaths.Main)
+    }
+  }, [user.isAuthenticated, navigate])
+
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch(userThunks.userLogin(formValue))
-    navigate(RoutesPaths.Profile)
+    await dispatch(userThunks.userLogin(formValue))
+
+    setFormValue({
+      login: '',
+      password: '',
+    })
   }
 
   const handleOnChangeValue = (e: ChangeEvent<HTMLInputElement>) => {

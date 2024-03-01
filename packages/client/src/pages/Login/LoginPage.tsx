@@ -47,9 +47,7 @@ export const LoginPage: FC = () => {
   }
 
   const handleOnChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const input:
-      | (EventTarget & React.InputHTMLAttributes<HTMLInputElement>)
-      | null = e.nativeEvent.target
+    const input: (EventTarget & HTMLInputElement) | null = e.target
 
     if (input && input.name) {
       const name = input.name

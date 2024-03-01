@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { useRoutes } from 'react-router-dom'
 import { RoutesPaths } from './constants'
+import { ProtectedRoute } from '../shared/components/ProtectedRoute'
 import {
   ErrorPage,
   ForumMainPage,
@@ -22,7 +23,14 @@ export const PagesRoutes: FC = () => {
     { path: RoutesPaths.Main, element: <MainPage /> },
     { path: RoutesPaths.Login, element: <LoginPage /> },
     { path: RoutesPaths.Registration, element: <RegistrationPage /> },
-    { path: RoutesPaths.Profile, element: <Profile /> },
+    {
+      path: RoutesPaths.Profile,
+      element: (
+        <ProtectedRoute>
+          <Profile />
+        </ProtectedRoute>
+      ),
+    },
     { path: RoutesPaths.EditProfile, element: <ProfileEdit /> },
     { path: RoutesPaths.EditPassword, element: <ProfilePassword /> },
     { path: RoutesPaths.Game, element: <GamePage /> },

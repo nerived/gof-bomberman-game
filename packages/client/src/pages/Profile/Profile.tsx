@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo } from 'react'
+import { FC, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -80,10 +80,6 @@ export const Profile: FC = () => {
   const preparedField = useMemo(() => {
     return mapUserField(user)
   }, [user])
-
-  useEffect(() => {
-    dispatch(userThunks.fetchUser())
-  }, [])
 
   return (
     <Layout title={'Профиль'}>

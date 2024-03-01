@@ -15,7 +15,7 @@ export interface SignupData {
 }
 
 export type User = {
-  id: number
+  id: number | null
   first_name: string
   second_name: string
   display_name: string

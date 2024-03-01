@@ -4,7 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import type { User } from '../../api/AuthAPI'
 
 const initialState: User = {
-  id: 0,
+  id: null,
   first_name: '',
   second_name: '',
   display_name: '',

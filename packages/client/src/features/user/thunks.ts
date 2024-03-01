@@ -28,6 +28,7 @@ export const fetchUser = (): any => {
   return async (dispatch: any) => {
     try {
       const data = await AuthAPI.read()
+
       if (data.id) {
         dispatch(updateUser(data))
       }

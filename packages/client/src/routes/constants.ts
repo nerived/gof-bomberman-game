@@ -9,6 +9,6 @@ export enum RoutesPaths {
   Game = '/game',
   GameOver = '/game-over',
   Forum = '/forum',
-  Error = '/error',
+  ServerError = '/server-error',
   NotFound = '*',
 }

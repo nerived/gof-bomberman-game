@@ -1,6 +1,7 @@
 import { FC, useState, FormEvent, ChangeEvent, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+
+import { useAppDispatch } from '../../store'
 
 import {
   Title,
@@ -22,19 +23,8 @@ import { useSelector } from 'react-redux'
 
 import * as S from './Login.styled'
 
-//test user
-// {
-//   email: 'ivanivanov123232@yandex.ru'
-//   first_name: 'Ivan'
-//   login: 'ivanivanov123232'
-//   password: 'Qwerty12345'
-//   password_new: 'Qwerty54321'
-//   phone: '79099673030'
-//   second_name: 'Ivanov'
-// }
-
 export const LoginPage: FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const user = useSelector(userSelectors.getUser)
 
@@ -51,7 +41,10 @@ export const LoginPage: FC = () => {
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await dispatch(userThunks.userLogin(formValue))
+    const isSuccess = await userThunks.userLogin(formValue)
+    if (isSuccess) {
+      dispatch(userThunks.fetchUserThunk())
+    }
 
     setFormValue({
       login: '',

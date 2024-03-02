@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useAppDispatch } from './store'
 import { userThunks } from './features/user'
 
 export const AppInitializer = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(userThunks.fetchUser())
+    dispatch(userThunks.fetchUserThunk())
   }, [dispatch])
 
   return null

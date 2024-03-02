@@ -14,7 +14,7 @@ const initialState: User = {
   password: '',
   phone: '',
   avatar: '',
-  isAuthenticated: null,
+  isAuthenticated: false,
   isLoading: true,
 }
 
@@ -35,7 +35,7 @@ export const userSlice = createSlice({
       state.isLoading = action.payload
     },
 
-    setAuthentication: (state, action: PayloadAction<boolean | null>) => {
+    setAuthentication: (state, action: PayloadAction<boolean>) => {
       state.isAuthenticated = action.payload
     },
   },

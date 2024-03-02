@@ -73,6 +73,7 @@ export const LoginPage: FC = () => {
                 key={item.id}
                 placeholder={item.placeholder}
                 name={item.name}
+                type={item.type}
                 value={formValue[item.name as keyof SigninData]}
                 required={item.required}
                 onChange={handleOnChangeValue}

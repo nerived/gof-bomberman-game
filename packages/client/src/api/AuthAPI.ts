@@ -24,7 +24,7 @@ export type User = {
   password: string
   phone: string
   avatar: string
-  isAuthenticated: boolean | null
+  isAuthenticated: boolean
   isLoading: boolean
 }
 

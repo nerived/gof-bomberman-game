@@ -1,8 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { AxiosError } from 'axios'
 
-import AuthAPI, { SigninData, User, UserError } from '../../api/AuthAPI'
-import { updateUser, resetUser, setLoading, setAuthentication } from './reducer'
+import AuthAPI, { SigninData } from '../../api/AuthAPI'
+import { updateUser, setAuthentication } from './reducer'
 
 export const userLogin = async (data: SigninData): Promise<boolean> => {
   try {

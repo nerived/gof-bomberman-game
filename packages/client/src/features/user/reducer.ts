@@ -26,8 +26,8 @@ export const userSlice = createSlice({
       state.isAuthenticated = true
     },
 
-    resetUser: () => {
-      return { ...initialState }
+    resetUser: state => {
+      Object.assign(state, initialState, { isLoading: false })
     },
 
     setLoading: (state, action: PayloadAction<boolean>) => {

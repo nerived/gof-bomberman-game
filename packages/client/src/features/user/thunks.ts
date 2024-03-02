@@ -1,38 +1,41 @@
-import AuthAPI, { SigninData } from '../../api/AuthAPI'
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import { AxiosError } from 'axios'
 
-import { updateUser, resetUser } from './reducer'
+import AuthAPI, { SigninData, User, UserError } from '../../api/AuthAPI'
 
-export const userLogin = (data: SigninData): any => {
-  return async (dispatch: any) => {
-    try {
-      await AuthAPI.signin(data)
-      dispatch(fetchUser())
-    } catch (e) {
-      console.log('error', e)
-    }
+export const userLogin = async (data: SigninData): Promise<boolean> => {
+  try {
+    await AuthAPI.signin(data)
+    return true
+  } catch (e) {
+    console.log('error', e)
+    return false
   }
 }
 
-export const userLogout = (): any => {
-  return (dispatch: any) => {
-    try {
-      AuthAPI.logout()
-      dispatch(resetUser())
-    } catch (e) {
-      console.log('error', e)
-    }
+export const userLogout = async () => {
+  try {
+    AuthAPI.logout()
+  } catch (e) {
+    console.log('userLogout error', e)
   }
 }
 
-export const fetchUser = (): any => {
-  return async (dispatch: any) => {
-    try {
-      const data = await AuthAPI.read()
-      if (data.id) {
-        dispatch(updateUser(data))
-      }
-    } catch (e) {
-      console.log('error', e)
-    }
+export const fetchUserThunk = createAsyncThunk<
+  User,
+  void,
+  {
+    rejectValue: UserError
   }
-}
+>('user/update', async (_: void, { rejectWithValue }) => {
+  try {
+    const response = await AuthAPI.read()
+    return response
+  } catch (err) {
+    const error: AxiosError<UserError> = err as any
+    if (!error.response) {
+      throw err
+    }
+    return rejectWithValue(error.response.data)
+  }
+})

@@ -1,11 +1,11 @@
 import { FC, useEffect, useMemo } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { RoutesPaths } from '../../routes/constants'
-import type { RootState } from '../../store'
+import { useAppDispatch } from '../../store'
 
-import { userThunks, userSelectors } from '../../features/user'
+import { userThunks, userSelectors, resetUser } from '../../features/user'
 
 import {
   Layout,
@@ -19,61 +19,18 @@ import {
 } from '../../ui-kit'
 
 import * as S from './Profile.styled'
-type UserFields = {
-  label: string
-  key: string
-  value: string
-}
-const userFields = [
-  {
-    label: 'Почта',
-    key: 'email',
-    value: '',
-  },
-  {
-    label: 'Логин',
-    key: 'login',
-    value: '',
-  },
-  {
-    label: 'Имя',
-    key: 'first_name',
-    value: '',
-  },
-  {
-    label: 'Фамилия',
-    key: 'second_name',
-    value: '',
-  },
-  {
-    label: 'Отображаемое имя',
-    key: 'display_name',
-    value: '',
-  },
-  {
-    label: 'Телефон',
-    key: 'phone',
-    value: '',
-  },
-]
 
-const mapUserField = (user: RootState['user']) => {
-  return userFields.reduce<UserFields[]>((acc, item) => {
-    item.value =
-      user[item.key as keyof Omit<RootState['user'], 'id'>] || 'not set'
-    acc.push(item)
-    return acc
-  }, [] as UserFields[])
-}
+import { mapUserField } from './services'
 
 export const Profile: FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const user = useSelector(userSelectors.getUser)
 
   const handleLogput = () => {
-    dispatch(userThunks.userLogout())
+    userThunks.userLogout()
+    dispatch(resetUser())
     navigate(RoutesPaths.Login)
   }
 
@@ -82,7 +39,7 @@ export const Profile: FC = () => {
   }, [user])
 
   useEffect(() => {
-    dispatch(userThunks.fetchUser())
+    dispatch(userThunks.fetchUserThunk())
   }, [])
 
   return (

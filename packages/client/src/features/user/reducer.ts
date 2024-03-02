@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 import type { User } from '../../api/AuthAPI'
+import { fetchUserThunk } from './thunks'
 
 const initialState: User = {
   id: 0,
@@ -20,11 +21,16 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     updateUser: (state, action: PayloadAction<User>) => {
-      return { ...state, ...action.payload }
+      return action.payload
     },
-    resetUser: () => {
-      return { ...initialState }
+    resetUser: state => {
+      return initialState
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchUserThunk.fulfilled, (state, action) => {
+      return action.payload
+    })
   },
 })
 

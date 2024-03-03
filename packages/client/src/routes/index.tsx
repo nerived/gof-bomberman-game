@@ -3,7 +3,7 @@ import { useRoutes } from 'react-router-dom'
 import { RoutesPaths } from './constants'
 import { ProtectedRoute } from '../shared/components/ProtectedRoute'
 import {
-  ErrorPage,
+  ServerErrorPage,
   ForumMainPage,
   ForumTopicPage,
   GamePage,

@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { useRoutes } from 'react-router-dom'
 import { RoutesPaths } from './constants'
+import { ProtectedRoute } from '../shared/components/ProtectedRoute'
 import {
   ServerErrorPage,
   ForumMainPage,
@@ -19,19 +20,106 @@ import {
 
 export const PagesRoutes: FC = () => {
   const pages = useRoutes([
-    { path: RoutesPaths.Main, element: <MainPage /> },
-    { path: RoutesPaths.Login, element: <LoginPage /> },
-    { path: RoutesPaths.Registration, element: <RegistrationPage /> },
-    { path: RoutesPaths.Profile, element: <Profile /> },
-    { path: RoutesPaths.EditProfile, element: <ProfileEdit /> },
-    { path: RoutesPaths.EditPassword, element: <ProfilePassword /> },
-    { path: RoutesPaths.Game, element: <GamePage /> },
-    { path: RoutesPaths.GameOver, element: <GameOverPage /> },
-    { path: RoutesPaths.Liders, element: <LidersPage /> },
-    { path: RoutesPaths.Forum, element: <ForumMainPage /> },
-    { path: `${RoutesPaths.Forum}/:id`, element: <ForumTopicPage /> },
-    { path: RoutesPaths.ServerError, element: <ServerErrorPage /> },
-    { path: RoutesPaths.NotFound, element: <NotFoundPage /> },
+    {
+      path: RoutesPaths.Main,
+      element: (
+        <ProtectedRoute>
+          <MainPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.Login,
+      element: <LoginPage />,
+    },
+    {
+      path: RoutesPaths.Registration,
+      element: (
+        <ProtectedRoute>
+          <RegistrationPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.Profile,
+      element: (
+        <ProtectedRoute>
+          <Profile />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.EditProfile,
+      element: (
+        <ProtectedRoute>
+          <ProfileEdit />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.EditPassword,
+      element: (
+        <ProtectedRoute>
+          <ProfilePassword />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.Game,
+      element: (
+        <ProtectedRoute>
+          <GamePage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.GameOver,
+      element: (
+        <ProtectedRoute>
+          <GameOverPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.Liders,
+      element: (
+        <ProtectedRoute>
+          <LidersPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.Forum,
+      element: (
+        <ProtectedRoute>
+          <ForumMainPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: `${RoutesPaths.Forum}/:id`,
+      element: (
+        <ProtectedRoute>
+          <ForumTopicPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.ServerError,
+      element: (
+        <ProtectedRoute>
+          <ServerErrorPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.NotFound,
+      element: (
+        <ProtectedRoute>
+          <NotFoundPage />
+        </ProtectedRoute>
+      ),
+    },
   ])
 
   return <>{pages}</>

@@ -10,6 +10,7 @@ const { defaults } = instance
 
 defaults.baseURL = BASE_URL
 defaults.timeout = API_CALL_TIMEOUT
+defaults.withCredentials = true
 
 instance.interceptors.request.use(
   config => config,

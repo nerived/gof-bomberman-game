@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { RoutesPaths } from '../../routes/constants'
+import { Link } from 'react-router-dom'
 
 export const List = styled.div`
   display: flex;
@@ -12,8 +13,9 @@ export const List = styled.div`
 export const Item = styled.div`
   color: #fff;
 `
-export const Link = styled.a`
+export const StyledLink = styled(Link)`
   color: #fff;
+  text-decoration: none; // Optional: Removes underline from links
 `
 
 export const TempNav = () => {
@@ -22,8 +24,8 @@ export const TempNav = () => {
       {Object.keys(RoutesPaths).map(route => {
         const href = RoutesPaths[route as keyof typeof RoutesPaths]
         return (
-          <Item>
-            <Link href={href}>{route}</Link>
+          <Item key={href}>
+            <Link to={href}>{route}</Link>
           </Item>
         )
       })}

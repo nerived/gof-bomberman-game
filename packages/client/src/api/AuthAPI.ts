@@ -14,18 +14,21 @@ export interface SignupData {
   phone: string
 }
 
-export interface User {
-  id: number
+export type User = {
+  id: number | null
   first_name: string
   second_name: string
+  display_name: string
   login: string
   email: string
   password: string
   phone: string
   avatar: string
+  isAuthenticated: boolean
+  isLoading: boolean
 }
 
-export interface UserError {
+export type UserError = {
   reason: string
 }
 
@@ -41,7 +44,7 @@ export class AuthAPI {
   }
 
   read() {
-    return request.get<User | UserError>(`${GATE}/user`)
+    return request.get<User>(`${GATE}/user`)
   }
 
   logout() {

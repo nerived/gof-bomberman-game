@@ -1,14 +1,13 @@
 import App from './App'
 import { render, screen } from '@testing-library/react'
 
-const appContent = 'START'
-
 // @ts-ignore
 global.fetch = jest.fn(() =>
   Promise.resolve({ json: () => Promise.resolve('hey') })
 )
 
-test('Example test', async () => {
+test('Redirects unauthenticated user to login', async () => {
   render(<App />)
-  expect(screen.getByText(appContent)).toBeDefined()
+  const loginElement = await screen.findByText(/Регистрация/i)
+  expect(loginElement).toBeDefined()
 })

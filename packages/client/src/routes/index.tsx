@@ -105,10 +105,10 @@ export const PagesRoutes: FC = () => {
       ),
     },
     {
-      path: RoutesPaths.Error,
+      path: RoutesPaths.ServerError,
       element: (
         <ProtectedRoute>
-          <ErrorPage />
+          <ServerErrorPage />
         </ProtectedRoute>
       ),
     },

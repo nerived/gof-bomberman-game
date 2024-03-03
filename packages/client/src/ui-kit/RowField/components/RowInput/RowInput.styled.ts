@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 import { Colors } from '../../../../tokens'
 
+export const RowInputRoot = styled.div`
+  flex: 1;
+`
+
 export const RowInput = styled.input`
   padding: 0 5px;
   margin: 0;

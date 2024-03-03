@@ -9,6 +9,7 @@ export interface SButtonProps {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
   content?: string
   type?: string
+  disabled?: boolean
 }
 
 export const Button = styled.button<SButtonProps>`
@@ -29,6 +30,10 @@ export const Button = styled.button<SButtonProps>`
 
   &:hover {
     opacity: 0.85;
+  }
+
+  &:disabled {
+    opacity: 0.8;
   }
 
   ${({ mode }) =>

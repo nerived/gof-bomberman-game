@@ -8,6 +8,7 @@ import * as S from './RowField.styled'
 export type RowFieldProps = RowValueProps & {
   label: string
   value: string
+  name: string
   isEditable?: boolean
 }
 

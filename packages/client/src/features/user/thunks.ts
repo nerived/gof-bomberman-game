@@ -1,7 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import AuthAPI, { SigninData } from '../../api/AuthAPI'
+import AuthAPI, { SigninData, SignupData } from '../../api/AuthAPI'
+import UserAPI, { UserData, UserChangePassword } from '../../api/UserAPI'
 import { updateUser, setAuthentication } from './reducer'
+
+export const userSignUp = async (data: SignupData): Promise<boolean> => {
+  try {
+    await AuthAPI.signup(data)
+    return true
+  } catch (e) {
+    console.log('error', e)
+    return false
+  }
+}
 
 export const userLogin = async (data: SigninData): Promise<boolean> => {
   try {
@@ -36,6 +47,60 @@ export const fetchUserThunk = createAsyncThunk(
     } catch (e) {
       console.log('error', e)
       dispatch(setAuthentication(false))
+      return rejectWithValue(e)
+    }
+  }
+)
+
+export const changeUserThunk = createAsyncThunk(
+  'user/change',
+  async (data: UserData, { dispatch, rejectWithValue }) => {
+    try {
+      const result = await UserAPI.changeUser(data)
+      if (result) {
+        dispatch(updateUser(result))
+        return result
+      } else {
+        return rejectWithValue('No user data')
+      }
+    } catch (e) {
+      console.log('error', e)
+      return rejectWithValue(e)
+    }
+  }
+)
+
+export const changePasswordThunk = createAsyncThunk(
+  'user/changePassword',
+  async (data: UserChangePassword, { dispatch, rejectWithValue }) => {
+    try {
+      const result = await UserAPI.changePassword(data)
+      if (result) {
+        return result
+      } else {
+        return rejectWithValue('No user data')
+      }
+    } catch (e) {
+      console.log('error', e)
+      return rejectWithValue(e)
+    }
+  }
+)
+
+export const changeAvatarThunk = createAsyncThunk(
+  'user/changeAvatar',
+  async (data: FormData, { dispatch, rejectWithValue }) => {
+    try {
+      const result = await UserAPI.changeAvatar(data)
+
+      if (result) {
+        dispatch(updateUser(result))
+        return result
+      } else {
+        return rejectWithValue('No user data')
+      }
+    } catch (e) {
+      console.log('error', e)
       return rejectWithValue(e)
     }
   }

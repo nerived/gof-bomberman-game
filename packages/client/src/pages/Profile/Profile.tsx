@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo } from 'react'
+import { FC, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -28,7 +28,7 @@ export const Profile: FC = () => {
 
   const user = useSelector(userSelectors.getUser)
 
-  const handleLogput = () => {
+  const handleLogout = () => {
     userThunks.userLogout()
     dispatch(resetUser())
     navigate(RoutesPaths.Login)
@@ -37,10 +37,6 @@ export const Profile: FC = () => {
   const preparedField = useMemo(() => {
     return mapUserField(user)
   }, [user])
-
-  useEffect(() => {
-    dispatch(userThunks.fetchUserThunk())
-  }, [])
 
   return (
     <Layout title={'Профиль'}>
@@ -74,7 +70,7 @@ export const Profile: FC = () => {
             <Button
               content="Выйти"
               mode={ButtonMode.OUTLINE}
-              onClick={handleLogput}
+              onClick={handleLogout}
             />
           </S.Action>
         </S.Actions>

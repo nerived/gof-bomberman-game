@@ -1,4 +1,4 @@
-import { FC, useState, FormEvent, ChangeEvent } from 'react'
+import { FC, useState, FormEvent, ChangeEvent, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from '../../store'
@@ -18,25 +18,38 @@ import { RoutesPaths } from '../../routes/constants'
 import { SigninData } from '../../api/AuthAPI'
 
 import { userThunks } from '../../features/user'
+import { userSelectors } from '../../features/user'
+import { useSelector } from 'react-redux'
 
 import * as S from './Login.styled'
 
 export const LoginPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const user = useSelector(userSelectors.getUser)
 
   const [formValue, setFormValue] = useState<SigninData>({
     login: '',
     password: '',
   })
 
+  useEffect(() => {
+    if (user.isAuthenticated) {
+      navigate(RoutesPaths.Main)
+    }
+  }, [user.isAuthenticated, navigate])
+
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const isSuccess = await userThunks.userLogin(formValue)
     if (isSuccess) {
       dispatch(userThunks.fetchUserThunk())
-      navigate(RoutesPaths.Profile)
     }
+
+    setFormValue({
+      login: '',
+      password: '',
+    })
   }
 
   const handleOnChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +73,7 @@ export const LoginPage: FC = () => {
                 key={item.id}
                 placeholder={item.placeholder}
                 name={item.name}
+                type={item.type}
                 value={formValue[item.name as keyof SigninData]}
                 required={item.required}
                 onChange={handleOnChangeValue}

@@ -4,6 +4,7 @@ export const config = [
     name: 'login',
     placeholder: 'Логин',
     required: true,
+    type: 'text',
   },
 
   {
@@ -11,5 +12,6 @@ export const config = [
     name: 'password',
     placeholder: 'Пароль',
     required: true,
+    type: 'password',
   },
 ]

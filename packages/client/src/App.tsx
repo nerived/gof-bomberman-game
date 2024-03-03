@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { PagesRoutes } from './routes'
 import ErrorBoundary from './shared/ErrorBoundary'
 import { store } from './store'
+import { AppInitializer } from './AppInitializer'
 
 function App() {
   useEffect(() => {
@@ -22,6 +23,7 @@ function App() {
     <Provider store={store}>
       <ErrorBoundary>
         <BrowserRouter>
+          <AppInitializer />
           <PagesRoutes />
         </BrowserRouter>
       </ErrorBoundary>

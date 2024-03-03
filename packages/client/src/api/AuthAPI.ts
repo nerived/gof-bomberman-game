@@ -15,7 +15,7 @@ export interface SignupData {
 }
 
 export type User = {
-  id: number
+  id: number | null
   first_name: string
   second_name: string
   display_name: string
@@ -24,6 +24,8 @@ export type User = {
   password: string
   phone: string
   avatar: string
+  isAuthenticated: boolean
+  isLoading: boolean
 }
 
 export type UserError = {

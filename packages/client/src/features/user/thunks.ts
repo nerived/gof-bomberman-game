@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { AxiosError } from 'axios'
 
-import AuthAPI, { SigninData, User, UserError } from '../../api/AuthAPI'
+import AuthAPI, { SigninData } from '../../api/AuthAPI'
+import { updateUser, setAuthentication } from './reducer'
 
 export const userLogin = async (data: SigninData): Promise<boolean> => {
   try {
@@ -21,21 +21,22 @@ export const userLogout = async () => {
   }
 }
 
-export const fetchUserThunk = createAsyncThunk<
-  User,
-  void,
-  {
-    rejectValue: UserError
-  }
->('user/update', async (_: void, { rejectWithValue }) => {
-  try {
-    const response = await AuthAPI.read()
-    return response
-  } catch (err) {
-    const error: AxiosError<UserError> = err as any
-    if (!error.response) {
-      throw err
+export const fetchUserThunk = createAsyncThunk(
+  'user/fetch',
+  async (_, { dispatch, rejectWithValue }) => {
+    try {
+      const data = await AuthAPI.read()
+      if (data.id) {
+        dispatch(updateUser(data))
+        return data
+      } else {
+        dispatch(setAuthentication(false))
+        return rejectWithValue('No user data')
+      }
+    } catch (e) {
+      console.log('error', e)
+      dispatch(setAuthentication(false))
+      return rejectWithValue(e)
     }
-    return rejectWithValue(error.response.data)
   }
-})
+)

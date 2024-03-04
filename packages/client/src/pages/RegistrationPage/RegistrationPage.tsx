@@ -1,6 +1,5 @@
 import { FC, useMemo } from 'react'
-import { Formik, Form } from 'formik'
-import { useSelector } from 'react-redux'
+import { Formik, Form, FastField } from 'formik'
 import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from '../../store'
@@ -8,67 +7,70 @@ import { useAppDispatch } from '../../store'
 import {
   Layout,
   FormLayout,
-  Avatar,
-  RowField,
   Button,
   ButtonMode,
   LinkButton,
   LinkButtonMode,
+  CustomField,
 } from '../../ui-kit'
 import { RoutesPaths } from '../../routes/constants'
-import { userThunks, userSelectors } from '../../features/user'
-import { UserData } from '../../api/UserAPI'
+import { userThunks } from '../../features/user'
+import { SignupData } from '../../api/AuthAPI'
 
-import * as S from './ProfileEdit.styled'
-import { mapUserField } from './services'
+import { userFieldsConfig } from './constants'
+import * as S from './RegistrationPage.styled'
 
-export const ProfileEdit: FC = () => {
+export const RegistrationPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const user = useSelector(userSelectors.getUser)
+  const initialValues = useMemo(() => {
+    return {
+      email: '',
+      login: '',
+      first_name: '',
+      second_name: '',
+      phone: '',
+      password: '',
+    }
+  }, [])
 
-  const { preparedField, initialValues } = useMemo(() => {
-    const preparedField = mapUserField(user)
-    const initialValues = preparedField.reduce((acc, item) => {
-      acc[item.name as keyof UserData] = item.value
-      return acc
-    }, {} as UserData)
-    return { preparedField, initialValues }
-  }, [user])
-
-  const handleSave = async (data: UserData) => {
-    const isSuccess = await dispatch(userThunks.changeUserThunk(data))
+  const handleSave = async (data: SignupData) => {
+    const isSuccess = await userThunks.userSignUp(data)
 
     if (isSuccess) {
+      await dispatch(userThunks.fetchUserThunk())
       navigate(RoutesPaths.Profile)
     }
   }
 
   return (
-    <Layout title={'Изменить данные'}>
+    <Layout title={'Регистрация'}>
       <FormLayout>
         <Formik
           initialValues={initialValues}
           onSubmit={handleSave}
           enableReinitialize>
-          {({ handleSubmit, dirty, isSubmitting, isValid }) => {
+          {({ handleSubmit, dirty, isSubmitting, isValid, ...other }) => {
+            console.log('other', other)
             return (
               <Form onSubmit={handleSubmit}>
-                <S.Head>
-                  <Avatar name={user?.first_name} avatarUrl={user?.avatar} />
-                </S.Head>
-
                 <S.Content>
-                  {preparedField.map(field => {
-                    return <RowField key={field.name} {...field} isEditable />
+                  {userFieldsConfig.map(item => {
+                    return (
+                      <FastField
+                        key={item.name}
+                        {...item}
+                        component={CustomField}
+                      />
+                    )
                   })}
                 </S.Content>
 
                 <S.Actions>
                   <S.Action>
                     <Button
-                      content="Сохранить"
+                      content="Регистрация"
                       mode={ButtonMode.MAIN}
                       disabled={!dirty || isSubmitting || !isValid}
                       type="submit"
@@ -78,7 +80,7 @@ export const ProfileEdit: FC = () => {
                     <LinkButton
                       content="Отмена"
                       mode={LinkButtonMode.OUTLINE}
-                      to={RoutesPaths.Profile}
+                      to={RoutesPaths.Main}
                     />
                   </S.Action>
                 </S.Actions>

@@ -1,4 +1,5 @@
 import { request } from './rest/request'
+import { User } from './AuthAPI'
 
 export interface UserData {
   first_name: string
@@ -21,12 +22,12 @@ export interface SearchUser {
 const GATE = '/user'
 
 export class UserAPI {
-  changeUser(data: UserData) {
+  changeUser(data: UserData): Promise<User> {
     return request.put(`${GATE}/profile`, data)
   }
 
-  changeAvatar(data: FormData) {
-    return request.put(`${GATE}/avatar`, data)
+  changeAvatar(data: FormData): Promise<User> {
+    return request.put(`${GATE}/profile/avatar`, data)
   }
 
   changePassword(data: UserChangePassword) {

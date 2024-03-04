@@ -1,21 +1,21 @@
 import React from 'react'
 import { FieldAttributes } from 'formik'
 
-import * as S from './RowInput.styled'
+import * as S from './CustomField.styled'
 
-export type RowInputProps = JSX.IntrinsicElements['input']
-
-export const RowInput = ({
+export const CustomField = ({
+  labelText,
   field,
   form: { touched, errors },
   ...props
 }: FieldAttributes<any>) => {
   return (
-    <S.RowInputRoot>
-      <S.RowInput {...field} {...props} />
+    <S.CustomField>
+      {labelText && <S.Label>{labelText}</S.Label>}
+      <S.Input {...field} {...props} />
       {touched[field.name] && errors[field.name] && (
         <div className="error">{errors[field.name]}</div>
       )}
-    </S.RowInputRoot>
+    </S.CustomField>
   )
 }

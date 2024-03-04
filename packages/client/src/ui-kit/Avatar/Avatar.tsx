@@ -1,25 +1,32 @@
 import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { RoutesPaths } from '../../routes/constants'
 
 import * as S from './Avatar.styled'
 
 export type AvatarProps = {
   avatarUrl?: string
+  nextAvatar?: string
   isEditAlloved?: boolean
   name?: string
 }
+const CDN_PATH = 'https://ya-praktikum.tech/api/v2/resources'
 
 export const Avatar: FC<AvatarProps> = props => {
-  const { avatarUrl, isEditAlloved = false, name } = props
+  const navigate = useNavigate()
+
+  const { avatarUrl, isEditAlloved = false, name, nextAvatar } = props
   const handleChangeAvatar = () => {
-    console.log('handleChangeAvatar')
+    navigate(RoutesPaths.EditAvatar)
   }
 
   return (
     <S.Avatar>
       <S.ImgBox>
         <S.Current>
-          {avatarUrl ? (
-            <S.Img />
+          {nextAvatar || avatarUrl ? (
+            <S.Img src={nextAvatar || `${CDN_PATH}${avatarUrl}`} />
           ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"

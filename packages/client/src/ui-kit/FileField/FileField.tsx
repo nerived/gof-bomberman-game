@@ -1,21 +1,21 @@
-import React from 'react'
+import { FC } from 'react'
 import { FieldAttributes } from 'formik'
 
-import * as S from './RowInput.styled'
+import * as S from './FileField.styled'
 
-export type RowInputProps = JSX.IntrinsicElements['input']
-
-export const RowInput = ({
+export const FileField = ({
+  content,
   field,
   form: { touched, errors },
   ...props
 }: FieldAttributes<any>) => {
   return (
-    <S.RowInputRoot>
-      <S.RowInput {...field} {...props} />
+    <S.Label>
+      <div>{content}</div>
+      <S.Input {...field} {...props} />
       {touched[field.name] && errors[field.name] && (
         <div className="error">{errors[field.name]}</div>
       )}
-    </S.RowInputRoot>
+    </S.Label>
   )
 }

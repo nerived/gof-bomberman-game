@@ -16,6 +16,7 @@ import {
   ProfileEdit,
   ProfilePassword,
   RegistrationPage,
+  EditAvatar,
 } from '../pages'
 
 export const PagesRoutes: FC = () => {
@@ -34,11 +35,7 @@ export const PagesRoutes: FC = () => {
     },
     {
       path: RoutesPaths.Registration,
-      element: (
-        <ProtectedRoute>
-          <RegistrationPage />
-        </ProtectedRoute>
-      ),
+      element: <RegistrationPage />,
     },
     {
       path: RoutesPaths.Profile,
@@ -61,6 +58,14 @@ export const PagesRoutes: FC = () => {
       element: (
         <ProtectedRoute>
           <ProfilePassword />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: RoutesPaths.EditAvatar,
+      element: (
+        <ProtectedRoute>
+          <EditAvatar />
         </ProtectedRoute>
       ),
     },

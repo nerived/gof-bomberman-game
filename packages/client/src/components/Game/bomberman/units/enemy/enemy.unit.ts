@@ -28,6 +28,7 @@ export class EnemyUnit extends CircleGameUnit {
   public velocity: number
   public levelMatrix: Matrix
   public state: TEnemyStateUnion
+  public onMoveCommand: ((enemyUnit: this) => void) | undefined
   private _states: TStateIndex
   private _curState: IEnemyState
   private _strategy?: EnemyStrategy
@@ -48,7 +49,9 @@ export class EnemyUnit extends CircleGameUnit {
     this._curState = new ENEMY_TYPE[type].IDLE(this)
   }
 
-  public onMove?: () => void
+  onMove(fn?: (enemyUnit: this) => void) {
+    this.onMoveCommand = fn
+  }
 
   public getCurPos() {
     const titleSize = this.levelMatrix.getTileSize()

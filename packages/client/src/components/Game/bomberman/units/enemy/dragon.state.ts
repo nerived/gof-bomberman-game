@@ -71,7 +71,7 @@ class MoveLeft extends DragonState {
     }
 
     this._enemy.x -= this._velocity
-    this._enemy.onMove?.()
+    this._enemy.onMoveCommand?.(this._enemy)
   }
 }
 
@@ -88,7 +88,7 @@ class MoveRight extends DragonState {
     }
 
     this._enemy.x += this._velocity
-    this._enemy.onMove?.()
+    this._enemy.onMoveCommand?.(this._enemy)
   }
 }
 
@@ -105,7 +105,7 @@ class MoveUp extends DragonState {
     }
 
     this._enemy.y -= this._velocity
-    this._enemy.onMove?.()
+    this._enemy.onMoveCommand?.(this._enemy)
   }
 }
 
@@ -122,7 +122,7 @@ class MoveDown extends DragonState {
     }
 
     this._enemy.y += this._velocity
-    this._enemy.onMove?.()
+    this._enemy.onMoveCommand?.(this._enemy)
   }
 }
 

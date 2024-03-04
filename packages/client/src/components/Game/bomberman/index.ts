@@ -9,6 +9,8 @@ import { Mechanics } from './mechanics'
 import { RestartLevel } from './commands/restart-level'
 import { GameWindow } from './window'
 import { MovePlayer } from './commands/move-player'
+import { EnemyUnit } from './units/enemy/enemy.unit'
+import { MoveEnemy } from './commands/move-enemy'
 
 const STATE = {
   START: 1,
@@ -21,6 +23,7 @@ export class Bomberman {
   private mechanics
   private playground
   private inputHandler
+  private player
 
   constructor(canvasEl: HTMLCanvasElement) {
     const canvasCtx = canvasEl.getContext('2d')
@@ -34,25 +37,38 @@ export class Bomberman {
     const player = new PlayerUnit(context)
     const mazeBuilder = new MazeBuilder(context)
     const mechanics = new Mechanics(context)
-    const playground = new Playground(player, mazeBuilder)
+
+    const playground = new Playground(mazeBuilder)
     const inputHandler = new InputHandler()
 
-    player.onMove = playground.watchOnPlayer
-
-    player.setCommand(new PlantBomb(player, playground, mechanics))
+    player.setCommandOnPlantBomb(new PlantBomb(player, playground, mechanics))
+    player.setCommandOnMove(
+      new MovePlayer(player, window, playground, mechanics)
+    )
 
     inputHandler.setCommand(new PlayerAction(player, inputHandler))
 
-    playground.setCommand(new MovePlayer(player, window, playground, mechanics))
+    const moveEnemy = (enemy: EnemyUnit) => {
+      new MoveEnemy(enemy, player, playground, mechanics).execute()
+    }
+
+    playground.setCommand(moveEnemy)
 
     mechanics.setCommand(
-      new RestartLevel(window, playground, inputHandler, mechanics.level)
+      new RestartLevel(
+        window,
+        player,
+        playground,
+        inputHandler,
+        mechanics.level
+      )
     )
 
     this.window = window
     this.inputHandler = inputHandler
     this.mechanics = mechanics
     this.playground = playground
+    this.player = player
 
     this.state = STATE.STOP
   }
@@ -60,16 +76,18 @@ export class Bomberman {
   private _loopEngine = () => {
     if (this.state === STATE.STOP) return
 
-    this.window.draw(this.playground, this.mechanics)
+    this.window.draw(this.playground, this.player, this.mechanics)
 
     requestAnimationFrame(this._loopEngine)
   }
 
   public start() {
     this.state = STATE.START
-    this.playground.start(1)
+    const levelMatrix = this.playground.start(this.player, 1)
     this.mechanics.start()
     this.inputHandler.start()
+    this.player.setLevelMatrix(levelMatrix)
+    this.player.start()
     this._loopEngine()
   }
 

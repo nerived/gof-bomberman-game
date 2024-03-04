@@ -4,28 +4,21 @@ import { EnemyUnit } from './units/enemy/enemy.unit'
 import { BombUnit } from './units/bomb/bomb.unit'
 import { ThingUnit } from './units/thing/thing.unit'
 import { MazeBuilder } from './maze-builder'
-import { ICommand } from './basics/command'
 
 export class Playground {
   private readonly _mazeBuilder: MazeBuilder
-  private readonly _player: PlayerUnit
   public enemies: EnemyUnit[] = []
   public bricks: BrickUnit[] = []
   public bombs: BombUnit[] = []
   public things: ThingUnit[] = []
-  private _commandOnPlayerMove: ICommand | undefined
+  private _enemyMoveCommand: ((enemy: EnemyUnit) => void) | undefined
 
-  constructor(player: PlayerUnit, mazeBuilder: MazeBuilder) {
+  constructor(mazeBuilder: MazeBuilder) {
     this._mazeBuilder = mazeBuilder
-    this._player = player
   }
 
-  public watchOnPlayer = () => {
-    this._commandOnPlayerMove?.execute()
-  }
-
-  public setCommand(command: ICommand) {
-    this._commandOnPlayerMove = command
+  public setCommand(fn: (enemy: EnemyUnit) => void) {
+    this._enemyMoveCommand = fn
   }
 
   public plantBomb(player: PlayerUnit) {
@@ -45,17 +38,23 @@ export class Playground {
     this.things = this.things.concat(things)
   }
 
-  public start(level: number) {
+  public start(player: PlayerUnit, level: number) {
     const { matrix, bricks, enemies } = this._mazeBuilder.buildMaze(
-      this._player,
+      player,
       level
     )
-    this._player.setLevelMatrix(matrix)
-    this._player.start()
+
     this.bricks = bricks
     this.enemies = enemies
     this.things = []
     this.bombs = []
+
+    if (this._enemyMoveCommand) {
+      this.enemies.forEach(enemyUnit =>
+        enemyUnit.onMove(this._enemyMoveCommand)
+      )
+    }
+    return matrix
   }
 
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
@@ -64,7 +63,6 @@ export class Playground {
       ...this.things,
       ...this.bombs,
       ...this.enemies,
-      this._player,
     ]) {
       unit.draw(canvasCtx, offsetX)
     }

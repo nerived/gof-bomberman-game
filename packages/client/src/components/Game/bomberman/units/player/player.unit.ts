@@ -38,7 +38,8 @@ export class PlayerUnit extends CircleGameUnit {
   ]
 
   private _curState: PlayerState[] = []
-  public command: ICommand | undefined
+  public plantBombCommand: ICommand | undefined
+  public moveCommand: ICommand | undefined
   public levelMatrix = new Matrix()
 
   constructor(protected readonly context: TGameContext) {
@@ -48,14 +49,16 @@ export class PlayerUnit extends CircleGameUnit {
     this.maxVelocity = context.unitVelocity
   }
 
-  public onMove?: () => void
-
   public setLevelMatrix(levelMatrix: Matrix) {
     this.levelMatrix = levelMatrix
   }
 
-  public setCommand(cmd: ICommand) {
-    this.command = cmd
+  public setCommandOnPlantBomb(cmd: ICommand) {
+    this.plantBombCommand = cmd
+  }
+
+  public setCommandOnMove(cmd: ICommand) {
+    this.moveCommand = cmd
   }
 
   public action = (actions: TAction[]) => {

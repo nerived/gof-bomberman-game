@@ -71,12 +71,20 @@ export class Circle {
     this._radius = value
   }
 
+  get width() {
+    return this._radius << 1
+  }
+
+  get height() {
+    return this._radius << 1
+  }
+
   public getLeft() {
     return this._x
   }
 
   public getRight() {
-    return this._x + this._radius * 2
+    return this._x + (this._radius << 1)
   }
 
   public getTop() {
@@ -84,7 +92,7 @@ export class Circle {
   }
 
   public getBottom() {
-    return this._y + this._radius * 2
+    return this._y + (this._radius << 1)
   }
 
   public getType() {

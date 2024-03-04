@@ -1,8 +1,8 @@
 import { CircleGameUnit } from '../../basics/unit'
-import { TLevelMatrix } from '../../_lib'
 import { IEnemyState, TStateIndex } from './state'
 import { DRAGON } from './dragon.state'
 import { EnemyStrategy } from './strategy'
+import { Matrix } from '../../matrix'
 
 export const EnemyState = {
   IDLE: 'IDLE',
@@ -20,13 +20,14 @@ interface TGameContext {
   unitVelocity: number
 }
 
+type TEnemyStateUnion = keyof typeof EnemyState
+
 export class EnemyUnit extends CircleGameUnit {
   public passable = true
   public destroyable = false
   public velocity: number
-  public levelMatrix: TLevelMatrix
-  public state: keyof typeof EnemyState
-  private _stdVelocity: number
+  public levelMatrix: Matrix
+  public state: TEnemyStateUnion
   private _states: TStateIndex
   private _curState: IEnemyState
   private _strategy?: EnemyStrategy
@@ -36,12 +37,11 @@ export class EnemyUnit extends CircleGameUnit {
     x: number,
     y: number,
     radius: number,
-    levelMatrix: TLevelMatrix,
+    levelMatrix: Matrix,
     type: keyof typeof ENEMY_TYPE
   ) {
     super(x, y, radius)
-    this._stdVelocity = context.unitVelocity
-    this.velocity = this._stdVelocity
+    this.velocity = context.unitVelocity
     this.levelMatrix = levelMatrix
     this.state = EnemyState.IDLE
     this._states = ENEMY_TYPE[type]
@@ -49,6 +49,17 @@ export class EnemyUnit extends CircleGameUnit {
   }
 
   public onMove?: () => void
+
+  public getCurPos() {
+    const titleSize = this.levelMatrix.getTileSize()
+    const curPosX = (this.pX / titleSize) << 0
+    const curPosY = (this.pY / titleSize) << 0
+    return { curPosX, curPosY }
+  }
+
+  public getScore() {
+    return this._curState.getScore()
+  }
 
   public setStrategy(strategy: EnemyStrategy) {
     this._strategy = strategy

@@ -8,7 +8,7 @@ export abstract class EnemyStrategy {
 
   constructor(protected readonly _enemyUnit: EnemyUnit) {
     this._levelMatrix = this._enemyUnit.levelMatrix
-    this._tileSize = this._levelMatrix[0][0].width
+    this._tileSize = this._levelMatrix.getTileSize()
   }
 
   public abstract doMovingAlgorithm(): void

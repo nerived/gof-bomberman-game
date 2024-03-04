@@ -1,8 +1,8 @@
 import { ICommand } from '../../basics/command'
 import { CircleGameUnit } from '../../basics/unit'
-import { TLevelMatrix } from '../../_lib'
 import { PlayerState, STATE } from './player.state'
 import playerImageSrc from '../../assets/player.png'
+import { Matrix } from '../../matrix'
 
 interface TGameContext {
   unitVelocity: number
@@ -39,7 +39,7 @@ export class PlayerUnit extends CircleGameUnit {
 
   private _curState: PlayerState[] = []
   public command: ICommand | undefined
-  public levelMatrix: TLevelMatrix = [[]]
+  public levelMatrix = new Matrix()
 
   constructor(protected readonly context: TGameContext) {
     super(0, 0, 0)
@@ -50,7 +50,7 @@ export class PlayerUnit extends CircleGameUnit {
 
   public onMove?: () => void
 
-  public setLevelMatrix(levelMatrix: TLevelMatrix) {
+  public setLevelMatrix(levelMatrix: Matrix) {
     this.levelMatrix = levelMatrix
   }
 

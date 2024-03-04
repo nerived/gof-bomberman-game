@@ -1,4 +1,4 @@
-import { RectGameUnit } from '../../basics/unit'
+import { RectGameUnit, TGameUnit } from '../../basics/unit'
 import { ICommand } from '../../basics/command'
 import { STATE, BombState } from './bomb.state'
 
@@ -6,7 +6,7 @@ export class BombUnit extends RectGameUnit {
   public passable = true
   public destroyable = true
   public readonly power
-  public magnitude: RectGameUnit[] = []
+  public magnitude: TGameUnit[] = []
   public exploded = false
   public command: ICommand | undefined
   private _state: BombState = new STATE.IDLE(this)

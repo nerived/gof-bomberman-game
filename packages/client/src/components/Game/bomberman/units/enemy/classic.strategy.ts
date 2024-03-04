@@ -15,12 +15,11 @@ type TPosIndexH = keyof typeof posIndexH
 type TPosIndexV = keyof typeof posIndexV
 type TPosIndexAll = TPosIndexH | TPosIndexV
 
-export class DragonStrategy extends EnemyStrategy {
+export class ClassicStrategy extends EnemyStrategy {
   private _timeStamp = performance.now()
   private _timeToChangePath = 5_000
   private _inSearch = false
   private _changingTimeRange = 15_000
-  private _canChangePath = false
 
   private _resetTimeStamp() {
     this._timeStamp = performance.now()
@@ -30,14 +29,11 @@ export class DragonStrategy extends EnemyStrategy {
     return performance.now() - this._timeStamp
   }
 
-  private _getCurPos() {
-    const { pX, pY } = this._enemyUnit
-    this._curPosX = Math.trunc(pX / this._tileSize)
-    this._curPosY = Math.trunc(pY / this._tileSize)
-
-    this._canChangePath =
+  private _canChangePath() {
+    return (
       this._enemyUnit.getLeft() % this._tileSize === 0 &&
       this._enemyUnit.getTop() % this._tileSize === 0
+    )
   }
 
   private _updateTimes() {
@@ -49,13 +45,15 @@ export class DragonStrategy extends EnemyStrategy {
   private _defineDirection() {
     const directions: TPosIndexAll[] = []
 
+    const { curPosX, curPosY } = this._enemyUnit.getCurPos()
+
     for (const [p, { x, y }] of [
       ...Object.entries(posIndexH),
       ...Object.entries(posIndexV),
     ]) {
       const dir = p as TPosIndexAll
 
-      const unit = this._levelMatrix[this._curPosY + y][this._curPosX + x]
+      const unit = this._levelMatrix.getIn(curPosY + y, curPosX + x)
 
       if (unit.passable) {
         directions.push(dir)
@@ -80,7 +78,7 @@ export class DragonStrategy extends EnemyStrategy {
   }
 
   private _searchNewPath() {
-    if (!this._inSearch || !this._canChangePath) return
+    if (!this._inSearch || !this._canChangePath()) return
 
     const directions: TPosIndexAll[] = []
 
@@ -90,9 +88,11 @@ export class DragonStrategy extends EnemyStrategy {
         ? posIndexV
         : posIndexH
 
+    const { curPosX, curPosY } = this._enemyUnit.getCurPos()
+
     for (const [p, { x, y }] of Object.entries(observablePos)) {
       const dir = p as TPosIndexAll
-      const unit = this._levelMatrix[this._curPosY + y][this._curPosX + x]
+      const unit = this._levelMatrix.getIn(curPosY + y, curPosX + x)
 
       if (unit.passable) {
         directions.push(dir)
@@ -109,8 +109,6 @@ export class DragonStrategy extends EnemyStrategy {
   }
 
   public doMovingAlgorithm() {
-    this._getCurPos()
-
     if (this._enemyUnit.state === EnemyState.IDLE) {
       this._defineDirection()
       return

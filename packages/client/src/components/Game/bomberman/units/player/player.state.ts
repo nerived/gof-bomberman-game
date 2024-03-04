@@ -22,12 +22,15 @@ class Bomb extends PlayerState {
 class MoveState extends PlayerState {
   protected _preventWallCollision() {
     const { pX, pY } = this.player
-    const tileSize = this.player.levelMatrix[0][0].width
+    const tileSize = this.player.levelMatrix.getTileSize()
     const curPosX = Math.trunc(pX / tileSize)
     const curPosY = Math.trunc(pY / tileSize)
 
     for (const [x, y] of potentialPositions) {
-      const potentialTile = this.player.levelMatrix[curPosY + y][curPosX + x]
+      const potentialTile = this.player.levelMatrix.getIn(
+        curPosY + y,
+        curPosX + x
+      )
 
       if (potentialTile.passable) continue
 

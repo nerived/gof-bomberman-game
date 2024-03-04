@@ -5,16 +5,6 @@ interface TWithSides {
   getBottom: () => number
 }
 
-interface TMatrixTile extends TWithSides {
-  x: number
-  y: number
-  width: number
-  height: number
-  passable: boolean
-}
-
-export type TLevelMatrix = TMatrixTile[][]
-
 interface TCircle extends TWithSides {
   pX: number
   pY: number

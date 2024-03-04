@@ -7,6 +7,7 @@ export class BombUnit extends RectGameUnit {
   public destroyable = true
   public readonly power
   public magnitude: TGameUnit[] = []
+  public startExplode = false
   public exploded = false
   public command: ICommand | undefined
   private _state: BombState = new STATE.IDLE(this)
@@ -23,7 +24,7 @@ export class BombUnit extends RectGameUnit {
   }
 
   public detonate() {
-    this.exploded = true
+    this.startExplode = true
   }
 
   public changeState(state: BombState) {

@@ -46,7 +46,7 @@ export class PlayerUnit extends CircleGameUnit {
     super(0, 0, 0)
     this._image = new Image()
     this._image.src = playerImageSrc
-    this.maxVelocity = context.unitVelocity
+    this.maxVelocity = context.unitVelocity * 2
   }
 
   public setLevelMatrix(levelMatrix: Matrix) {
@@ -67,7 +67,7 @@ export class PlayerUnit extends CircleGameUnit {
 
   public start() {
     this._curState = [this._stateList[STATE_INDEX.IDLE]]
-    this.bombAmmo = 1
+    this.bombAmmo = 10
     this.bombPower = 1
   }
 

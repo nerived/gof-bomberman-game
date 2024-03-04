@@ -59,7 +59,7 @@ export class Mechanics {
   }
 
   public start() {
-    const endTime = performance.now() + 5 * 60 * 1000
+    const endTime = performance.now() + 7 * 60 * 1000
     this._endTime = endTime
     return endTime
   }

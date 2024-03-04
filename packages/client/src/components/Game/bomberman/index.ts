@@ -54,15 +54,7 @@ export class Bomberman {
 
     playground.setCommand(moveEnemy)
 
-    mechanics.setCommand(
-      new RestartLevel(
-        window,
-        player,
-        playground,
-        inputHandler,
-        mechanics.level
-      )
-    )
+    mechanics.setCommand(new RestartLevel(this))
 
     this.window = window
     this.inputHandler = inputHandler
@@ -81,14 +73,23 @@ export class Bomberman {
     requestAnimationFrame(this._loopEngine)
   }
 
-  public start() {
-    this.state = STATE.START
-    const levelMatrix = this.playground.start(this.player, 1)
+  private _resetComponents() {
+    const levelMatrix = this.playground.start(this.player, this.mechanics.level)
+    this.window.resetOffset()
     this.mechanics.start()
     this.inputHandler.start()
     this.player.setLevelMatrix(levelMatrix)
     this.player.start()
+  }
+
+  public start() {
+    this.state = STATE.START
+    this._resetComponents()
     this._loopEngine()
+  }
+
+  public restart() {
+    this._resetComponents()
   }
 
   public stop() {

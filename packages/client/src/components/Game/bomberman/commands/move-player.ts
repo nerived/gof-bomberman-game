@@ -26,22 +26,26 @@ export class MovePlayer implements ICommand {
 
   private _doPlayerCollideLogicWithThings() {
     const { things } = this.playground
-    for (const thing of things) {
-      if (circleVsRectCollision(this.player, thing, 0.1).isOverlap) {
-        if (thing.getThingType() === THING_TYPE.DOOR) {
-          this.playground.enemies.length === 0 && alert('level complete')
-        }
 
-        thing.getThingType() === THING_TYPE.AMMO && this.player.bombAmmo++
-        thing.getThingType() === THING_TYPE.POWER && this.player.bombPower++
-        thing.getThingType() === THING_TYPE.LIFE && this.mechanics.plusLife()
+    const curThing = things.find(
+      sThing => circleVsRectCollision(this.player, sThing, 0.1).isOverlap
+    )
 
-        this.playground.things = things.filter(
-          sThing =>
-            sThing.getThingType() !== THING_TYPE.DOOR && sThing !== thing
-        )
-      }
+    if (!curThing) return
+
+    if (curThing.getThingType() === THING_TYPE.DOOR) {
+      if (this.playground.enemies.length !== 0) return
+
+      alert('level complete')
     }
+
+    curThing.getThingType() === THING_TYPE.AMMO && this.player.bombAmmo++
+    curThing.getThingType() === THING_TYPE.POWER && this.player.bombPower++
+    curThing.getThingType() === THING_TYPE.LIFE && this.mechanics.plusLife()
+
+    this.playground.things = things.filter(sThing => {
+      return sThing.getThingType() === THING_TYPE.DOOR || sThing !== curThing
+    })
   }
 
   private _doPlayerCollideLogicWithEnemies() {

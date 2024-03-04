@@ -1,5 +1,5 @@
 import { PlayerUnit } from './units/player/player.unit'
-import { PlantBomb } from './commands/add-bomb'
+import { PlantBomb } from './commands/plant-bomb'
 import { PlayerAction } from './commands/player-action'
 import { GameContext } from './context'
 import { InputHandler } from './input-handler'
@@ -8,7 +8,7 @@ import { Playground } from './playground'
 import { Mechanics } from './mechanics'
 import { RestartLevel } from './commands/restart-level'
 import { GameWindow } from './window'
-import { StickToPlayer } from './commands/stick-to-player'
+import { MovePlayer } from './commands/move-player'
 
 const STATE = {
   START: 1,
@@ -34,14 +34,17 @@ export class Bomberman {
     const player = new PlayerUnit(context)
     const mazeBuilder = new MazeBuilder(context)
     const mechanics = new Mechanics(context)
-    const playground = new Playground(player, mazeBuilder, mechanics)
+    const playground = new Playground(player, mazeBuilder)
     const inputHandler = new InputHandler()
 
     player.onMove = playground.watchOnPlayer
 
-    player.setCommand(new PlantBomb(playground))
+    player.setCommand(new PlantBomb(player, playground, mechanics))
+
     inputHandler.setCommand(new PlayerAction(player, inputHandler))
-    playground.setCommand(new StickToPlayer(window, player))
+
+    playground.setCommand(new MovePlayer(player, window, playground, mechanics))
+
     mechanics.setCommand(
       new RestartLevel(window, playground, inputHandler, mechanics.level)
     )
@@ -65,6 +68,7 @@ export class Bomberman {
   public start() {
     this.state = STATE.START
     this.playground.start(1)
+    this.mechanics.start()
     this.inputHandler.start()
     this._loopEngine()
   }

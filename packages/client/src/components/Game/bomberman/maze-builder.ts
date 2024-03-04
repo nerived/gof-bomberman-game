@@ -78,6 +78,8 @@ export class MazeBuilder {
   }
 
   public buildMaze(player: PlayerUnit, level = 1) {
+    level = 1
+
     const { mazeLines, mazeColumns } = this._context
     const matrix = new Matrix(mazeLines, mazeColumns)
 
@@ -137,67 +139,6 @@ export class MazeBuilder {
 
     return { matrix, bricks, enemies }
   }
-
-  // public buildMaze(player: PlayerUnit, level = 1) {
-  //   const matrix: Array<RectGameUnit[]> = Array(this._context.mazeLines)
-  //     .fill(null)
-  //     .map(() => Array(this._context.mazeColumns))
-
-  //   const enemies: EnemyUnit[] = []
-  //   const bricks: BrickUnit[] = []
-
-  //   for (let i = 0; i < matrix.length; ++i) {
-  //     for (let j = 0; j < matrix[i].length; ++j) {
-  //       const tileType = LEVEL[level][i][j]
-  //       const x = this._tileSize * j
-  //       const y = this._tileSize * i
-  //       const width = this._tileSize
-  //       const height = this._tileSize
-
-  //       if (tileType === TILE_TYPE.PLAYER) {
-  //         player.radius = this._tileSize * 0.5
-  //         player.x = x
-  //         player.y = y
-  //         matrix[i][j] = new PassageUnit(x, y, width, height)
-  //       }
-
-  //       if (tileType === TILE_TYPE.PASSAGE) {
-  //         matrix[i][j] = new PassageUnit(x, y, width, height)
-  //       }
-
-  //       if (tileType === TILE_TYPE.WALL) {
-  //         matrix[i][j] = new WallUnit(x, y, width, height)
-  //       }
-
-  //       if (tileType === TILE_TYPE.BRICK) {
-  //         const brickUnit = new BrickUnit(x, y, width, height)
-
-  //         matrix[i][j] = brickUnit
-  //         bricks.push(brickUnit)
-  //       }
-
-  //       if (tileType === TILE_TYPE.ENEMY) {
-  //         const enemy = new EnemyUnit(
-  //           this._context,
-  //           x,
-  //           y,
-  //           this._tileSize * 0.5,
-  //           matrix,
-  //           'DRAGON'
-  //         )
-  //         enemy.setStrategy(new ClassicStrategy(enemy))
-  //         enemies.push(enemy)
-  //         matrix[i][j] = new PassageUnit(x, y, width, height)
-  //       }
-  //     }
-  //   }
-
-  //   this._putThings(bricks)
-
-  //   this._maze = matrix
-
-  //   return { matrix, bricks, enemies }
-  // }
 
   private _getBricks() {
     const bricks = []
@@ -279,14 +220,13 @@ export class MazeBuilder {
     const things: ThingUnit[] = []
 
     for (const unit of magnitude) {
-      const { x, y } = unit
-      const posX = this._computePosFor(x)
-      const posY = this._computePosFor(y)
+      const posX = this._computePosFor(unit.x)
+      const posY = this._computePosFor(unit.y)
 
       this._maze.setIn(
         posY,
         posX,
-        new PassageUnit(x, y, this._tileSize, this._tileSize)
+        new PassageUnit(unit.x, unit.y, this._tileSize, this._tileSize)
       )
 
       if (unit instanceof BrickUnit && unit.queue.size) {

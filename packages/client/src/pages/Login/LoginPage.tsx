@@ -13,20 +13,17 @@ import {
   LinkButton,
   LinkButtonMode,
 } from '../../ui-kit'
+import * as S from './Login.styled'
 import { config } from './Config'
 import { RoutesPaths } from '../../routes/constants'
 import { SigninData } from '../../api/AuthAPI'
-
 import { userThunks } from '../../features/user'
-import { userSelectors } from '../../features/user'
-import { useSelector } from 'react-redux'
-
-import * as S from './Login.styled'
+import { useAuth } from '../../features/user/hooks/useAuth'
 
 export const LoginPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const user = useSelector(userSelectors.getUser)
+  const { isUserAuthenticated } = useAuth()
 
   const [formValue, setFormValue] = useState<SigninData>({
     login: '',
@@ -34,10 +31,10 @@ export const LoginPage: FC = () => {
   })
 
   useEffect(() => {
-    if (user.isAuthenticated) {
+    if (isUserAuthenticated) {
       navigate(RoutesPaths.Main)
     }
-  }, [user.isAuthenticated, navigate])
+  }, [isUserAuthenticated, navigate])
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -74,6 +71,7 @@ export const LoginPage: FC = () => {
                 placeholder={item.placeholder}
                 name={item.name}
                 type={item.type}
+                autoComplete={item.autocomplete}
                 value={formValue[item.name as keyof SigninData]}
                 required={item.required}
                 onChange={handleOnChangeValue}

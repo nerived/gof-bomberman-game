@@ -1,18 +1,17 @@
 import { Navigate, useLocation } from 'react-router-dom'
-import { userSelectors } from '../../features/user'
-import { useSelector } from 'react-redux'
 import { RoutesPaths } from '../../routes/constants'
+import { useAuth } from '../../features/user/hooks/useAuth'
 
 export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const user = useSelector(userSelectors.getUser)
+  const { isUserAuthenticated, isUserLoading } = useAuth()
 
   const location = useLocation()
 
-  if (user.isLoading) {
+  if (isUserLoading) {
     return <div>Loading...</div>
   }
 
-  if (!user.isAuthenticated) {
+  if (!isUserAuthenticated) {
     return (
       <Navigate to={RoutesPaths.Login} state={{ from: location }} replace />
     )

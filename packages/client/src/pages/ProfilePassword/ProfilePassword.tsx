@@ -53,7 +53,7 @@ export const ProfilePassword: FC = () => {
                 <Form onSubmit={handleSubmit}>
                   <S.Content>
                     {userFieldsConfig.map(field => {
-                      return <RowField isEditable {...field} />
+                      return <RowField isEditable key={field.name} {...field} />
                     })}
                   </S.Content>
 

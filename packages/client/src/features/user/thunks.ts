@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { AxiosError } from 'axios'
 
-import AuthAPI, { SigninData, SignupData } from '../../api/AuthAPI'
+import AuthAPI, { SigninData, SignupData, UserError } from '../../api/AuthAPI'
 import UserAPI, { UserData, UserChangePassword } from '../../api/UserAPI'
 import { updateUser, setAuthentication } from './reducer'
 
@@ -44,10 +45,14 @@ export const fetchUserThunk = createAsyncThunk(
         dispatch(setAuthentication(false))
         return rejectWithValue('No user data')
       }
-    } catch (e) {
-      console.log('error', e)
+    } catch (error: any) {
+      if (!error?.response) {
+        throw error
+      }
+      const err = error as AxiosError<UserError>
       dispatch(setAuthentication(false))
-      return rejectWithValue(e)
+
+      return rejectWithValue(err?.response?.data)
     }
   }
 )
@@ -63,9 +68,14 @@ export const changeUserThunk = createAsyncThunk(
       } else {
         return rejectWithValue('No user data')
       }
-    } catch (e) {
-      console.log('error', e)
-      return rejectWithValue(e)
+    } catch (error: any) {
+      if (!error?.response) {
+        throw error
+      }
+      const err = error as AxiosError<UserError>
+      dispatch(setAuthentication(false))
+
+      return rejectWithValue(err?.response?.data)
     }
   }
 )
@@ -80,9 +90,14 @@ export const changePasswordThunk = createAsyncThunk(
       } else {
         return rejectWithValue('No user data')
       }
-    } catch (e) {
-      console.log('error', e)
-      return rejectWithValue(e)
+    } catch (error: any) {
+      if (!error?.response) {
+        throw error
+      }
+      const err = error as AxiosError<UserError>
+      dispatch(setAuthentication(false))
+
+      return rejectWithValue(err?.response?.data)
     }
   }
 )
@@ -99,9 +114,14 @@ export const changeAvatarThunk = createAsyncThunk(
       } else {
         return rejectWithValue('No user data')
       }
-    } catch (e) {
-      console.log('error', e)
-      return rejectWithValue(e)
+    } catch (error: any) {
+      if (!error?.response) {
+        throw error
+      }
+      const err = error as AxiosError<UserError>
+      dispatch(setAuthentication(false))
+
+      return rejectWithValue(err?.response?.data)
     }
   }
 )

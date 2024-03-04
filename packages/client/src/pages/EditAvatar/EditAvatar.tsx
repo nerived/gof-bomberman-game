@@ -43,9 +43,14 @@ export const EditAvatar: FC = () => {
     if (file) {
       setAvatarFile(file)
       const fileReader = new FileReader()
-      fileReader.onload = async (event: any) => {
-        const base64 = event.target.result
-        setPreview(base64)
+      fileReader.onload = async (event: ProgressEvent<FileReader>) => {
+        const target = event.target
+        if (target) {
+          const base64 = target.result
+          if (base64) {
+            setPreview(base64 as string)
+          }
+        }
       }
       fileReader.readAsDataURL(file)
     }

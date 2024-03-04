@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React from 'react'
 import { FieldAttributes } from 'formik'
 
 import * as S from './CustomField.styled'

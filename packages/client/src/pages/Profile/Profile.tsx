@@ -45,7 +45,7 @@ export const Profile: FC = () => {
           <Avatar
             name={user?.first_name}
             avatarUrl={user?.avatar}
-            isEditAlloved={true}
+            isEditAlloved
           />
         </S.Head>
 

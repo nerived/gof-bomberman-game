@@ -31,7 +31,6 @@ export const PagesRoutes: FC = () => {
       path: RoutesPaths.Main,
       element: <ProtectedLayout />,
       children: [
-        { index: true, element: <MainPage /> },
         { path: RoutesPaths.Profile, element: <Profile /> },
         { path: RoutesPaths.EditProfile, element: <ProfileEdit /> },
         { path: RoutesPaths.EditPassword, element: <ProfilePassword /> },
@@ -45,6 +44,7 @@ export const PagesRoutes: FC = () => {
         { path: RoutesPaths.NotFound, element: <NotFoundPage /> },
       ],
     },
+    { index: true, element: <MainPage /> },
     {
       path: RoutesPaths.Login,
       element: <LoginPage />,

@@ -1,6 +1,12 @@
 import styled from 'styled-components'
-import { RoutesPaths } from '../../routes/constants'
+import {
+  AuthorizedRoutesNav,
+  NotAuthorizedRoutesNav,
+  RoutesPaths,
+} from '../../routes/constants'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useAuth } from '../../features/user/hooks/useAuth'
 
 export const List = styled.div`
   display: flex;
@@ -19,9 +25,17 @@ export const StyledLink = styled(Link)`
 `
 
 export const TempNav = () => {
+  const { isUserAuthenticated } = useAuth()
+
+  console.log('isUserAuthenticated', isUserAuthenticated)
+
+  const navRoutes = isUserAuthenticated
+    ? AuthorizedRoutesNav
+    : NotAuthorizedRoutesNav
+
   return (
     <List>
-      {Object.keys(RoutesPaths).map(route => {
+      {Object.keys(navRoutes).map(route => {
         const href = RoutesPaths[route as keyof typeof RoutesPaths]
         return (
           <Item key={href}>

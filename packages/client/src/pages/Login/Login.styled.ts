@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const Content = styled.div`
   min-width: 300px;
+  margin-top: 192px;
 `
 
 export const Actions = styled.div`

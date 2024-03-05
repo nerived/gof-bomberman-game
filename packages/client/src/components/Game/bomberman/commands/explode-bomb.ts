@@ -18,12 +18,12 @@ export class ExplodeBomb implements ICommand {
   private _doCollideWithEnemy(flame: TGameUnit) {
     for (const enemy of this.playground.enemies) {
       const { isOverlap } = circleVsRectCollision(enemy, flame, 0.4)
-      if (!isOverlap) continue
-
-      this.mechanics.plusScore(enemy.getScore())
-      this.playground.enemies = this.playground.enemies.filter(
-        sEnemyUnit => sEnemyUnit !== enemy
-      )
+      if (isOverlap) {
+        this.mechanics.plusScore(enemy.getScore())
+        this.playground.enemies = this.playground.enemies.filter(
+          sEnemyUnit => sEnemyUnit !== enemy
+        )
+      }
     }
   }
 

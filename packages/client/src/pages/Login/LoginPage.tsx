@@ -13,30 +13,27 @@ import {
   LinkButton,
   LinkButtonMode,
 } from '../../ui-kit'
+import * as S from './Login.styled'
 import { config } from './Config'
 import { RoutesPaths } from '../../routes/constants'
 import { SigninData } from '../../api/AuthAPI'
-
 import { userThunks } from '../../features/user'
-import { userSelectors } from '../../features/user'
-import { useSelector } from 'react-redux'
-
-import * as S from './Login.styled'
+import { useAuth } from '../../features/user/hooks/useAuth'
 
 export const LoginPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const user = useSelector(userSelectors.getUser)
+  const { isUserAuthenticated } = useAuth()
 
   const initialValues = useMemo(() => {
     return { login: '', password: '' }
   }, [])
 
   useEffect(() => {
-    if (user.isAuthenticated) {
+    if (isUserAuthenticated) {
       navigate(RoutesPaths.Main)
     }
-  }, [user.isAuthenticated, navigate])
+  }, [isUserAuthenticated, navigate])
 
   const handleLogin = async (data: SigninData) => {
     const isSuccess = await userThunks.userLogin(data)

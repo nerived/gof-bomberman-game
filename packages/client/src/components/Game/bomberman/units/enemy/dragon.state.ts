@@ -16,7 +16,9 @@ export abstract class DragonState implements IEnemyState {
   }
 
   public getScore() {
-    return this._score
+    const result = this._score
+    this._score = 0
+    return result
   }
 
   protected abstract _update(): void

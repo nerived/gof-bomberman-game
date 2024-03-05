@@ -5,23 +5,25 @@ import {
   RoutesPaths,
 } from '../../routes/constants'
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
 import { useAuth } from '../../features/user/hooks/useAuth'
 
-export const List = styled.div`
-  display: flex;
-  gap: 20px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+const Header = styled.header`
+  margin: 0 auto;
 `
-export const Item = styled.div`
+
+export const List = styled.ul`
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  padding: 32px 16px 16px;
+`
+export const Item = styled.li`
   color: #fff;
 `
 export const StyledLink = styled(Link)`
-  color: #fff;
-  text-decoration: none; // Optional: Removes underline from links
+  color: white;
+  text-decoration: none;
+  font-family: PressStart2P, Arial, sans-serif;
 `
 
 export const TempNav = () => {
@@ -32,15 +34,17 @@ export const TempNav = () => {
     : NotAuthorizedRoutesNav
 
   return (
-    <List>
-      {Object.keys(navRoutes).map(route => {
-        const href = RoutesPaths[route as keyof typeof RoutesPaths]
-        return (
-          <Item key={href}>
-            <Link to={href}>{route}</Link>
-          </Item>
-        )
-      })}
-    </List>
+    <Header>
+      <List>
+        {Object.keys(navRoutes).map(route => {
+          const href = RoutesPaths[route as keyof typeof RoutesPaths]
+          return (
+            <Item key={href}>
+              <StyledLink to={href}>{route}</StyledLink>
+            </Item>
+          )
+        })}
+      </List>
+    </Header>
   )
 }

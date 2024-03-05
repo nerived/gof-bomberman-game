@@ -10,10 +10,16 @@ const MarginWrapper = styled.div`
   text-align: center;
 `
 
+const LogoWrapper = styled.div`
+  margin-top: 160px;
+`
+
 export const MainPage: FC = () => {
   return (
     <LayoutCentered>
-      <Logo src="/logo.png" alt="bomberman logo" />
+      <LogoWrapper>
+        <Logo src="/logo.png" alt="bomberman logo" />
+      </LogoWrapper>
 
       <MarginWrapper>
         <LinkButton

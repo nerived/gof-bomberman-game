@@ -57,7 +57,6 @@ class Explode extends BombState {
   protected _explodeTime = 1000
   protected _frame = -1
   protected _startTime
-  protected _complete = false
 
   constructor(protected bomb: BombUnit) {
     super(bomb)
@@ -75,12 +74,8 @@ class Explode extends BombState {
       this._bomb.command?.execute()
     }
 
-    if (
-      performance.now() - this._startTime >= this._explodeTime &&
-      !this._complete
-    ) {
+    if (performance.now() - this._startTime >= this._explodeTime) {
       this._bomb.command?.execute()
-      this._complete = true
     }
   }
 

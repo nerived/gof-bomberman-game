@@ -37,7 +37,7 @@ export class PlayerUnit extends CircleGameUnit {
     new STATE.BOMB(this),
   ]
 
-  private _curState: PlayerState[] = []
+  private _curState: PlayerState[] = [this._stateList[STATE_INDEX.IDLE]]
   public plantBombCommand: ICommand | undefined
   public moveCommand: ICommand | undefined
   public levelMatrix = new Matrix()
@@ -65,23 +65,13 @@ export class PlayerUnit extends CircleGameUnit {
     this._curState = actions.map(action => this._stateList[STATE_INDEX[action]])
   }
 
-  public start() {
-    this._curState = [this._stateList[STATE_INDEX.IDLE]]
+  public reset() {
     this.bombAmmo = 1
     this.bombPower = 1
   }
 
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
     this._curState.forEach(state => state.useAction())
-
-    //debug circle >>>
-    canvasCtx.beginPath()
-    canvasCtx.arc(this.pX + offsetX, this.pY, this.radius, 0, 2 * Math.PI)
-    canvasCtx.strokeStyle = 'magenta'
-    canvasCtx.fillStyle = 'rgba(200 200 200 / 30%)'
-    canvasCtx.stroke()
-    canvasCtx.fill()
-    //<<<debug circle
 
     canvasCtx.drawImage(
       this._image,

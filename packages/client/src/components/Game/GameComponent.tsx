@@ -1,29 +1,34 @@
 import { FC, useLayoutEffect, useRef } from 'react'
 import { Bomberman } from './bomberman'
-import styled from 'styled-components'
-import { Colors } from '../../tokens'
-
-const Wrapper = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  max-height: 728px;
-`
-
-const Canvas = styled.canvas`
-  display: block;
-  background-color: ${Colors.WHITE};
-`
+import { Canvas, Wrapper } from './GameComponent.styled'
+import { useNavigate } from 'react-router-dom'
+import { RoutesPaths } from '../../routes/constants'
 
 export const GameComponent: FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const navigate = useNavigate()
 
   useLayoutEffect(() => {
     if (!canvasRef.current) return
 
     const game = new Bomberman(canvasRef.current)
-    game.start()
+
+    game.willRestartHook = () => {
+      const ans = confirm('continue?')
+
+      if (ans) {
+        game.play()
+        return
+      }
+
+      navigate(RoutesPaths.Main)
+    }
+
+    game.didGameOverHook = _totalScore => {
+      navigate(RoutesPaths.GameOver)
+    }
+
+    game.play()
 
     return () => {
       game.stop()

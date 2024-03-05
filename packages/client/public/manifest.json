@@ -16,7 +16,7 @@
     }
   ],
   "orientation": "any",
-  "display": "browser",
+  "display": "standalone",
   "dir": "auto",
   "lang": "en",
   "start_url": "/",

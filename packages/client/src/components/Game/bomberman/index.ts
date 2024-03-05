@@ -41,20 +41,19 @@ export class Bomberman {
     const playground = new Playground(mazeBuilder)
     const inputHandler = new InputHandler()
 
-    player.setCommandOnPlantBomb(new PlantBomb(player, playground, mechanics))
-    player.setCommandOnMove(
-      new MovePlayer(player, window, playground, mechanics)
-    )
+    player.onPlantBomb(new PlantBomb(player, playground, mechanics))
+    player.onMove(new MovePlayer(player, window, playground, mechanics))
 
-    inputHandler.setCommand(new PlayerAction(player, inputHandler))
+    inputHandler.onInput(new PlayerAction(player, inputHandler))
 
     const moveEnemy = (enemy: EnemyUnit) => {
-      new MoveEnemy(enemy, player, playground, mechanics).execute()
+      const command = new MoveEnemy(enemy, player, playground, mechanics)
+      command.execute()
     }
 
-    playground.setCommand(moveEnemy)
+    playground.onEnemyMove(moveEnemy)
 
-    mechanics.setCommand(new RestartLevel(this))
+    mechanics.setRestartCommand(new RestartLevel(this))
 
     this.window = window
     this.inputHandler = inputHandler
@@ -73,7 +72,7 @@ export class Bomberman {
     requestAnimationFrame(this._loopEngine)
   }
 
-  private _resetComponents() {
+  private _init() {
     const levelMatrix = this.playground.start(this.player, this.mechanics.level)
     this.window.resetOffset()
     this.mechanics.start()
@@ -84,12 +83,12 @@ export class Bomberman {
 
   public start() {
     this.state = STATE.START
-    this._resetComponents()
+    this._init()
     this._loopEngine()
   }
 
   public restart() {
-    this._resetComponents()
+    this._init()
   }
 
   public stop() {

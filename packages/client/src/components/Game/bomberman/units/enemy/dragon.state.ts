@@ -65,7 +65,7 @@ class MoveLeft extends DragonState {
     const adjUnit = this._enemy.levelMatrix.getIn(curPosY, curPosX - 1)
 
     if (!adjUnit.passable && rectVsRect(this._enemy, adjUnit)) {
-      this._enemy.x = adjUnit.getRight()
+      this._enemy.x += this._velocity
       this._enemy.setState(EnemyState.IDLE)
       return
     }
@@ -82,7 +82,7 @@ class MoveRight extends DragonState {
     const adjUnit = this._enemy.levelMatrix.getIn(curPosY, curPosX + 1)
 
     if (!adjUnit.passable && rectVsRect(this._enemy, adjUnit)) {
-      this._enemy.x = adjUnit.getLeft() - adjUnit.width
+      this._enemy.x -= this._velocity
       this._enemy.setState(EnemyState.IDLE)
       return
     }
@@ -99,7 +99,7 @@ class MoveUp extends DragonState {
     const adjUnit = this._enemy.levelMatrix.getIn(curPosY - 1, curPosX)
 
     if (!adjUnit.passable && rectVsRect(this._enemy, adjUnit)) {
-      this._enemy.y = adjUnit.getBottom()
+      this._enemy.y += this._velocity
       this._enemy.setState(EnemyState.IDLE)
       return
     }
@@ -116,7 +116,7 @@ class MoveDown extends DragonState {
     const adjUnit = this._enemy.levelMatrix.getIn(curPosY + 1, curPosX)
 
     if (!adjUnit.passable && rectVsRect(this._enemy, adjUnit)) {
-      this._enemy.y = adjUnit.getTop() - adjUnit.height
+      this._enemy.y -= this._velocity
       this._enemy.setState(EnemyState.IDLE)
       return
     }

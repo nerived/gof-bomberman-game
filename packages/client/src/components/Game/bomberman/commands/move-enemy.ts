@@ -33,8 +33,6 @@ export class MoveEnemy implements ICommand {
         const { isOverlap } = circleVsRectCollision(this.enemy, flame, 0.4)
         if (!isOverlap) continue
 
-        // TO DO
-        // enemy state > enemy.setState(killed) > mechanics.setScore() > playground.filter.enemies()
         this.mechanics.plusScore(this.enemy.getScore())
         this.playground.enemies = this.playground.enemies.filter(
           sEnemyUnit => sEnemyUnit !== this.enemy

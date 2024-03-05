@@ -17,7 +17,7 @@ export class Playground {
     this._mazeBuilder = mazeBuilder
   }
 
-  public setCommand(fn: (enemy: EnemyUnit) => void) {
+  public onEnemyMove(fn: (enemy: EnemyUnit) => void) {
     this._enemyMoveCommand = fn
   }
 

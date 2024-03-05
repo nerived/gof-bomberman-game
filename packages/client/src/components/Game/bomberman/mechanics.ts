@@ -64,7 +64,7 @@ export class Mechanics {
     return endTime
   }
 
-  public setCommand(command: ICommand) {
+  public setRestartCommand(command: ICommand) {
     this._command = command
   }
 

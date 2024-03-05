@@ -17,9 +17,9 @@ type TPosIndexAll = TPosIndexH | TPosIndexV
 
 export class ClassicStrategy extends EnemyStrategy {
   private _timeStamp = performance.now()
-  private _timeToChangePath = 5_000
+  private _timeToChangePath = 8_000
   private _inSearch = false
-  private _changingTimeRange = 15_000
+  private _changingTimeRange = 20_000
 
   private _resetTimeStamp() {
     this._timeStamp = performance.now()
@@ -30,14 +30,15 @@ export class ClassicStrategy extends EnemyStrategy {
   }
 
   private _canChangePath() {
-    return (
+    const result =
       this._enemyUnit.getLeft() % this._tileSize === 0 &&
       this._enemyUnit.getTop() % this._tileSize === 0
-    )
+
+    return result
   }
 
   private _updateTimes() {
-    const list = [3_000, 5_000, 7_000, 9_000, 10_000, 12_000, 14_000, 20_000]
+    const list = [8_000, 10_000, 12_000, 16_000, 20_000]
     this._timeToChangePath = list[(Math.random() * list.length) << 0]
     this._changingTimeRange = list[(Math.random() * list.length) << 0]
   }
@@ -62,6 +63,7 @@ export class ClassicStrategy extends EnemyStrategy {
 
     const randomIdx = Math.trunc(Math.random() * directions.length)
     const direction = directions[randomIdx]
+    if (!direction) return
     this._enemyUnit.setState(direction)
   }
 

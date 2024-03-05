@@ -21,7 +21,7 @@ export class InputHandler {
     return [...this._actionList]
   }
 
-  public setCommand(cmd: ICommand) {
+  public onInput(cmd: ICommand) {
     this._command = cmd
   }
 

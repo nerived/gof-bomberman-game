@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import { Formik, Form, FastField } from 'formik'
 import { useNavigate } from 'react-router-dom'
 
@@ -19,10 +19,19 @@ import { SignupData } from '../../api/AuthAPI'
 
 import { userFieldsConfig } from './constants'
 import * as S from './RegistrationPage.styled'
+import { useAuth } from '../../features/user/hooks/useAuth'
 
 export const RegistrationPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+
+  const { isUserAuthenticated } = useAuth()
+
+  useEffect(() => {
+    if (isUserAuthenticated) {
+      navigate(RoutesPaths.Main)
+    }
+  }, [isUserAuthenticated, navigate])
 
   const initialValues = useMemo(() => {
     return {

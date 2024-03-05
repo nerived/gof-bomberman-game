@@ -29,7 +29,7 @@ class Idle extends BombState {
   private _update() {
     if (
       performance.now() - this._startTime < this._timer &&
-      !this._bomb.exploded
+      !this._bomb.startExplode
     ) {
       return
     }
@@ -71,6 +71,7 @@ class Explode extends BombState {
     this._frame++
 
     if (this._frame === 4) {
+      this._bomb.exploded = true
       this._bomb.command?.execute()
     }
 

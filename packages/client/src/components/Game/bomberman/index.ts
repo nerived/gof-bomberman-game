@@ -1,5 +1,5 @@
 import { PlayerUnit } from './units/player/player.unit'
-import { PlantBomb } from './commands/add-bomb'
+import { PlantBomb } from './commands/plant-bomb'
 import { PlayerAction } from './commands/player-action'
 import { GameContext } from './context'
 import { InputHandler } from './input-handler'
@@ -8,7 +8,9 @@ import { Playground } from './playground'
 import { Mechanics } from './mechanics'
 import { RestartLevel } from './commands/restart-level'
 import { GameWindow } from './window'
-import { StickToPlayer } from './commands/stick-to-player'
+import { MovePlayer } from './commands/move-player'
+import { EnemyUnit } from './units/enemy/enemy.unit'
+import { MoveEnemy } from './commands/move-enemy'
 
 const STATE = {
   START: 1,
@@ -21,6 +23,7 @@ export class Bomberman {
   private mechanics
   private playground
   private inputHandler
+  private player
 
   constructor(canvasEl: HTMLCanvasElement) {
     const canvasCtx = canvasEl.getContext('2d')
@@ -34,22 +37,29 @@ export class Bomberman {
     const player = new PlayerUnit(context)
     const mazeBuilder = new MazeBuilder(context)
     const mechanics = new Mechanics(context)
-    const playground = new Playground(player, mazeBuilder, mechanics)
+
+    const playground = new Playground(mazeBuilder)
     const inputHandler = new InputHandler()
 
-    player.onMove = playground.watchOnPlayer
+    player.onPlantBomb(new PlantBomb(player, playground, mechanics))
+    player.onMove(new MovePlayer(player, window, playground, mechanics))
 
-    player.setCommand(new PlantBomb(playground))
-    inputHandler.setCommand(new PlayerAction(player, inputHandler))
-    playground.setCommand(new StickToPlayer(window, player))
-    mechanics.setCommand(
-      new RestartLevel(window, playground, inputHandler, mechanics.level)
-    )
+    inputHandler.onInput(new PlayerAction(player, inputHandler))
+
+    const moveEnemy = (enemy: EnemyUnit) => {
+      const command = new MoveEnemy(enemy, player, playground, mechanics)
+      command.execute()
+    }
+
+    playground.onEnemyMove(moveEnemy)
+
+    mechanics.setRestartCommand(new RestartLevel(this))
 
     this.window = window
     this.inputHandler = inputHandler
     this.mechanics = mechanics
     this.playground = playground
+    this.player = player
 
     this.state = STATE.STOP
   }
@@ -57,16 +67,28 @@ export class Bomberman {
   private _loopEngine = () => {
     if (this.state === STATE.STOP) return
 
-    this.window.draw(this.playground, this.mechanics)
+    this.window.draw(this.playground, this.player, this.mechanics)
 
     requestAnimationFrame(this._loopEngine)
   }
 
+  private _init() {
+    const levelMatrix = this.playground.start(this.player, this.mechanics.level)
+    this.window.resetOffset()
+    this.mechanics.start()
+    this.inputHandler.start()
+    this.player.setLevelMatrix(levelMatrix)
+    this.player.start()
+  }
+
   public start() {
     this.state = STATE.START
-    this.playground.start(1)
-    this.inputHandler.start()
+    this._init()
     this._loopEngine()
+  }
+
+  public restart() {
+    this._init()
   }
 
   public stop() {

@@ -3,7 +3,7 @@ export class GameContext {
   static visibleColumns = 22
   static columns = 35
   static defaultTileSize = 56
-  static defaultUnitVelocity = 4
+  static defaultUnitVelocity = 2
 
   public mazeLines = GameContext.lines
   public mazeColumns = GameContext.columns

@@ -1,11 +1,12 @@
-import { RectGameUnit } from './basics/unit'
 import { WallUnit } from './units/wall.unit'
 import { PassageUnit } from './units/passage.unit'
 import { BrickUnit } from './units/brick.unit'
 import { PlayerUnit } from './units/player/player.unit'
-import { EnemyUnit } from './units/enemy.unit'
+import { EnemyUnit } from './units/enemy/enemy.unit'
 import { BombUnit } from './units/bomb/bomb.unit'
 import { THING_TYPE, ThingUnit } from './units/thing/thing.unit'
+import { ClassicStrategy } from './units/enemy/classic.strategy'
+import { Matrix } from './matrix'
 
 const TILE_TYPE = {
   PLAYER: '%',
@@ -31,7 +32,7 @@ interface TGameContext {
 }
 
 export class MazeBuilder {
-  private _maze: Array<RectGameUnit[]> = [[]]
+  private _maze = new Matrix()
   private _context: TGameContext
   private _tileSize: number
 
@@ -41,7 +42,7 @@ export class MazeBuilder {
   }
 
   private _computePosFor(coordinate: number) {
-    return Math.trunc(coordinate / this._tileSize)
+    return (coordinate / this._tileSize) << 0
   }
 
   private _putThings(bricks: BrickUnit[]) {
@@ -77,46 +78,57 @@ export class MazeBuilder {
   }
 
   public buildMaze(player: PlayerUnit, level = 1) {
-    const matrix: Array<RectGameUnit[]> = Array(this._context.mazeLines)
-      .fill(null)
-      .map(() => Array(this._context.mazeColumns))
+    level = 1
+
+    const { mazeLines, mazeColumns } = this._context
+    const matrix = new Matrix(mazeLines, mazeColumns)
 
     const enemies: EnemyUnit[] = []
     const bricks: BrickUnit[] = []
 
-    for (let i = 0; i < matrix.length; ++i) {
-      for (let j = 0; j < matrix[i].length; ++j) {
-        const tileType = LEVEL[level][i][j]
-        const x = this._tileSize * j
-        const y = this._tileSize * i
+    for (let posY = 0; posY < matrix.getLenY(); ++posY) {
+      for (let posX = 0; posX < matrix.getLenX(); ++posX) {
+        const tileType = LEVEL[level][posY][posX]
+        const x = this._tileSize * posX
+        const y = this._tileSize * posY
         const width = this._tileSize
         const height = this._tileSize
+        const radius = this._tileSize * 0.5
 
         if (tileType === TILE_TYPE.PLAYER) {
-          player.radius = this._tileSize * 0.5
+          player.radius = radius
           player.x = x
           player.y = y
-          matrix[i][j] = new PassageUnit(x, y, width, height)
+          matrix.setIn(posY, posX, new PassageUnit(x, y, width, height))
         }
 
         if (tileType === TILE_TYPE.PASSAGE) {
-          matrix[i][j] = new PassageUnit(x, y, width, height)
+          matrix.setIn(posY, posX, new PassageUnit(x, y, width, height))
         }
 
         if (tileType === TILE_TYPE.WALL) {
-          matrix[i][j] = new WallUnit(x, y, width, height)
+          matrix.setIn(posY, posX, new WallUnit(x, y, width, height))
         }
 
         if (tileType === TILE_TYPE.BRICK) {
           const brickUnit = new BrickUnit(x, y, width, height)
-
-          matrix[i][j] = brickUnit
+          matrix.setIn(posY, posX, brickUnit)
           bricks.push(brickUnit)
         }
 
         if (tileType === TILE_TYPE.ENEMY) {
-          enemies.push(new EnemyUnit(this._context, x, y, this._tileSize * 0.5))
-          matrix[i][j] = new PassageUnit(x, y, width, height)
+          matrix.setIn(posY, posX, new PassageUnit(x, y, width, height))
+
+          const enemy = new EnemyUnit(
+            this._context,
+            x,
+            y,
+            radius,
+            matrix,
+            'DRAGON'
+          )
+          enemy.setStrategy(new ClassicStrategy(enemy))
+          enemies.push(enemy)
         }
       }
     }
@@ -131,9 +143,9 @@ export class MazeBuilder {
   private _getBricks() {
     const bricks = []
 
-    for (let i = 0; i < this._maze.length; i++) {
-      for (let j = 0; j < this._maze[i].length; j++) {
-        const unit = this._maze[i][j]
+    for (let posY = 0; posY < this._maze.getLenY(); posY++) {
+      for (let posX = 0; posX < this._maze.getLenX(); posX++) {
+        const unit = this._maze.getIn(posY, posX)
 
         if (unit instanceof BrickUnit) {
           bricks.push(unit)
@@ -159,7 +171,7 @@ export class MazeBuilder {
         curPosX += explodeDirections[i].x
         curPosY += explodeDirections[i].y
 
-        const unit = this._maze[curPosY]?.[curPosX]
+        const unit = this._maze.getIn(curPosY, curPosX)
 
         if (unit instanceof WallUnit) break
 
@@ -181,7 +193,7 @@ export class MazeBuilder {
     const posX = this._computePosFor(cX)
     const posY = this._computePosFor(cY)
 
-    const unitInCurPos = this._maze[posY][posX]
+    const unitInCurPos = this._maze.getIn(posY, posX)
 
     if (unitInCurPos instanceof BombUnit || unitInCurPos instanceof ThingUnit) {
       return
@@ -195,7 +207,7 @@ export class MazeBuilder {
       this._tileSize
     )
 
-    this._maze[posY][posX] = bomb
+    this._maze.setIn(posY, posX, bomb)
 
     this._computeBombMagnitude(bomb, power, posX, posY)
 
@@ -208,15 +220,13 @@ export class MazeBuilder {
     const things: ThingUnit[] = []
 
     for (const unit of magnitude) {
-      const { x, y } = unit
-      const posX = this._computePosFor(x)
-      const posY = this._computePosFor(y)
+      const posX = this._computePosFor(unit.x)
+      const posY = this._computePosFor(unit.y)
 
-      this._maze[posY][posX] = new PassageUnit(
-        x,
-        y,
-        this._tileSize,
-        this._tileSize
+      this._maze.setIn(
+        posY,
+        posX,
+        new PassageUnit(unit.x, unit.y, this._tileSize, this._tileSize)
       )
 
       if (unit instanceof BrickUnit && unit.queue.size) {
@@ -232,17 +242,17 @@ export class MazeBuilder {
 const LEVEL = [
   [
     '###################################',
+    '#----$-@--$-----------------------#',
+    '#-#-#-#-#$#-#-#-#-#-#-#-#-#-#-#-#-#',
+    '#------$--------------------------#',
+    '#-#-#-#-#-#-#$#-#-#-#-#-#-#-#-#-#-#',
     '#---------------------------------#',
-    '#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#',
+    '#%#-#-#-#-#-#$#-#-#-#-#-#-#-#-#-#-#',
     '#---------------------------------#',
-    '#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#',
+    '#-#-#-#-#-#-#$#-#-#-#-#-#-#-#-#-#-#',
     '#---------------------------------#',
-    '#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#',
-    '#---------------------------------#',
-    '#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#',
-    '#---------------------------------#',
-    '#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#',
-    '#---------------------------------#',
+    '#-#-#-#-#-#-#$#-#-#-#-#-#-#-#-#-#-#',
+    '#------------$--------------------#',
     '###################################',
   ],
   [
@@ -257,7 +267,7 @@ const LEVEL = [
     '#-#-#$#$#$#-#$#-#-#-#-#-#-#-#-#$#-#',
     '#$$$---$$$$--$$--@--$$$$----$--$$$#',
     '#$#$#-#$#$#-#$#$#$#-#-#$#-#-#-#$#$#',
-    '#$-@---$$$---$-@-------$$$--@-----#',
+    '#$-----$$$---$---------$$$--@-----#',
     '###################################',
   ],
 ]

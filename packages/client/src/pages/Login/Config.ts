@@ -5,8 +5,6 @@ export const config = [
     type: 'text',
     placeholder: 'Логин',
     required: true,
-    type: 'text',
-    autocomplete: 'nickname',
   },
 
   {
@@ -15,7 +13,5 @@ export const config = [
     type: 'password',
     placeholder: 'Пароль',
     required: true,
-    type: 'password',
-    autocomplete: 'current-password',
   },
 ]

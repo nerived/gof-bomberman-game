@@ -6,7 +6,7 @@ export const AppInitializer = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(userThunks.fetchUserThunk())
+    dispatch(userThunks.fetchUser())
   }, [dispatch])
 
   return null

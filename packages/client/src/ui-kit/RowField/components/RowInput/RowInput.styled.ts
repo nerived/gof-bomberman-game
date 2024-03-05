@@ -23,3 +23,10 @@ export const RowInput = styled.input`
     opacity: 0.7;
   }
 `
+
+export const Error = styled.div`
+  font-size: 12px;
+  line-height: 1;
+  color: ${Colors.TERRACOTTA};
+  padding-bottom: 3px;
+`

@@ -1,10 +1,12 @@
 import { FC } from 'react'
-import { LayoutCentered } from '../../ui-kit'
+
+import { Layout } from '../../ui-kit'
+
 import {
   AvatarWrapperStyled,
-  LidersPageStyled,
   PlayerInfoStyled,
   PlayerRowStyled,
+  PlayerList,
 } from './LidersPage.styled'
 
 const players: Array<{ name: string; src: string; score: number }> = [
@@ -62,20 +64,21 @@ const players: Array<{ name: string; src: string; score: number }> = [
 
 export const LidersPage: FC = () => {
   return (
-    <LayoutCentered>
-      <LidersPageStyled>Таблица лидеров</LidersPageStyled>
-      {players.map(({ name, src, score }, index) => (
-        <PlayerRowStyled key={name}>
-          <PlayerInfoStyled>
-            <div>{index + 1}.</div>
-            <AvatarWrapperStyled>
-              <img src={src} alt="avatar" />
-            </AvatarWrapperStyled>
-            <div>{name}</div>
-          </PlayerInfoStyled>
-          <div>{score}</div>
-        </PlayerRowStyled>
-      ))}
-    </LayoutCentered>
+    <Layout title="Таблица лидеров">
+      <PlayerList>
+        {players.map(({ name, src, score }, index) => (
+          <PlayerRowStyled key={name}>
+            <PlayerInfoStyled>
+              <div>{index + 1}.</div>
+              <AvatarWrapperStyled>
+                <img src={src} alt="avatar" />
+              </AvatarWrapperStyled>
+              <div>{name}</div>
+            </PlayerInfoStyled>
+            <div>{score}</div>
+          </PlayerRowStyled>
+        ))}
+      </PlayerList>
+    </Layout>
   )
 }

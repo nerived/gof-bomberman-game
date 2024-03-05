@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom'
 import { RoutesPaths } from '../../routes/constants'
 import { useAuth } from '../../features/user/hooks/useAuth'
+import { Loader } from '../../ui-kit'
 
 export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isUserAuthenticated, isUserLoading } = useAuth()
@@ -8,7 +9,7 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const location = useLocation()
 
   if (isUserLoading) {
-    return <div>Loading...</div>
+    return <Loader />
   }
 
   if (!isUserAuthenticated) {

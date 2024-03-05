@@ -15,6 +15,7 @@ export const Inner = styled.div`
 `
 
 export const Title = styled.h2`
+  font-family: PressStart2P, Arial, sans-serif;
   margin: 30px 0;
   margin-bottom: 20px;
   text-align: center;

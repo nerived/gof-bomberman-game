@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from 'react'
 
-import { TempNav } from '../TempNav'
+import { Nav } from '../Nav'
 
 import * as S from './Layout.styled'
 
@@ -10,7 +10,7 @@ export const Layout: FC<{ title?: string } & PropsWithChildren> = ({
 }) => {
   return (
     <S.Container>
-      <TempNav />
+      <Nav />
       <S.Inner>
         {title && <S.Title>{title}</S.Title>}
         {children}

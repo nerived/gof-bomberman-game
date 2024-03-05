@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 import type { User } from '../../api/AuthAPI'
-import { fetchUserThunk } from './thunks'
+import { fetchUser } from './thunks'
 
 const initialState: User = {
   id: null,
@@ -42,17 +42,17 @@ export const userSlice = createSlice({
 
   extraReducers: builder => {
     builder
-      .addCase(fetchUserThunk.pending, state => {
+      .addCase(fetchUser.pending, state => {
         state.isLoading = true
       })
 
-      .addCase(fetchUserThunk.fulfilled, (state, action) => {
+      .addCase(fetchUser.fulfilled, (state, action) => {
         Object.assign(state, action.payload)
         state.isAuthenticated = true
         state.isLoading = false
       })
 
-      .addCase(fetchUserThunk.rejected, state => {
+      .addCase(fetchUser.rejected, state => {
         state.isLoading = false
         state.isAuthenticated = false
       })

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { RoutesPaths } from '../../routes/constants'
 import { useAppDispatch } from '../../store'
 
-import { userThunks, userSelectors, resetUser } from '../../features/user'
+import { userThunks, userSelectors } from '../../features/user'
 
 import {
   Layout,
@@ -28,10 +28,11 @@ export const Profile: FC = () => {
 
   const user = useSelector(userSelectors.getUser)
 
-  const handleLogout = () => {
-    userThunks.userLogout()
-    dispatch(resetUser())
-    navigate(RoutesPaths.Login)
+  const handleLogout = async () => {
+    const result = await dispatch(userThunks.userLogout())
+    if (result.payload?.isSuccess) {
+      navigate(RoutesPaths.Login)
+    }
   }
 
   const preparedField = useMemo(() => {
@@ -51,7 +52,7 @@ export const Profile: FC = () => {
 
         <S.Content>
           {preparedField.map(field => {
-            return <RowField {...field} />
+            return <RowField key={field.name} {...field} />
           })}
         </S.Content>
 

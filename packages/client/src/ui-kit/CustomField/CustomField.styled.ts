@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Colors } from '../../tokens'
 
 export const CustomField = styled.div`
@@ -10,13 +10,14 @@ export const CustomField = styled.div`
 `
 
 export const Label = styled.label`
+  display: inline-block;
   font-size: 16px;
   line-height: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   color: ${Colors.WHITE};
 `
 
-export const Input = styled.input`
+export const Input = styled.input<{ hasError: boolean }>`
   padding: 0 5px;
   margin: 0;
   outline: none;
@@ -24,7 +25,7 @@ export const Input = styled.input`
   font-size: 16px;
   line-height: 20px;
   border-radius: 2px;
-  border: 2px solid ${Colors.TERRACOTTA};
+  border: 2px dotted ${Colors.YELLOW};
   background-color: ${Colors.MAIN_BG};
   color: ${Colors.WHITE};
   width: 100%;
@@ -33,4 +34,15 @@ export const Input = styled.input`
     color: inherit;
     opacity: 0.7;
   }
+  ${({ hasError }) =>
+    hasError &&
+    css`
+      border-color: ${Colors.TERRACOTTA};
+    `}
+`
+
+export const Error = styled.div`
+  font-size: 14px;
+  line-height: 16px;
+  color: ${Colors.TERRACOTTA};
 `

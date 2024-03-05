@@ -1,8 +1,10 @@
 import styled from 'styled-components'
+import { Colors } from '../../tokens'
 
 export const Content = styled.div`
-  min-width: 300px;
-  margin-top: 192px;
+  width: 80vw;
+  max-width: 500px;
+  margin: 0 auto;
 `
 
 export const Actions = styled.div`
@@ -19,4 +21,8 @@ export const Action = styled.div`
   &:last-child {
     margin-bottom: 0;
   }
+`
+
+export const Error = styled.div`
+  color: ${Colors.TERRACOTTA};
 `

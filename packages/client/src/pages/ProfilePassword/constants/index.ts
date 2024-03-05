@@ -1,31 +1,29 @@
+import { validate } from '../../../utils'
+
 export type UserField = {
   label: string
   name: string
   value: string
   type: string
   placeholder: string
+  validate?: (value: string) => string | undefined
 }
 
 export const userFieldsConfig: UserField[] = [
   {
-    label: 'Old Password',
-    value: 'daw',
+    label: 'Старый пароль',
+    value: '',
     type: 'password',
     name: 'oldPassword',
-    placeholder: 'Old Password',
+    placeholder: 'Старый пароль',
+    validate: validate.validateNotEmpty,
   },
   {
-    label: 'New Password',
+    label: 'Новый паролль',
     value: '',
     type: 'password',
     name: 'newPassword',
-    placeholder: 'New Password',
-  },
-  {
-    label: 'Repeat new password',
-    value: '',
-    type: 'password',
-    name: 'newPasswordRepeat',
-    placeholder: 'Repeat new password',
+    placeholder: 'Новый паролль',
+    validate: validate.validatePassword,
   },
 ]

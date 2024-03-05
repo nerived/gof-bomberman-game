@@ -14,6 +14,7 @@ import {
   LinkButtonMode,
   FileField,
   Avatar,
+  Loader,
 } from '../../ui-kit'
 import { RoutesPaths } from '../../routes/constants'
 import { userThunks, userSelectors } from '../../features/user'
@@ -28,6 +29,9 @@ export const EditAvatar: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [preview, setPreview] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
   const [avatarFile, setAvatarFile] = useState<File>()
   const user = useSelector(userSelectors.getUser)
 
@@ -58,13 +62,25 @@ export const EditAvatar: FC = () => {
 
   const handleSave = async () => {
     if (avatarFile) {
+      setIsLoading(true)
+
       const formData = new FormData()
       formData.append('avatar', avatarFile as Blob)
-      const result = await dispatch(userThunks.changeAvatarThunk(formData))
 
-      if (result.type === 'user/changeAvatar/fulfilled') {
-        navigate(RoutesPaths.Profile)
+      const result = await dispatch(userThunks.changeAvatar(formData))
+
+      if (result.payload) {
+        if (result.payload?.isSuccess) {
+          navigate(RoutesPaths.Profile)
+        } else {
+          if (result.payload?.reason) {
+            setErrorMessage(result.payload?.reason)
+          }
+        }
       }
+      setIsLoading(false)
+    } else {
+      setErrorMessage('Выберите файл')
     }
   }
 
@@ -89,6 +105,7 @@ export const EditAvatar: FC = () => {
                   </S.Content>
 
                   <S.Actions>
+                    {errorMessage && <S.Error>{errorMessage}</S.Error>}
                     <S.Action>
                       <Button
                         type="submit"
@@ -110,6 +127,7 @@ export const EditAvatar: FC = () => {
           </Formik>
         </FormLayout>
       </S.Root>
+      {isLoading && <Loader />}
     </Layout>
   )
 }

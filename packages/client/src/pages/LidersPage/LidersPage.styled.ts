@@ -24,3 +24,9 @@ export const AvatarWrapperStyled = styled.div`
   border-radius: 50%;
   overflow: hidden;
 `
+
+export const LidersPageStyled = styled.h1`
+  text-align: center;
+  color: ${Colors.WHITE};
+  margin-bottom: 16px;
+`

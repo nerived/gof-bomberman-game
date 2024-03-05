@@ -16,6 +16,7 @@ import {
   ProfileEdit,
   ProfilePassword,
   RegistrationPage,
+  EditAvatar,
 } from '../pages'
 
 const ProtectedLayout = () => (
@@ -34,6 +35,7 @@ export const PagesRoutes: FC = () => {
         { path: RoutesPaths.Profile, element: <Profile /> },
         { path: RoutesPaths.EditProfile, element: <ProfileEdit /> },
         { path: RoutesPaths.EditPassword, element: <ProfilePassword /> },
+        { path: RoutesPaths.EditAvatar, element: <EditAvatar /> },
         { path: RoutesPaths.Game, element: <GamePage /> },
         { path: RoutesPaths.GameOver, element: <GameOverPage /> },
         { path: RoutesPaths.Liders, element: <LidersPage /> },

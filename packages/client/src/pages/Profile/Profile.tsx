@@ -42,7 +42,11 @@ export const Profile: FC = () => {
     <Layout title={'Профиль'}>
       <FormLayout>
         <S.Head>
-          <Avatar name="Иван" isEditAlloved={true} />
+          <Avatar
+            name={user?.first_name}
+            avatarUrl={user?.avatar}
+            isEditAlloved
+          />
         </S.Head>
 
         <S.Content>

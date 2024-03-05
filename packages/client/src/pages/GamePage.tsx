@@ -5,6 +5,10 @@ import { Colors } from '../tokens'
 
 const PAGE_ID = 'game-page'
 
+function preventDefault(e: Event) {
+  e.preventDefault()
+}
+
 function toggleFullScreen() {
   const wrapper = document.getElementById(PAGE_ID)
   if (wrapper && !document.fullscreenElement) {
@@ -34,9 +38,11 @@ const Main = styled.main`
 export const GamePage: FC = () => {
   useEffect(() => {
     globalThis.addEventListener('keydown', fullScreenOnFkey)
+    globalThis.addEventListener('beforeunload', preventDefault)
 
     return () => {
       globalThis.removeEventListener('keydown', fullScreenOnFkey)
+      globalThis.removeEventListener('beforeunload', preventDefault)
     }
   }, [])
 

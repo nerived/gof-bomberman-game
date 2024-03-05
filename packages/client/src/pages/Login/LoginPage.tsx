@@ -1,13 +1,13 @@
-import { FC, useState, FormEvent, ChangeEvent, useEffect } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Formik, Form, FastField } from 'formik'
 
 import { useAppDispatch } from '../../store'
 
 import {
   Title,
   LayoutCentered,
-  Field,
-  Form,
+  CustomField,
   Button,
   ButtonMode,
   LinkButton,
@@ -25,10 +25,9 @@ export const LoginPage: FC = () => {
   const navigate = useNavigate()
   const { isUserAuthenticated } = useAuth()
 
-  const [formValue, setFormValue] = useState<SigninData>({
-    login: '',
-    password: '',
-  })
+  const initialValues = useMemo(() => {
+    return { login: '', password: '' }
+  }, [])
 
   useEffect(() => {
     if (isUserAuthenticated) {
@@ -36,26 +35,10 @@ export const LoginPage: FC = () => {
     }
   }, [isUserAuthenticated, navigate])
 
-  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const isSuccess = await userThunks.userLogin(formValue)
+  const handleLogin = async (data: SigninData) => {
+    const isSuccess = await userThunks.userLogin(data)
     if (isSuccess) {
       dispatch(userThunks.fetchUserThunk())
-    }
-
-    setFormValue({
-      login: '',
-      password: '',
-    })
-  }
-
-  const handleOnChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const input: (EventTarget & HTMLInputElement) | null = e.target
-
-    if (input && input.name) {
-      const name = input.name
-      const value = input.value
-      setFormValue({ ...formValue, [name]: value })
     }
   }
 
@@ -63,35 +46,41 @@ export const LoginPage: FC = () => {
     <LayoutCentered>
       <S.Content>
         <Title>Вход</Title>
-        <Form onSubmit={handleLogin}>
-          {config.map(item => {
+        <Formik initialValues={initialValues} onSubmit={handleLogin}>
+          {({ handleSubmit, dirty, isSubmitting, isValid }) => {
             return (
-              <Field
-                key={item.id}
-                placeholder={item.placeholder}
-                name={item.name}
-                type={item.type}
-                autoComplete={item.autocomplete}
-                value={formValue[item.name as keyof SigninData]}
-                required={item.required}
-                onChange={handleOnChangeValue}
-              />
-            )
-          })}
+              <Form onSubmit={handleSubmit}>
+                {config.map(item => {
+                  return (
+                    <FastField
+                      key={item.id}
+                      {...item}
+                      component={CustomField}
+                    />
+                  )
+                })}
 
-          <S.Actions>
-            <S.Action>
-              <Button content="Вход" type="submit" mode={ButtonMode.MAIN} />
-            </S.Action>
-            <S.Action>
-              <LinkButton
-                content="Регистрация"
-                to={RoutesPaths.Registration}
-                mode={LinkButtonMode.OUTLINE}
-              />
-            </S.Action>
-          </S.Actions>
-        </Form>
+                <S.Actions>
+                  <S.Action>
+                    <Button
+                      content="Вход"
+                      type="submit"
+                      mode={ButtonMode.MAIN}
+                      disabled={!dirty || isSubmitting || !isValid}
+                    />
+                  </S.Action>
+                  <S.Action>
+                    <LinkButton
+                      content="Регистрация"
+                      to={RoutesPaths.Registration}
+                      mode={LinkButtonMode.OUTLINE}
+                    />
+                  </S.Action>
+                </S.Actions>
+              </Form>
+            )
+          }}
+        </Formik>
       </S.Content>
     </LayoutCentered>
   )

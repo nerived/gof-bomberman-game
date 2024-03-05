@@ -59,12 +59,12 @@ export class Mechanics {
   }
 
   public start() {
-    const endTime = performance.now() + 5 * 60 * 1000
+    const endTime = performance.now() + 7 * 60 * 1000
     this._endTime = endTime
     return endTime
   }
 
-  public setCommand(command: ICommand) {
+  public setRestartCommand(command: ICommand) {
     this._command = command
   }
 

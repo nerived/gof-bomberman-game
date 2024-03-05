@@ -8,6 +8,6 @@ global.fetch = jest.fn(() =>
 
 test('Redirects unauthenticated user to login', async () => {
   render(<App />)
-  const loginElement = await screen.findByText(/Регистрация/i)
+  const loginElement = await screen.findByText('Регистрация')
   expect(loginElement).toBeDefined()
 })

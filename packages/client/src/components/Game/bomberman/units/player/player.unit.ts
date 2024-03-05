@@ -2,20 +2,11 @@ import { ICommand } from '../../basics/command'
 import { CircleGameUnit } from '../../basics/unit'
 import { PlayerState, STATE } from './player.state'
 import playerImageSrc from '../../assets/player.png'
+import { Matrix } from '../../matrix'
 
 interface TGameContext {
   unitVelocity: number
 }
-
-type TLevelMatrix = Array<
-  Array<{
-    x: number
-    y: number
-    width: number
-    height: number
-    passable: boolean
-  }>
->
 
 const STATE_INDEX = {
   IDLE: 0,
@@ -47,8 +38,9 @@ export class PlayerUnit extends CircleGameUnit {
   ]
 
   private _curState: PlayerState[] = []
-  public command: ICommand | undefined
-  public levelMatrix: TLevelMatrix = [[]]
+  public plantBombCommand: ICommand | undefined
+  public moveCommand: ICommand | undefined
+  public levelMatrix = new Matrix()
 
   constructor(protected readonly context: TGameContext) {
     super(0, 0, 0)
@@ -57,14 +49,16 @@ export class PlayerUnit extends CircleGameUnit {
     this.maxVelocity = context.unitVelocity
   }
 
-  public onMove?: () => void
-
-  public setLevelMatrix(levelMatrix: TLevelMatrix) {
+  public setLevelMatrix(levelMatrix: Matrix) {
     this.levelMatrix = levelMatrix
   }
 
-  public setCommand(cmd: ICommand) {
-    this.command = cmd
+  public onPlantBomb(cmd: ICommand) {
+    this.plantBombCommand = cmd
+  }
+
+  public onMove(cmd: ICommand) {
+    this.moveCommand = cmd
   }
 
   public action = (actions: TAction[]) => {

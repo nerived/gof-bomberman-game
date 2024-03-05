@@ -1,3 +1,23 @@
+interface TWithSides {
+  getLeft: () => number
+  getRight: () => number
+  getTop: () => number
+  getBottom: () => number
+}
+
+interface TCircle extends TWithSides {
+  pX: number
+  pY: number
+  radius: number
+}
+
+interface TRect extends TWithSides {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
 export const potentialPositions = [
   [-1, 0],
   [-1, -1],
@@ -9,17 +29,13 @@ export const potentialPositions = [
   [-1, 1],
 ]
 
-interface TCircle {
-  pX: number
-  pY: number
-  radius: number
-}
-
-interface TRect {
-  x: number
-  y: number
-  width: number
-  height: number
+export function rectVsRect(rectA: TWithSides, rectB: TWithSides) {
+  return (
+    rectA.getRight() > rectB.getLeft() &&
+    rectA.getLeft() < rectB.getRight() &&
+    rectA.getBottom() > rectB.getTop() &&
+    rectA.getTop() < rectB.getBottom()
+  )
 }
 
 export function circleVsCircleCollision(

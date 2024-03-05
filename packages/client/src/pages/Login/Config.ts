@@ -1,7 +1,8 @@
 export const config = [
   {
-    id: '1',
+    id: 'login',
     name: 'login',
+    type: 'text',
     placeholder: 'Логин',
     required: true,
     type: 'text',
@@ -9,8 +10,9 @@ export const config = [
   },
 
   {
-    id: '2',
+    id: 'password',
     name: 'password',
+    type: 'password',
     placeholder: 'Пароль',
     required: true,
     type: 'password',

@@ -21,7 +21,7 @@ export class InputHandler {
     return [...this._actionList]
   }
 
-  public setCommand(cmd: ICommand) {
+  public onInput(cmd: ICommand) {
     this._command = cmd
   }
 
@@ -69,15 +69,17 @@ export class InputHandler {
     globalThis.removeEventListener('keyup', this._onKeyUp)
   }
 
-  public start() {
-    this._addListeners()
-  }
-
-  public reset() {
+  private _resetActionList() {
     this._actionList = []
   }
 
+  public start() {
+    this._resetActionList()
+    this._addListeners()
+  }
+
   public stop() {
+    this._resetActionList()
     this._removeListeners()
   }
 }

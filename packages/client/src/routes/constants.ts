@@ -4,6 +4,7 @@ export enum RoutesPaths {
   Registration = '/registration',
   Profile = '/profile',
   EditProfile = '/edit-profile',
+  EditAvatar = '/edit-avatar',
   EditPassword = '/edit-password',
   Liders = '/liders',
   Game = '/game',

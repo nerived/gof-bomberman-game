@@ -5,7 +5,7 @@ const URLS = [
   '/dist/favicon.png',
   '/dist/index.html',
   '/dist/logo.png',
-  '/dist/assets/*'
+  '/dist/assets/*',
 ]
 
 this.addEventListener('install', event => {
@@ -30,24 +30,17 @@ this.addEventListener('fetch', event => {
       }
 
       const fetchRequest = event.request.clone()
-      return (
-        fetch(fetchRequest)
-          .then(response => {
-            if (
-              !response ||
-              response.status !== 200 ||
-              response.type !== 'basic'
-            ) {
-              return response
-            }
+      return fetch(fetchRequest).then(response => {
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response
+        }
 
-            const responseToCache = response.clone()
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, responseToCache)
-            })
-            return response
-          })
-      )
+        const responseToCache = response.clone()
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseToCache)
+        })
+        return response
+      })
     })
   )
 })

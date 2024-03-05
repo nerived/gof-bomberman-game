@@ -27,8 +27,6 @@ export const StyledLink = styled(Link)`
 export const TempNav = () => {
   const { isUserAuthenticated } = useAuth()
 
-  console.log('isUserAuthenticated', isUserAuthenticated)
-
   const navRoutes = isUserAuthenticated
     ? AuthorizedRoutesNav
     : NotAuthorizedRoutesNav

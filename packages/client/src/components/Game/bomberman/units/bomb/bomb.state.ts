@@ -1,7 +1,13 @@
 import { BombUnit } from './bomb.unit'
-import bombImageSrc from '../../assets/bomb.png'
+import bombImageSrc from '../../assets/bomb-sprite.png'
 import flameImageSrc from '../../assets/flame.png'
 import explodeSoundSrc from '../../assets/explode.flac'
+
+export const SPRITE_SIZE = 112
+
+export const SPRITE_INDEX = {
+  IDLE: { posY: 0, frames: 8 },
+}
 
 export abstract class BombState {
   constructor(protected bomb: BombUnit) {}
@@ -10,6 +16,8 @@ export abstract class BombState {
 }
 
 class Idle extends BombState {
+  private frame = 0
+  private sprite = 0
   protected _image
   protected _bomb
   protected _timer = 3000
@@ -27,6 +35,13 @@ class Idle extends BombState {
   }
 
   private _update() {
+    this.frame++
+
+    if (this.frame % 8 === 0) {
+      this.frame = 0
+      this.sprite = (this.sprite + 1) % SPRITE_INDEX.IDLE.frames
+    }
+
     if (
       performance.now() - this._startTime < this._timer &&
       !this._bomb.startExplode
@@ -43,6 +58,10 @@ class Idle extends BombState {
     this._update()
     canvasCtx.drawImage(
       this._image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.IDLE.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
       this._bomb.x + offsetX,
       this._bomb.y,
       this._bomb.width,

@@ -1,8 +1,19 @@
 import { ICommand } from '../../basics/command'
 import { CircleGameUnit } from '../../basics/unit'
 import { PlayerState, STATE } from './player.state'
-import playerImageSrc from '../../assets/player.png'
 import { Matrix } from '../../matrix'
+import playerImageSrc from '../../assets/player-sprite.png'
+
+export const SPRITE_SIZE = 112
+
+export const SPRITE_INDEX = {
+  IDLE: { posY: 0, frames: 1 },
+  RIGHT: { posY: 1, frames: 4 },
+  LEFT: { posY: 2, frames: 4 },
+  UP: { posY: 3, frames: 4 },
+  DOWN: { posY: 4, frames: 4 },
+  BOMB: { posY: 5, frames: 1 },
+}
 
 interface TGameContext {
   unitVelocity: number
@@ -20,7 +31,7 @@ const STATE_INDEX = {
 export type TAction = keyof Omit<typeof STATE_INDEX, 'IDLE'>
 
 export class PlayerUnit extends CircleGameUnit {
-  private _image: HTMLImageElement
+  public image: HTMLImageElement
 
   public passable = true
   public destroyable = false
@@ -44,8 +55,8 @@ export class PlayerUnit extends CircleGameUnit {
 
   constructor(protected readonly context: TGameContext) {
     super(0, 0, 0)
-    this._image = new Image()
-    this._image.src = playerImageSrc
+    this.image = new Image()
+    this.image.src = playerImageSrc
     this.maxVelocity = context.unitVelocity
   }
 
@@ -63,6 +74,9 @@ export class PlayerUnit extends CircleGameUnit {
 
   public action = (actions: TAction[]) => {
     this._curState = actions.map(action => this._stateList[STATE_INDEX[action]])
+
+    this._curState.length === 0 &&
+      this._curState.push(this._stateList[STATE_INDEX.IDLE])
   }
 
   public reset() {
@@ -73,12 +87,7 @@ export class PlayerUnit extends CircleGameUnit {
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
     this._curState.forEach(state => state.useAction())
 
-    canvasCtx.drawImage(
-      this._image,
-      this.x + offsetX,
-      this.y,
-      this.radius * 2,
-      this.radius * 2
-    )
+    const lastState = this._curState[this._curState.length - 1]
+    lastState.draw(canvasCtx, offsetX)
   }
 }

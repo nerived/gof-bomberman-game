@@ -1,21 +1,55 @@
 import { circleVsRectCollision, potentialPositions } from '../../_lib'
-import { PlayerUnit } from './player.unit'
+import { PlayerUnit, SPRITE_INDEX, SPRITE_SIZE } from './player.unit'
 
 export abstract class PlayerState {
+  protected sprite = 0
+  protected frame = 0
+
   constructor(protected readonly player: PlayerUnit) {}
 
   public abstract useAction(): void
+  public abstract draw(
+    canvasCtx: CanvasRenderingContext2D,
+    offsetX: number
+  ): void
 }
 
 class Idle extends PlayerState {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public useAction() {}
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
+    canvasCtx.drawImage(
+      this.player.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.IDLE.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this.player.x + offsetX,
+      this.player.y,
+      this.player.radius * 2,
+      this.player.radius * 2
+    )
+  }
 }
 
 class Bomb extends PlayerState {
   public useAction() {
     if (this.player.bombAmmo == 0) return
     this.player.plantBombCommand?.execute()
+  }
+
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
+    canvasCtx.drawImage(
+      this.player.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.BOMB.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this.player.x + offsetX,
+      this.player.y,
+      this.player.radius * 2,
+      this.player.radius * 2
+    )
   }
 }
 
@@ -48,37 +82,139 @@ class MoveState extends PlayerState {
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public useAction(): void {}
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {}
 }
 
 class MoveLeft extends MoveState {
+  private update() {
+    this.frame++
+
+    if (this.frame % 6 === 0) {
+      this.frame = 0
+      this.sprite = (this.sprite + 1) % SPRITE_INDEX.LEFT.frames
+    }
+  }
+
   public useAction() {
     this.player.x -= this.player.maxVelocity
     this._preventWallCollision()
     this.player.moveCommand?.execute()
   }
-}
 
-class MoveUp extends MoveState {
-  public useAction() {
-    this.player.y -= this.player.maxVelocity
-    this._preventWallCollision()
-    this.player.moveCommand?.execute()
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
+    this.update()
+
+    canvasCtx.drawImage(
+      this.player.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.LEFT.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this.player.x + offsetX,
+      this.player.y,
+      this.player.radius * 2,
+      this.player.radius * 2
+    )
   }
 }
 
 class MoveRight extends MoveState {
+  private update() {
+    this.frame++
+
+    if (this.frame % 6 === 0) {
+      this.frame = 0
+      this.sprite = (this.sprite + 1) % SPRITE_INDEX.RIGHT.frames
+    }
+  }
+
   public useAction() {
     this.player.x += this.player.maxVelocity
     this._preventWallCollision()
     this.player.moveCommand?.execute()
   }
+
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
+    this.update()
+
+    canvasCtx.drawImage(
+      this.player.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.RIGHT.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this.player.x + offsetX,
+      this.player.y,
+      this.player.radius * 2,
+      this.player.radius * 2
+    )
+  }
+}
+
+class MoveUp extends MoveState {
+  private update() {
+    this.frame++
+
+    if (this.frame % 6 === 0) {
+      this.frame = 0
+      this.sprite = (this.sprite + 1) % SPRITE_INDEX.UP.frames
+    }
+  }
+
+  public useAction() {
+    this.player.y -= this.player.maxVelocity
+    this._preventWallCollision()
+    this.player.moveCommand?.execute()
+  }
+
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
+    this.update()
+
+    canvasCtx.drawImage(
+      this.player.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.UP.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this.player.x + offsetX,
+      this.player.y,
+      this.player.radius * 2,
+      this.player.radius * 2
+    )
+  }
 }
 
 class MoveDown extends MoveState {
+  private update() {
+    this.frame++
+
+    if (this.frame % 6 === 0) {
+      this.frame = 0
+      this.sprite = (this.sprite + 1) % SPRITE_INDEX.DOWN.frames
+    }
+  }
+
   public useAction() {
     this.player.y += this.player.maxVelocity
     this._preventWallCollision()
     this.player.moveCommand?.execute()
+  }
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
+    this.update()
+
+    canvasCtx.drawImage(
+      this.player.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.DOWN.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this.player.x + offsetX,
+      this.player.y,
+      this.player.radius * 2,
+      this.player.radius * 2
+    )
   }
 }
 

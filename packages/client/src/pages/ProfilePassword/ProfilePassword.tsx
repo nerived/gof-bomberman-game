@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { Formik, Form } from 'formik'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,6 +13,7 @@ import {
   ButtonMode,
   LinkButton,
   LinkButtonMode,
+  Loader,
 } from '../../ui-kit'
 import { RoutesPaths } from '../../routes/constants'
 import { userThunks } from '../../features/user'
@@ -23,24 +24,31 @@ import * as S from './ProfilePassword.styled'
 export const ProfilePassword: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const initialValues = useMemo(() => {
     return {
       oldPassword: '',
       newPassword: '',
-      newPasswordRepeat: '',
     }
   }, [])
 
-  const handleSave = async ({
-    newPasswordRepeat,
-    ...payload
-  }: UserChangePassword & { newPasswordRepeat: string }) => {
-    const isSuccess = await dispatch(userThunks.changePasswordThunk(payload))
+  const handleSave = async (data: UserChangePassword) => {
+    setIsLoading(true)
 
-    if (isSuccess) {
-      navigate(RoutesPaths.Profile)
+    const result = await dispatch(userThunks.changePassword(data))
+
+    if (result.payload) {
+      if (result.payload?.isSuccess) {
+        navigate(RoutesPaths.Profile)
+      } else {
+        if (result.payload?.reason) {
+          setErrorMessage(result.payload?.reason)
+        }
+      }
     }
+    setIsLoading(false)
   }
 
   return (
@@ -53,11 +61,12 @@ export const ProfilePassword: FC = () => {
                 <Form onSubmit={handleSubmit}>
                   <S.Content>
                     {userFieldsConfig.map(field => {
-                      return <RowField isEditable key={field.name} {...field} />
+                      return <RowField key={field.name} isEditable {...field} />
                     })}
                   </S.Content>
 
                   <S.Actions>
+                    {errorMessage && <S.Error>{errorMessage}</S.Error>}
                     <S.Action>
                       <Button
                         type="submit"
@@ -80,6 +89,7 @@ export const ProfilePassword: FC = () => {
           </Formik>
         </FormLayout>
       </S.Root>
+      {isLoading && <Loader />}
     </Layout>
   )
 }

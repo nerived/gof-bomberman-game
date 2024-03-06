@@ -1,5 +1,7 @@
 import { FC, useEffect } from 'react'
 import { GameComponent } from '../../components/Game/GameComponent'
+import { Layout } from '../../ui-kit'
+
 import { Main } from './GamePage.styled'
 
 const PAGE_ID = 'game-page'
@@ -37,8 +39,10 @@ export const GamePage: FC = () => {
   }, [])
 
   return (
-    <Main id={PAGE_ID}>
-      <GameComponent />
-    </Main>
+    <Layout>
+      <Main id={PAGE_ID}>
+        <GameComponent />
+      </Main>
+    </Layout>
   )
 }

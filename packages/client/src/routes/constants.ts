@@ -17,9 +17,6 @@ export enum RoutesPaths {
 export enum AuthorizedRoutesNav {
   Main = RoutesPaths.Main,
   Profile = RoutesPaths.Profile,
-  EditProfile = RoutesPaths.EditProfile,
-  EditAvatar = RoutesPaths.EditAvatar,
-  EditPassword = RoutesPaths.EditPassword,
   Liders = RoutesPaths.Liders,
   Game = RoutesPaths.Game,
   Forum = RoutesPaths.Forum,
@@ -27,9 +24,9 @@ export enum AuthorizedRoutesNav {
 
 export enum NotAuthorizedRoutesNav {
   Main = RoutesPaths.Main,
+  Login = RoutesPaths.Login,
+  Registration = RoutesPaths.Registration,
   Liders = RoutesPaths.Liders,
   Game = RoutesPaths.Game,
   Forum = RoutesPaths.Forum,
-  Login = RoutesPaths.Login,
-  Registration = RoutesPaths.Registration,
 }

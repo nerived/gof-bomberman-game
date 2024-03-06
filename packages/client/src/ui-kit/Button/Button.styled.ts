@@ -13,6 +13,7 @@ export interface SButtonProps {
 }
 
 export const Button = styled.button<SButtonProps>`
+  font-family: PressStart2P, Arial, sans-serif;
   color: ${Colors.WHITE};
   font-size: 16px;
   line-height: 20px;

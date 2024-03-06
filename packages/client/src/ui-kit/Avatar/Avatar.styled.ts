@@ -65,6 +65,7 @@ export const Name = styled.div`
   font-size: 16px;
   font-weight: 600;
   line-height: 16px;
+  font-family: PressStart2P, Arial, sans-serif;
 `
 
 export const Img = styled.img``

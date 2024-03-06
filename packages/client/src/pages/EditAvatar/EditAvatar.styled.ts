@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Colors } from '../../tokens'
 
 export const Root = styled.div`
   padding: 32px 0;
@@ -7,6 +8,11 @@ export const Root = styled.div`
 export const Content = styled.div`
   max-width: 600px;
   margin: 0 auto;
+`
+
+export const Error = styled.div`
+  color: ${Colors.TERRACOTTA};
+  margin-bottom: 10px;
 `
 
 export const Actions = styled.div`

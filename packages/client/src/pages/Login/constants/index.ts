@@ -1,10 +1,12 @@
-export const config = [
+import { validate } from '../../../utils'
+export const loginFields = [
   {
     id: 'login',
     name: 'login',
     type: 'text',
     placeholder: 'Логин',
     required: true,
+    validate: validate.validateNotEmpty,
   },
 
   {
@@ -13,5 +15,6 @@ export const config = [
     type: 'password',
     placeholder: 'Пароль',
     required: true,
+    validate: validate.validateNotEmpty,
   },
 ]

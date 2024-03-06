@@ -1,6 +1,12 @@
 import { styled } from 'styled-components'
 import { Colors } from '../../tokens'
 
+export const PlayerList = styled.div`
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 20px;
+`
+
 export const PlayerRowStyled = styled.div`
   display: flex;
   align-items: center;
@@ -23,10 +29,4 @@ export const AvatarWrapperStyled = styled.div`
   aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
-`
-
-export const LidersPageStyled = styled.h1`
-  text-align: center;
-  color: ${Colors.WHITE};
-  margin-bottom: 16px;
 `

@@ -1,9 +1,8 @@
 import { FC, useEffect } from 'react'
-import styled from 'styled-components'
+import { GameComponent } from '../../components/Game/GameComponent'
+import { Layout } from '../../ui-kit'
 
-import { GameComponent } from '../components/Game/GameComponent'
-
-import { Layout } from '../ui-kit'
+import { Main } from './GamePage.styled'
 
 const PAGE_ID = 'game-page'
 
@@ -27,14 +26,6 @@ function fullScreenOnFkey(e: KeyboardEvent) {
     toggleFullScreen()
   }
 }
-
-const Main = styled.main`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
 
 export const GamePage: FC = () => {
   useEffect(() => {

@@ -2,15 +2,23 @@ import { ICommand } from './basics/command'
 
 interface TGameContext {
   pixelRatio: number
+  visibleWidth: number
+  visibleHeight: number
 }
+
+const LEVEL_TIME_7_MIN = 7 * 60 * 1_000
+const LEVEL_LOAD_TIME_3_SEC = 3_000
 
 export class Mechanics {
   private _endTime: number
   private _time = '0:00'
-  private _command: ICommand | undefined
+  private _restartCommand: ICommand | undefined
+  private _gameOverCommand: ICommand | undefined
+  private _nextLevelCommand: ICommand | undefined
   private _lifes = 3
   private _score = 0
   private _context
+  private _loadingEndStamp = -1
   public level = 1
 
   constructor(context: TGameContext) {
@@ -32,8 +40,7 @@ export class Mechanics {
     this._updateRemainingTime()
 
     if (this._time === '0:00') {
-      alert('game over')
-      this._command?.execute()
+      this._gameOverCommand?.execute()
     }
   }
 
@@ -49,26 +56,70 @@ export class Mechanics {
     this._lifes--
 
     if (this._lifes === -1) {
-      alert('game over')
-      // TO DO route to game over page
-      this._command?.execute()
+      this._gameOverCommand?.execute()
     } else {
-      alert('minus life, level will restart')
-      this._command?.execute()
+      this._restartCommand?.execute()
     }
   }
 
+  public totalScore() {
+    return this._score
+  }
+
   public start() {
-    const endTime = performance.now() + 7 * 60 * 1000
+    this._loadingEndStamp = performance.now() + LEVEL_LOAD_TIME_3_SEC
+    const endTime = performance.now() + LEVEL_TIME_7_MIN
     this._endTime = endTime
     return endTime
   }
 
   public setRestartCommand(command: ICommand) {
-    this._command = command
+    this._restartCommand = command
+  }
+
+  public setGameOverCommand(command: ICommand) {
+    this._gameOverCommand = command
+  }
+
+  public setNextLevelCommand(command: ICommand) {
+    this._nextLevelCommand = command
+  }
+
+  public nextLevel() {
+    this.level++
+    this._nextLevelCommand?.execute()
   }
 
   public draw(canvasCtx: CanvasRenderingContext2D) {
+    if (this._loadingEndStamp > performance.now()) {
+      //TO DO draw loading level screen, need take window size from context
+
+      canvasCtx.save()
+      canvasCtx.fillStyle = '#34353d'
+      canvasCtx.fillRect(
+        0,
+        0,
+        this._context.visibleWidth,
+        this._context.visibleHeight
+      )
+      canvasCtx.restore()
+
+      canvasCtx.save()
+      const fontSize = 48 * this._context.pixelRatio
+      canvasCtx.textAlign = 'center'
+      canvasCtx.textBaseline = 'middle'
+      canvasCtx.font = `${fontSize}px Helvetica`
+      canvasCtx.fillStyle = 'white'
+      canvasCtx.fillText(
+        `Level ${this.level}`,
+        this._context.visibleWidth * 0.5,
+        this._context.visibleHeight * 0.5
+      )
+      canvasCtx.restore()
+
+      return
+    }
+
     this._update()
 
     const fontSize = 20 * this._context.pixelRatio

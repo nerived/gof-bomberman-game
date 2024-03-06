@@ -2,7 +2,7 @@ import { rectVsRect } from '../../_lib'
 import { EnemyState, EnemyUnit } from './enemy.unit'
 import { IEnemyState } from './state'
 
-export class DragonState implements IEnemyState {
+export class OctopusState implements IEnemyState {
   private _score
   protected _velocity
 
@@ -37,12 +37,12 @@ export class DragonState implements IEnemyState {
   }
 }
 
-class Idle extends DragonState {
+class Idle extends OctopusState {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected _update() {}
 }
 
-class MoveLeft extends DragonState {
+class MoveLeft extends OctopusState {
   protected _update() {
     const { curPosX, curPosY } = this._enemy.getCurPos()
 
@@ -59,7 +59,7 @@ class MoveLeft extends DragonState {
   }
 }
 
-class MoveRight extends DragonState {
+class MoveRight extends OctopusState {
   protected _update() {
     const { curPosX, curPosY } = this._enemy.getCurPos()
 
@@ -76,7 +76,7 @@ class MoveRight extends DragonState {
   }
 }
 
-class MoveUp extends DragonState {
+class MoveUp extends OctopusState {
   protected _update() {
     const { curPosX, curPosY } = this._enemy.getCurPos()
 
@@ -93,7 +93,7 @@ class MoveUp extends DragonState {
   }
 }
 
-class MoveDown extends DragonState {
+class MoveDown extends OctopusState {
   protected _update() {
     const { curPosX, curPosY } = this._enemy.getCurPos()
 
@@ -110,7 +110,7 @@ class MoveDown extends DragonState {
   }
 }
 
-export const DRAGON = {
+export const OCTOPUS = {
   IDLE: Idle,
   LEFT: MoveLeft,
   UP: MoveUp,

@@ -1,8 +1,16 @@
 import { CircleGameUnit } from '../../basics/unit'
 import { IEnemyState, TStateIndex } from './state'
 import { DRAGON } from './dragon.state'
+import { OCTOPUS } from './octopus.state'
 import { EnemyStrategy } from './strategy'
 import { Matrix } from '../../matrix'
+import dragonImage from '../../assets/enemy-dragon.png'
+import octopusImage from '../../assets/enemy-octopus.png'
+
+export const ENEMY = {
+  DRAGON: 'DRAGON',
+  OCTOPUS: 'OCTOPUS',
+} as const
 
 export const EnemyState = {
   IDLE: 'IDLE',
@@ -12,8 +20,14 @@ export const EnemyState = {
   DOWN: 'DOWN',
 } as const
 
+const ENEMY_IMAGE = {
+  DRAGON: dragonImage,
+  OCTOPUS: octopusImage,
+}
+
 const ENEMY_TYPE = {
   DRAGON,
+  OCTOPUS,
 } as const
 
 interface TGameContext {
@@ -23,6 +37,7 @@ interface TGameContext {
 type TEnemyStateUnion = keyof typeof EnemyState
 
 export class EnemyUnit extends CircleGameUnit {
+  public image
   public passable = true
   public destroyable = false
   public velocity: number
@@ -47,6 +62,8 @@ export class EnemyUnit extends CircleGameUnit {
     this.state = EnemyState.IDLE
     this._states = ENEMY_TYPE[type]
     this._curState = new ENEMY_TYPE[type].IDLE(this)
+    this.image = new Image()
+    this.image.src = ENEMY_IMAGE[type]
   }
 
   onMove(fn?: (enemyUnit: this) => void) {

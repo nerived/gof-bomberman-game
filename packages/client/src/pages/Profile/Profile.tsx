@@ -1,7 +1,11 @@
-import { FC, useEffect } from 'react'
-import { RoutesPaths } from '../../routes/constants'
+import { FC, useMemo } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
-import AuthAPI from '../../api/AuthAPI'
+import { RoutesPaths } from '../../routes/constants'
+import { useAppDispatch } from '../../store'
+
+import { userThunks, userSelectors } from '../../features/user'
 
 import {
   Layout,
@@ -16,59 +20,39 @@ import {
 
 import * as S from './Profile.styled'
 
-const userFields = [
-  {
-    label: 'Почта',
-    value: 'dawljn@dawda.daw',
-  },
-  {
-    label: 'Логин',
-    value: 'dAwdAWdawd',
-  },
-  {
-    label: 'Имя',
-    value: 'dawdadwa',
-  },
-  {
-    label: 'Фамилия',
-    value: 'dkajwdnaw',
-  },
-  {
-    label: 'Отображаемое имя',
-    value: 'Вшфоцвдол',
-  },
-  {
-    label: 'Телефон',
-    value: '1849142',
-  },
-]
+import { mapUserField } from './services'
 
 export const Profile: FC = () => {
-  const handleLogput = () => {
-    console.log('handleLogput')
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  const user = useSelector(userSelectors.getUser)
+
+  const handleLogout = async () => {
+    const result = await dispatch(userThunks.userLogout())
+    if (result.payload?.isSuccess) {
+      navigate(RoutesPaths.Login)
+    }
   }
 
-  useEffect(() => {
-    AuthAPI.read()
-      .then(data => {
-        console.log('data', data)
-      })
-      .catch(error => {
-        console.log('error', error)
-        console.dir(error)
-      })
-  }, [])
+  const preparedField = useMemo(() => {
+    return mapUserField(user)
+  }, [user])
 
   return (
     <Layout title={'Профиль'}>
       <FormLayout>
         <S.Head>
-          <Avatar name="Иван" isEditAlloved={true} />
+          <Avatar
+            name={user?.first_name}
+            avatarUrl={user?.avatar}
+            isEditAlloved
+          />
         </S.Head>
 
         <S.Content>
-          {userFields.map(field => {
-            return <RowField {...field} />
+          {preparedField.map(field => {
+            return <RowField key={field.name} {...field} />
           })}
         </S.Content>
 
@@ -76,14 +60,14 @@ export const Profile: FC = () => {
           <S.Action>
             <LinkButton
               mode={LinkButtonMode.MAIN}
-              href={RoutesPaths.EditProfile}
+              to={RoutesPaths.EditProfile}
               content="Изменить данные"
             />
           </S.Action>
           <S.Action>
             <LinkButton
               mode={LinkButtonMode.MAIN}
-              href={RoutesPaths.EditPassword}
+              to={RoutesPaths.EditPassword}
               content="Изменить пароль"
             />
           </S.Action>
@@ -91,7 +75,7 @@ export const Profile: FC = () => {
             <Button
               content="Выйти"
               mode={ButtonMode.OUTLINE}
-              onClick={handleLogput}
+              onClick={handleLogout}
             />
           </S.Action>
         </S.Actions>

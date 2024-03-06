@@ -7,6 +7,10 @@ body {
   font-size: 16px;
 }
 
+html {
+  background-color: #1a282f;
+}
+
 *,
 *::before,
 *::after {
@@ -59,4 +63,108 @@ h6 {
   width: inherit;
   height: inherit;
   background-color: #1a282f;
+}
+
+/* fonts */
+@font-face {
+  font-family: PressStart2P;
+  font-style: normal;
+  src: local('PressStart2P'),
+    url('./assets/fonts/PressStart2P-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-ThinItalic.woff2') format('woff2');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-LightItalic.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-MediumItalic.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-display: swap;
+  src: url('./assets/fonts/Roboto-BlackItalic.woff2') format('woff2');
+  font-weight: 900;
+  font-style: italic;
 }

@@ -9,9 +9,11 @@ export interface SButtonProps {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
   content?: string
   type?: string
+  disabled?: boolean
 }
 
 export const Button = styled.button<SButtonProps>`
+  font-family: PressStart2P, Arial, sans-serif;
   color: ${Colors.WHITE};
   font-size: 16px;
   line-height: 20px;
@@ -31,16 +33,30 @@ export const Button = styled.button<SButtonProps>`
     opacity: 0.85;
   }
 
+  &:disabled {
+    opacity: 0.8;
+  }
+
   ${({ mode }) =>
-    mode === 'main' &&
+    mode === ButtonMode.MAIN &&
     css`
       background-color: ${Colors.YELLOW};
     `}
 
   ${({ mode }) =>
-    mode === 'outline' &&
+    mode === ButtonMode.OUTLINE &&
     css`
       color: ${Colors.WHITE};
       background-color: transparent;
+    `}
+
+    ${({ mode }) =>
+    mode === ButtonMode.BIT &&
+    css`
+      color: ${Colors.WHITE};
+      font-size: 48px;
+      line-height: 1;
+      font-family: PressStart2P, Arial, sans-serif;
+      text-shadow: 5px 5px ${Colors.GRAY};
     `}
 `

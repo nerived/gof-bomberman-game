@@ -1,5 +1,9 @@
 import { request } from './rest/request'
 
+export interface CommonError {
+  reason: string
+}
+
 export interface SigninData {
   login: string
   password: string
@@ -14,38 +18,41 @@ export interface SignupData {
   phone: string
 }
 
-export interface User {
+export interface SignupResp {
   id: number
+}
+
+export type User = {
+  id: number | null
   first_name: string
   second_name: string
+  display_name: string
   login: string
   email: string
   password: string
   phone: string
   avatar: string
-}
-
-export interface UserError {
-  reason: string
+  isAuthenticated: boolean
+  isLoading: boolean
 }
 
 const GATE = '/auth'
 
 export class AuthAPI {
   signin(data: SigninData) {
-    return request.post(`${GATE}/signin`, data)
+    return request.post<Promise<'OK'>>(`${GATE}/signin`, data)
   }
 
   signup(data: SignupData) {
-    return request.post(`${GATE}/signup`, data)
+    return request.post<Promise<SignupResp>>(`${GATE}/signup`, data)
   }
 
   read() {
-    return request.get<User | UserError>(`${GATE}/user`)
+    return request.get<User>(`${GATE}/user`)
   }
 
   logout() {
-    return request.post(`${GATE}/logout`)
+    return request.post<'OK'>(`${GATE}/logout`)
   }
 }
 

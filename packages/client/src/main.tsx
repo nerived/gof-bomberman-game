@@ -8,3 +8,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <App />
   </React.StrictMode>
 )
+
+function startServiceWorker() {
+  window.addEventListener('load', () => {
+    const worker = new URL('../sw.js', import.meta.url).href
+    navigator.serviceWorker.register(worker, { scope: './' })
+  })
+}
+
+startServiceWorker()

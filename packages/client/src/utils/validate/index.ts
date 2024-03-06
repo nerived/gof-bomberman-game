@@ -1,0 +1,7 @@
+export * from './validateEmail'
+export * from './validateFirstName'
+export * from './validateLogin'
+export * from './validatePassword'
+export * from './validatePhone'
+export * from './validateSecondName'
+export * from './validateNotEmpty'

@@ -3,6 +3,7 @@ import { validate } from '../../../utils'
 export type UserField = {
   labelText: string
   name: string
+  type?: string
   validate: (value: string) => string | undefined
 }
 
@@ -38,6 +39,7 @@ export const userFieldsConfig: UserField[] = [
   {
     labelText: 'Пароль',
     name: 'password',
+    type: 'password',
     validate: validate.validatePassword,
   },
 ]

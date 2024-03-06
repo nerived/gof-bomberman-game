@@ -35,10 +35,7 @@ export const PagesRoutes: FC = () => {
         { path: RoutesPaths.EditProfile, element: <ProfileEdit /> },
         { path: RoutesPaths.EditPassword, element: <ProfilePassword /> },
         { path: RoutesPaths.EditAvatar, element: <EditAvatar /> },
-        { path: RoutesPaths.GameOver, element: <GameOverPage /> },
         { path: `${RoutesPaths.Forum}/:id`, element: <ForumTopicPage /> },
-        { path: RoutesPaths.ServerError, element: <ServerErrorPage /> },
-        { path: RoutesPaths.NotFound, element: <NotFoundPage /> },
       ],
     },
     { index: true, element: <MainPage /> },
@@ -47,6 +44,9 @@ export const PagesRoutes: FC = () => {
     { path: RoutesPaths.Liders, element: <LidersPage /> },
     { path: RoutesPaths.Login, element: <LoginPage /> },
     { path: RoutesPaths.Registration, element: <RegistrationPage /> },
+    { path: RoutesPaths.ServerError, element: <ServerErrorPage /> },
+    { path: RoutesPaths.NotFound, element: <NotFoundPage /> },
+    { path: RoutesPaths.GameOver, element: <GameOverPage /> },
   ])
 
   return <>{pages}</>

@@ -1,4 +1,5 @@
 import { FC } from 'react'
+
 import { ErrorPageContent } from '../widgets/ErrorPageContent'
 import { ErrorPageText } from '../shared/config'
 

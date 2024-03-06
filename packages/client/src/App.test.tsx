@@ -6,8 +6,8 @@ global.fetch = jest.fn(() =>
   Promise.resolve({ json: () => Promise.resolve('hey') })
 )
 
-test('Redirects unauthenticated user to login', async () => {
+test('Redirects user to main page', async () => {
   render(<App />)
-  const loginElement = await screen.findByText('Регистрация')
+  const loginElement = await screen.findByText('START')
   expect(loginElement).toBeDefined()
 })

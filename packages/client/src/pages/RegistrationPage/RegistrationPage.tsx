@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { Formik, Form, FastField } from 'formik'
 import { useNavigate } from 'react-router-dom'
 
@@ -12,8 +12,11 @@ import {
   LinkButton,
   LinkButtonMode,
   CustomField,
+  Loader,
 } from '../../ui-kit'
+
 import { RoutesPaths } from '../../routes/constants'
+import { useAuth } from '../../features/user/hooks/useAuth'
 import { userThunks } from '../../features/user'
 import { SignupData } from '../../api/AuthAPI'
 
@@ -23,6 +26,16 @@ import * as S from './RegistrationPage.styled'
 export const RegistrationPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { isUserAuthenticated } = useAuth()
+
+  useEffect(() => {
+    if (isUserAuthenticated) {
+      navigate(RoutesPaths.Main)
+    }
+  }, [isUserAuthenticated, navigate])
 
   const initialValues = useMemo(() => {
     return {
@@ -36,12 +49,21 @@ export const RegistrationPage: FC = () => {
   }, [])
 
   const handleSave = async (data: SignupData) => {
-    const isSuccess = await userThunks.userSignUp(data)
+    setIsLoading(true)
 
-    if (isSuccess) {
-      await dispatch(userThunks.fetchUserThunk())
-      navigate(RoutesPaths.Profile)
+    const result = await dispatch(userThunks.userSignUp(data))
+
+    if (result.payload) {
+      if (result.payload?.isSuccess) {
+        await dispatch(userThunks.fetchUser())
+        navigate(RoutesPaths.Profile)
+      } else {
+        if (result.payload?.reason) {
+          setErrorMessage(result.payload?.reason)
+        }
+      }
     }
+    setIsLoading(false)
   }
 
   return (
@@ -68,6 +90,7 @@ export const RegistrationPage: FC = () => {
                 </S.Content>
 
                 <S.Actions>
+                  {errorMessage && <S.Error>{errorMessage}</S.Error>}
                   <S.Action>
                     <Button
                       content="Регистрация"
@@ -89,6 +112,7 @@ export const RegistrationPage: FC = () => {
           }}
         </Formik>
       </FormLayout>
+      {isLoading && <Loader />}
     </Layout>
   )
 }

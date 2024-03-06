@@ -9,13 +9,12 @@ export const CustomField = ({
   form: { touched, errors },
   ...props
 }: FieldAttributes<any>) => {
+  const error = touched[field.name] && errors[field.name]
   return (
     <S.CustomField>
       {labelText && <S.Label>{labelText}</S.Label>}
-      <S.Input {...field} {...props} />
-      {touched[field.name] && errors[field.name] && (
-        <div className="error">{errors[field.name]}</div>
-      )}
+      <S.Input {...field} {...props} hasError={!!error} />
+      {error && <S.Error>{errors[field.name]}</S.Error>}
     </S.CustomField>
   )
 }

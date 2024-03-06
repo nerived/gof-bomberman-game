@@ -36,7 +36,8 @@ export class MovePlayer implements ICommand {
     if (curThing.getThingType() === THING_TYPE.DOOR) {
       if (this.playground.enemies.length !== 0) return
 
-      alert('level complete')
+      this.mechanics.nextLevel()
+      return
     }
 
     curThing.getThingType() === THING_TYPE.AMMO && this.player.bombAmmo++

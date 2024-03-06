@@ -12,6 +12,7 @@ export interface LinkButtonProps {
 }
 
 export const LinkButton = styled(Link)<LinkButtonProps>`
+  font-family: PressStart2P, Arial, sans-serif;
   color: ${Colors.WHITE};
   font-size: 16px;
   line-height: 20px;
@@ -50,6 +51,7 @@ export const LinkButton = styled(Link)<LinkButtonProps>`
     css`
       color: ${Colors.WHITE};
       font-size: 48px;
+      line-height: 1;
       font-family: PressStart2P, Arial, sans-serif;
       text-shadow: 5px 5px ${Colors.GRAY};
       border: 0;

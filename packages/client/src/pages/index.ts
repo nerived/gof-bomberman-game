@@ -1,7 +1,7 @@
 export { MainPage } from './MainPage'
 export { LoginPage } from './Login/LoginPage'
 export { RegistrationPage } from './RegistrationPage'
-export { GamePage } from './GamePage'
+export { GamePage } from './GamePage/GamePage'
 export { GameOverPage } from './GameOverPage'
 export { LidersPage } from './LidersPage'
 export { ForumMainPage } from './ForumMainPage'

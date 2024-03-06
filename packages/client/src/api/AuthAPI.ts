@@ -1,5 +1,9 @@
 import { request } from './rest/request'
 
+export interface CommonError {
+  reason: string
+}
+
 export interface SigninData {
   login: string
   password: string
@@ -12,6 +16,10 @@ export interface SignupData {
   email: string
   password: string
   phone: string
+}
+
+export interface SignupResp {
+  id: number
 }
 
 export type User = {
@@ -28,19 +36,15 @@ export type User = {
   isLoading: boolean
 }
 
-export type UserError = {
-  reason: string
-}
-
 const GATE = '/auth'
 
 export class AuthAPI {
   signin(data: SigninData) {
-    return request.post(`${GATE}/signin`, data)
+    return request.post<Promise<'OK'>>(`${GATE}/signin`, data)
   }
 
   signup(data: SignupData) {
-    return request.post(`${GATE}/signup`, data)
+    return request.post<Promise<SignupResp>>(`${GATE}/signup`, data)
   }
 
   read() {
@@ -48,7 +52,7 @@ export class AuthAPI {
   }
 
   logout() {
-    return request.post(`${GATE}/logout`)
+    return request.post<'OK'>(`${GATE}/logout`)
   }
 }
 

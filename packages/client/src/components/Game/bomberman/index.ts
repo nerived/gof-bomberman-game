@@ -11,14 +11,17 @@ import { GameWindow } from './window'
 import { MovePlayer } from './commands/move-player'
 import { EnemyUnit } from './units/enemy/enemy.unit'
 import { MoveEnemy } from './commands/move-enemy'
+import { GameOverCommand } from './commands/game-over'
+import { NextLevelCommand } from './commands/next-level'
 
-const STATE = {
+const ENGINE = {
   START: 1,
   STOP: 0,
 }
 
 export class Bomberman {
-  private state
+  private engine = ENGINE.STOP
+  private workingEngine = false
   private window
   private mechanics
   private playground
@@ -54,22 +57,27 @@ export class Bomberman {
     playground.onEnemyMove(moveEnemy)
 
     mechanics.setRestartCommand(new RestartLevel(this))
+    mechanics.setNextLevelCommand(new NextLevelCommand(this))
+    mechanics.setGameOverCommand(new GameOverCommand(this, mechanics))
 
     this.window = window
     this.inputHandler = inputHandler
     this.mechanics = mechanics
     this.playground = playground
     this.player = player
-
-    this.state = STATE.STOP
   }
 
   private _loopEngine = () => {
-    if (this.state === STATE.STOP) return
+    if (this.engine === ENGINE.STOP) {
+      this.workingEngine = false
+      return
+    }
 
     this.window.draw(this.playground, this.player, this.mechanics)
 
     requestAnimationFrame(this._loopEngine)
+
+    this.workingEngine = true
   }
 
   private _init() {
@@ -78,21 +86,27 @@ export class Bomberman {
     this.mechanics.start()
     this.inputHandler.start()
     this.player.setLevelMatrix(levelMatrix)
-    this.player.start()
   }
 
-  public start() {
-    this.state = STATE.START
+  public play() {
+    this.engine = ENGINE.START
     this._init()
-    this._loopEngine()
+    this.player.reset()
+    !this.workingEngine && this._loopEngine()
   }
 
-  public restart() {
+  public nextLevel() {
+    this.engine = ENGINE.START
     this._init()
+    !this.workingEngine && this._loopEngine()
   }
 
   public stop() {
-    this.state = STATE.STOP
+    this.engine = ENGINE.STOP
     this.inputHandler.stop()
   }
+
+  public willRestartHook?: (game: this) => void
+
+  public didGameOverHook?: (totalScore: number, game: this) => void
 }

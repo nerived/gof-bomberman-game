@@ -13,3 +13,20 @@ export enum RoutesPaths {
   ServerError = '/server-error',
   NotFound = '*',
 }
+
+export enum AuthorizedRoutesNav {
+  Main = RoutesPaths.Main,
+  Profile = RoutesPaths.Profile,
+  Liders = RoutesPaths.Liders,
+  Game = RoutesPaths.Game,
+  Forum = RoutesPaths.Forum,
+}
+
+export enum NotAuthorizedRoutesNav {
+  Main = RoutesPaths.Main,
+  Login = RoutesPaths.Login,
+  Registration = RoutesPaths.Registration,
+  Liders = RoutesPaths.Liders,
+  Game = RoutesPaths.Game,
+  Forum = RoutesPaths.Forum,
+}

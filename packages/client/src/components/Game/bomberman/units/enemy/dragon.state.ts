@@ -1,16 +1,12 @@
-import enemyImageSrc from '../../assets/enemy.png'
 import { rectVsRect } from '../../_lib'
 import { EnemyState, EnemyUnit } from './enemy.unit'
 import { IEnemyState } from './state'
 
-export abstract class DragonState implements IEnemyState {
-  private _image
+export class DragonState implements IEnemyState {
   private _score
   protected _velocity
 
   constructor(protected readonly _enemy: EnemyUnit) {
-    this._image = new Image()
-    this._image.src = enemyImageSrc
     this._score = 200
     this._velocity = this._enemy.velocity * 0.5
   }
@@ -21,30 +17,16 @@ export abstract class DragonState implements IEnemyState {
     return result
   }
 
-  protected abstract _update(): void
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  protected _update() {}
 
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
     this._update()
 
     canvasCtx.save()
 
-    // debug circle >>>
-    canvasCtx.beginPath()
-    canvasCtx.arc(
-      this._enemy.pX + offsetX,
-      this._enemy.pY,
-      this._enemy.radius,
-      0,
-      2 * Math.PI
-    )
-    canvasCtx.strokeStyle = 'red'
-    canvasCtx.fillStyle = 'rgba(240 200 200 / 70%)'
-    canvasCtx.stroke()
-    canvasCtx.fill()
-    // <<< debug circle
-
     canvasCtx.drawImage(
-      this._image,
+      this._enemy.image,
       this._enemy.x + offsetX,
       this._enemy.y,
       this._enemy.radius * 2,

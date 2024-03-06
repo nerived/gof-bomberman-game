@@ -14,7 +14,7 @@ export const RowInput = ({
     <S.RowInputRoot>
       <S.RowInput {...field} {...props} />
       {touched[field.name] && errors[field.name] && (
-        <div className="error">{errors[field.name]}</div>
+        <S.Error>{errors[field.name]}</S.Error>
       )}
     </S.RowInputRoot>
   )

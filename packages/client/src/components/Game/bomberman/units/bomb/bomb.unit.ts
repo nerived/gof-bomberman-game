@@ -35,6 +35,10 @@ export class BombUnit extends RectGameUnit {
     this.command = command
   }
 
+  public removeCommand() {
+    this.command = undefined
+  }
+
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
     this._state.draw(canvasCtx, offsetX)
   }

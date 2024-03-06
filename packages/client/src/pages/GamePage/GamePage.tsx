@@ -1,7 +1,8 @@
 import { FC, useEffect } from 'react'
-import { GameComponent } from '../components/Game/GameComponent'
-import styled from 'styled-components'
-import { Colors } from '../tokens'
+import { GameComponent } from '../../components/Game/GameComponent'
+import { Layout } from '../../ui-kit'
+
+import { Main } from './GamePage.styled'
 
 const PAGE_ID = 'game-page'
 
@@ -26,15 +27,6 @@ function fullScreenOnFkey(e: KeyboardEvent) {
   }
 }
 
-const Main = styled.main`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: ${Colors.DEEP_DARK_BLUE};
-`
-
 export const GamePage: FC = () => {
   useEffect(() => {
     globalThis.addEventListener('keydown', fullScreenOnFkey)
@@ -47,8 +39,10 @@ export const GamePage: FC = () => {
   }, [])
 
   return (
-    <Main id={PAGE_ID}>
-      <GameComponent />
-    </Main>
+    <Layout>
+      <Main id={PAGE_ID}>
+        <GameComponent />
+      </Main>
+    </Layout>
   )
 }

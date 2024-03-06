@@ -1,13 +1,13 @@
 import { FC, PropsWithChildren } from 'react'
 
-import { TempNav } from '../TempNav'
+import { Nav } from '../Nav'
 
 import * as S from './LayoutCentered.styled'
 
 export const LayoutCentered: FC<PropsWithChildren> = ({ children }) => {
   return (
     <S.LayoutCentered>
-      <TempNav />
+      <Nav />
       <S.Inner>{children}</S.Inner>
     </S.LayoutCentered>
   )

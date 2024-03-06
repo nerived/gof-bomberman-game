@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Formik, Form, FastField } from 'formik'
 
@@ -6,54 +6,65 @@ import { useAppDispatch } from '../../store'
 
 import {
   Title,
-  LayoutCentered,
+  Layout,
   CustomField,
   Button,
   ButtonMode,
   LinkButton,
   LinkButtonMode,
+  Loader,
 } from '../../ui-kit'
-import { config } from './Config'
+
 import { RoutesPaths } from '../../routes/constants'
 import { SigninData } from '../../api/AuthAPI'
-
 import { userThunks } from '../../features/user'
-import { userSelectors } from '../../features/user'
-import { useSelector } from 'react-redux'
+import { useAuth } from '../../features/user/hooks/useAuth'
 
+import { loginFields } from './constants'
 import * as S from './Login.styled'
 
 export const LoginPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const user = useSelector(userSelectors.getUser)
+  const { isUserAuthenticated } = useAuth()
+  const [errorMessage, setErrorMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const initialValues = useMemo(() => {
     return { login: '', password: '' }
   }, [])
 
   useEffect(() => {
-    if (user.isAuthenticated) {
+    if (isUserAuthenticated) {
       navigate(RoutesPaths.Main)
     }
-  }, [user.isAuthenticated, navigate])
+  }, [isUserAuthenticated, navigate])
 
   const handleLogin = async (data: SigninData) => {
-    const isSuccess = await userThunks.userLogin(data)
-    if (isSuccess) {
-      dispatch(userThunks.fetchUserThunk())
+    setIsLoading(true)
+
+    const result = await dispatch(userThunks.userLogin(data))
+
+    if (result.payload) {
+      if (result.payload?.isSuccess) {
+        await dispatch(userThunks.fetchUser())
+      } else {
+        if (result.payload?.reason) {
+          setErrorMessage(result.payload?.reason)
+        }
+      }
     }
+    setIsLoading(false)
   }
 
   return (
-    <LayoutCentered>
+    <Layout title={'Вход'}>
       <S.Content>
-        <Title>Вход</Title>
         <Formik initialValues={initialValues} onSubmit={handleLogin}>
           {({ handleSubmit, dirty, isSubmitting, isValid }) => {
             return (
               <Form onSubmit={handleSubmit}>
-                {config.map(item => {
+                {loginFields.map(item => {
                   return (
                     <FastField
                       key={item.id}
@@ -62,6 +73,7 @@ export const LoginPage: FC = () => {
                     />
                   )
                 })}
+                {errorMessage && <S.Error>{errorMessage}</S.Error>}
 
                 <S.Actions>
                   <S.Action>
@@ -85,6 +97,7 @@ export const LoginPage: FC = () => {
           }}
         </Formik>
       </S.Content>
-    </LayoutCentered>
+      {isLoading && <Loader />}
+    </Layout>
   )
 }

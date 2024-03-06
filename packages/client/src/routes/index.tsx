@@ -96,9 +96,9 @@ export const PagesRoutes: FC = () => {
     {
       path: RoutesPaths.Forum,
       element: (
-        <ProtectedRoute>
-          <ForumMainPage />
-        </ProtectedRoute>
+        // <ProtectedRoute>
+        <ForumMainPage />
+        // </ProtectedRoute>
       ),
     },
     {

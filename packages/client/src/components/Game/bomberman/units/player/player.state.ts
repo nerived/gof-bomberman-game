@@ -34,7 +34,7 @@ class Idle extends PlayerState {
 
 class Bomb extends PlayerState {
   public useAction() {
-    if (this.player.bombAmmo == 0) return
+    if (this.player.ammo == 0) return
     this.player.plantBombCommand?.execute()
   }
 

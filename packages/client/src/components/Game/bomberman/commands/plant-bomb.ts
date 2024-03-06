@@ -12,11 +12,12 @@ export class PlantBomb implements ICommand {
   ) {}
 
   execute() {
-    const bomb = this.playground.plantBomb(this.player)
+    const { pX, pY, bombPower } = this.player
+    const bomb = this.playground.addBomb(pX, pY, bombPower)
 
     if (!bomb) return
 
-    this.player.bombAmmo--
+    this.player.ammo--
 
     bomb.setCommand(
       new ExplodeBomb(this.player, this.playground, this.mechanics, bomb)

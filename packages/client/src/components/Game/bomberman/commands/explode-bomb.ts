@@ -53,11 +53,6 @@ export class ExplodeBomb implements ICommand {
       if (collided) break
     }
 
-    if (collided) {
-      this.bomb.removeCommand()
-      return
-    }
-
     this.bomb.setCommand(
       new DeleteBomb(this.player, this.playground, this.bomb)
     )

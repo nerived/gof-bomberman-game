@@ -190,7 +190,7 @@ export class MazeBuilder {
     }
   }
 
-  public addBomb(x: number, y: number, power: number) {
+  public makeBomb(x: number, y: number, power: number) {
     const cX = x
     const cY = y
 

@@ -40,7 +40,7 @@ export class MovePlayer implements ICommand {
       return
     }
 
-    curThing.getThingType() === THING_TYPE.AMMO && this.player.bombAmmo++
+    curThing.getThingType() === THING_TYPE.AMMO && this.player.maxAmmo++
     curThing.getThingType() === THING_TYPE.POWER && this.player.bombPower++
     curThing.getThingType() === THING_TYPE.LIFE && this.mechanics.plusLife()
 

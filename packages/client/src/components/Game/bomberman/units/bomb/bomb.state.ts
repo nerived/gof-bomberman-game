@@ -56,6 +56,7 @@ class Idle extends BombState {
 
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number) {
     this._update()
+
     canvasCtx.drawImage(
       this._image,
       SPRITE_SIZE * this.sprite,

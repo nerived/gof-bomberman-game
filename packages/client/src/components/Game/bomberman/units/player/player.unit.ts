@@ -36,7 +36,8 @@ export class PlayerUnit extends CircleGameUnit {
   public passable = true
   public destroyable = false
   public maxVelocity: number
-  public bombAmmo = 1
+  public ammo = 1
+  public maxAmmo = 1
   public bombPower = 1
 
   private _stateList = [
@@ -79,9 +80,15 @@ export class PlayerUnit extends CircleGameUnit {
       this._curState.push(this._stateList[STATE_INDEX.IDLE])
   }
 
+  public init() {
+    this.ammo = this.maxAmmo
+    this._curState = [this._stateList[STATE_INDEX.IDLE]]
+  }
+
   public reset() {
-    this.bombAmmo = 1
+    this.maxAmmo = 1
     this.bombPower = 1
+    this.init()
   }
 
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {

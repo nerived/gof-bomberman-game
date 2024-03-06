@@ -81,6 +81,7 @@ export class Bomberman {
   }
 
   private _init() {
+    this.player.init()
     const levelMatrix = this.playground.start(this.player, this.mechanics.level)
     this.window.resetOffset()
     this.mechanics.start()

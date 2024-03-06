@@ -1,32 +1,34 @@
 import { CircleGameUnit } from '../../basics/unit'
 import { IEnemyState, TStateIndex } from './state'
-import { DRAGON } from './dragon.state'
 import { OCTOPUS } from './octopus.state'
 import { EnemyStrategy } from './strategy'
 import { Matrix } from '../../matrix'
-import dragonImage from '../../assets/enemy-dragon.png'
-import octopusImage from '../../assets/enemy-octopus.png'
+import blueOctopusImageSrc from '../../assets/blue-octopus-sprite.png'
+import purpleOctopusImageSrc from '../../assets/purple-octopus-sprite.png'
+import { ICommand } from '../../basics/command'
 
 export const ENEMY = {
-  DRAGON: 'DRAGON',
   OCTOPUS: 'OCTOPUS',
 } as const
 
 export const EnemyState = {
   IDLE: 'IDLE',
-  LEFT: 'LEFT',
   RIGHT: 'RIGHT',
+  LEFT: 'LEFT',
   UP: 'UP',
   DOWN: 'DOWN',
+  DEAD: 'DEAD',
 } as const
 
 const ENEMY_IMAGE = {
-  DRAGON: dragonImage,
-  OCTOPUS: octopusImage,
+  get OCTOPUS() {
+    return [blueOctopusImageSrc, purpleOctopusImageSrc][
+      Math.trunc(Math.random() * 2)
+    ]
+  },
 }
 
 const ENEMY_TYPE = {
-  DRAGON,
   OCTOPUS,
 } as const
 
@@ -43,7 +45,8 @@ export class EnemyUnit extends CircleGameUnit {
   public velocity: number
   public levelMatrix: Matrix
   public state: TEnemyStateUnion
-  public onMoveCommand: ((enemyUnit: this) => void) | undefined
+  public onMoveCommand?: () => void
+  public onDeadCommand?: ICommand
   private _states: TStateIndex
   private _curState: IEnemyState
   private _strategy?: EnemyStrategy
@@ -66,8 +69,12 @@ export class EnemyUnit extends CircleGameUnit {
     this.image.src = ENEMY_IMAGE[type]
   }
 
-  onMove(fn?: (enemyUnit: this) => void) {
+  public onMove(fn?: () => void) {
     this.onMoveCommand = fn
+  }
+
+  public onDead(command: ICommand) {
+    this.onDeadCommand = command
   }
 
   public getCurPos() {
@@ -85,7 +92,7 @@ export class EnemyUnit extends CircleGameUnit {
     this._strategy = strategy
   }
 
-  public setState(newState: keyof typeof EnemyState) {
+  public setState(newState: TEnemyStateUnion) {
     this._curState = new this._states[newState](this)
     this.state = newState
   }
@@ -93,5 +100,7 @@ export class EnemyUnit extends CircleGameUnit {
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
     this._strategy?.doMovingAlgorithm()
     this._curState.draw(canvasCtx, offsetX)
+    // console.log(this.state)
+    // console.log(this._curState)
   }
 }

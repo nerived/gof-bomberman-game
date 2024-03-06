@@ -4,6 +4,7 @@ import { EnemyUnit } from './units/enemy/enemy.unit'
 import { BombUnit } from './units/bomb/bomb.unit'
 import { ThingUnit } from './units/thing/thing.unit'
 import { MazeBuilder } from './maze-builder'
+import { KillEnemyUnit } from './commands/kill-enemy-unit'
 
 export class Playground {
   private readonly _mazeBuilder: MazeBuilder
@@ -47,9 +48,13 @@ export class Playground {
     this.bombs = []
 
     if (this._enemyMoveCommand) {
-      this.enemies.forEach(enemyUnit =>
-        enemyUnit.onMove(this._enemyMoveCommand)
-      )
+      this.enemies.forEach(enemyUnit => {
+        enemyUnit.onMove(() => {
+          this._enemyMoveCommand?.(enemyUnit)
+        })
+
+        enemyUnit.onDead(new KillEnemyUnit(this, enemyUnit))
+      })
     }
     return matrix
   }

@@ -6,6 +6,7 @@ import { DeleteBomb } from './delete-bomb'
 import { circleVsRectCollision } from '../_lib'
 import { Mechanics } from '../mechanics'
 import { TGameUnit } from '../basics/unit'
+import { EnemyState } from '../units/enemy/enemy.unit'
 
 export class ExplodeBomb implements ICommand {
   constructor(
@@ -20,9 +21,7 @@ export class ExplodeBomb implements ICommand {
       const { isOverlap } = circleVsRectCollision(enemy, flame, 0.4)
       if (isOverlap) {
         this.mechanics.plusScore(enemy.getScore())
-        this.playground.enemies = this.playground.enemies.filter(
-          sEnemyUnit => sEnemyUnit !== enemy
-        )
+        enemy.setState(EnemyState.DEAD)
       }
     }
   }

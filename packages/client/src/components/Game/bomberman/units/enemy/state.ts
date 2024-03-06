@@ -13,4 +13,5 @@ export type TStateIndex = {
   UP: TEnemyStateConstructor
   RIGHT: TEnemyStateConstructor
   DOWN: TEnemyStateConstructor
+  DEAD: TEnemyStateConstructor
 }

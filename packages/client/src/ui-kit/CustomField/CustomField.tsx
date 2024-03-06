@@ -6,15 +6,34 @@ import * as S from './CustomField.styled'
 export const CustomField = ({
   labelText,
   field,
+  asTextArea,
   form: { touched, errors },
   ...props
 }: FieldAttributes<any>) => {
-  const error = touched[field.name] && errors[field.name]
+  let error = ''
+
+  if (touched && errors) {
+    error =
+      touched[field?.name || props.name] && errors[field?.name || props.name]
+  }
+
   return (
     <S.CustomField>
       {labelText && <S.Label>{labelText}</S.Label>}
-      <S.Input {...field} {...props} hasError={!!error} />
-      {error && <S.Error>{errors[field.name]}</S.Error>}
+      {asTextArea ? (
+        <S.TextArea
+          minLength={250}
+          maxLength={250}
+          rows={6}
+          cols={6}
+          {...field}
+          {...props}
+          hasError={!!error}
+        />
+      ) : (
+        <S.Input {...field} {...props} hasError={!!error} />
+      )}
+      {error && <S.Error>{errors[field?.name || props.name]}</S.Error>}
     </S.CustomField>
   )
 }

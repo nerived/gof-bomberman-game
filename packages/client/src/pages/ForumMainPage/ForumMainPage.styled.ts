@@ -11,15 +11,18 @@ export const ForumTitle = styled.h1`
 `
 export const TopicsWrapper = styled.div`
   width: 100%;
+  max-height: 80%;
   padding-top: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow: auto;
+  padding-bottom: 16px;
 `
 
 export const Topic = styled.div`
   width: 100%;
-  background-color: #283e4b;
+  background-color: ${Colors.ELEVATION};
   min-height: 100px;
   border-radius: 16px;
   box-shadow: -3px 14px 29px -9px rgba(0, 0, 0, 0.88);
@@ -30,7 +33,7 @@ export const Topic = styled.div`
   gap: 8px;
 
   &:hover {
-    background-color: #213542;
+    background-color: ${Colors.ELEVATION_HOVER};
   }
 `
 
@@ -44,6 +47,12 @@ export const TopicDescription = styled.p`
 
 export const TopicMessagesCount = styled.span`
   color: ${Colors.WHITE};
-  line-height: 48px;
   padding-inline: 8px;
+`
+
+export const ModalContentWrapper = styled.div`
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `

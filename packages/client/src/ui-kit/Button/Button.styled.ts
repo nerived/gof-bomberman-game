@@ -55,6 +55,7 @@ export const Button = styled.button<SButtonProps>`
     css`
       color: ${Colors.WHITE};
       font-size: 48px;
+      line-height: 1;
       font-family: PressStart2P, Arial, sans-serif;
       text-shadow: 5px 5px ${Colors.GRAY};
     `}

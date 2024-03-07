@@ -7,4 +7,6 @@ export const Colors = {
   RED: '#FF575F',
   TERRACOTTA: '#9E1F1C',
   GRAY: '#646464',
+  ELEVATION: '#283e4b',
+  ELEVATION_HOVER: '#213542',
 }

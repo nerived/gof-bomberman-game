@@ -17,7 +17,7 @@ export const Label = styled.label`
   color: ${Colors.WHITE};
 `
 
-export const Input = styled.input<{ hasError: boolean }>`
+const defaultFieldStyles = css`
   padding: 0 5px;
   margin: 0;
   outline: none;
@@ -34,6 +34,25 @@ export const Input = styled.input<{ hasError: boolean }>`
     color: inherit;
     opacity: 0.7;
   }
+`
+
+export const Input = styled.input<{ hasError: boolean }>`
+  ${defaultFieldStyles}
+  ${({ hasError }) =>
+    hasError &&
+    css`
+      border-color: ${Colors.TERRACOTTA};
+    `}
+`
+
+export const TextArea = styled.textarea<{ hasError: boolean }>`
+  ${defaultFieldStyles}
+
+  min-width: 100%;
+  max-width: 100%;
+  height: 150px;
+  resize: none;
+
   ${({ hasError }) =>
     hasError &&
     css`

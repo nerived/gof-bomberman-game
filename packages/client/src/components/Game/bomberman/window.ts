@@ -17,6 +17,7 @@ interface TDrawable {
 }
 
 export class GameWindow {
+  private _context
   private _canvasCtx
   private _tileSize
   private _worldWidth
@@ -27,6 +28,11 @@ export class GameWindow {
   private _visibleHeight
   private _worldOffsetX
   private _backgroundImage
+  private _dt = 0
+  private _drawDt = 0
+  private _drawStamp = performance.now()
+  private _timeStamp = performance.now()
+  private readonly _drawInterval = 16
 
   constructor(canvasCtx: CanvasRenderingContext2D, context: TGameContext) {
     this._canvasCtx = canvasCtx
@@ -47,6 +53,7 @@ export class GameWindow {
 
     this._backgroundImage = new Image()
     this._backgroundImage.src = backgroundSrc
+    this._context = context
   }
 
   public resetOffset() {
@@ -68,16 +75,65 @@ export class GameWindow {
     }
   }
 
-  public draw(...drawable: TDrawable[]) {
-    this._canvasCtx.clearRect(0, 0, this._visibleWidth, this._visibleHeight)
-    this._canvasCtx.drawImage(
-      this._backgroundImage,
-      this._worldOffsetX,
-      0,
-      this._worldWidth,
-      this._worldHeight
+  private _debug() {
+    const fontSize = 20 * this._context.pixelRatio
+    const textShadowX = 6 * this._context.pixelRatio
+    const textShadowY = 6 * this._context.pixelRatio
+    const textX = 5 * this._context.pixelRatio
+    const textY = 5 * this._context.pixelRatio
+
+    this._canvasCtx.textBaseline = 'top'
+    this._canvasCtx.font = `${fontSize}px Helvetica`
+
+    this._canvasCtx.fillStyle = 'black'
+    this._canvasCtx.fillText(
+      'dt: ' + this._dt,
+      textShadowX,
+      textShadowY + fontSize * 4
     )
 
-    drawable.forEach(item => item.draw(this._canvasCtx, this._worldOffsetX))
+    this._canvasCtx.fillStyle = 'white'
+    this._canvasCtx.fillText('dt: ' + this._dt, textX, textY + fontSize * 4)
+
+    this._canvasCtx.fillStyle = 'black'
+    this._canvasCtx.fillText(
+      'draw_dt: ' + this._dt,
+      textShadowX,
+      textShadowY + fontSize * 5
+    )
+
+    this._canvasCtx.fillStyle = 'white'
+    this._canvasCtx.fillText(
+      'draw_dt: ' + this._dt,
+      textX,
+      textY + fontSize * 5
+    )
+  }
+
+  public draw(...drawable: TDrawable[]) {
+    this._dt = (performance.now() - this._timeStamp) << 0
+    this._timeStamp = performance.now()
+    this._drawDt += this._dt
+
+    if (this._drawDt >= this._drawInterval) {
+      console.log('drawDt: ', this._drawDt)
+      console.log('draw_after: ', performance.now() - this._drawStamp)
+      this._drawStamp = performance.now()
+
+      this._canvasCtx.clearRect(0, 0, this._visibleWidth, this._visibleHeight)
+      this._canvasCtx.drawImage(
+        this._backgroundImage,
+        this._worldOffsetX,
+        0,
+        this._worldWidth,
+        this._worldHeight
+      )
+
+      drawable.forEach(item => item.draw(this._canvasCtx, this._worldOffsetX))
+
+      this._drawDt = this._drawDt - 16
+    }
+
+    this._debug()
   }
 }

@@ -7,7 +7,7 @@ export const SPRITE_SIZE = 112
 
 export const SPRITE_INDEX = {
   IDLE: { posY: 0, frames: 8 },
-  EXPLODE: { posY: 1, frames: 10 },
+  EXPLODE: { posY: 1, frames: 15 },
 }
 
 export class BombUnit extends RectGameUnit {

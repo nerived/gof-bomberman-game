@@ -58,18 +58,10 @@ class Idle extends BombState {
 }
 
 class Explode extends BombState {
-  protected _explodeTime = 1000
-  protected _startTime
-
-  constructor(protected bomb: BombUnit) {
-    super(bomb)
-    this._startTime = performance.now()
-  }
-
   private _update() {
     this.frame++
 
-    if (this.frame % 6 === 0) {
+    if (this.frame % 4 === 0) {
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.EXPLODE.frames
     }
 
@@ -78,7 +70,7 @@ class Explode extends BombState {
       this.bomb.command?.execute()
     }
 
-    if (performance.now() - this._startTime >= this._explodeTime) {
+    if (this.sprite === SPRITE_INDEX.EXPLODE.frames - 1) {
       this.bomb.command?.execute()
     }
   }

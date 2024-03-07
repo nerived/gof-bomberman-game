@@ -78,7 +78,7 @@ export const ForumMainPage: FC = () => {
 
   return (
     <ForumPageWrapper>
-      <ForumTitle>Форумы</ForumTitle>
+      <ForumTitle>Форум</ForumTitle>
       <TopicsWrapper>
         {currentTopics.map(({ id, title, description }) => (
           <Topic key={id} onClick={() => handleTopicClick(id)}>

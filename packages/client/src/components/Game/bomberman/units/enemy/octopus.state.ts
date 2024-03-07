@@ -2,9 +2,22 @@ import { rectVsRect } from '../../_lib'
 import { EnemyState, EnemyUnit } from './enemy.unit'
 import { IEnemyState } from './state'
 
-export class OctopusState implements IEnemyState {
+const SPRITE_SIZE = 112
+
+const SPRITE_INDEX = {
+  IDLE: { posY: 0, frames: 4 },
+  RIGHT: { posY: 1, frames: 4 },
+  LEFT: { posY: 2, frames: 4 },
+  UP: { posY: 3, frames: 4 },
+  DOWN: { posY: 4, frames: 4 },
+  DEAD: { posY: 5, frames: 5 },
+}
+
+export abstract class OctopusState implements IEnemyState {
   private _score
   protected _velocity
+  protected frame = 0
+  protected sprite = 0
 
   constructor(protected readonly _enemy: EnemyUnit) {
     this._score = 200
@@ -17,33 +30,43 @@ export class OctopusState implements IEnemyState {
     return result
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  protected _update() {}
+  protected abstract update(): void
+
+  public abstract draw(
+    canvasCtx: CanvasRenderingContext2D,
+    offsetX: number
+  ): void
+}
+
+class Idle extends OctopusState {
+  protected update() {
+    this.frame++
+
+    if (this.frame % 8 === 0) {
+      this.frame = 0
+      this.sprite = (this.sprite + 1) % SPRITE_INDEX.IDLE.frames
+    }
+  }
 
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
-    this._update()
-
-    canvasCtx.save()
+    this.update()
 
     canvasCtx.drawImage(
       this._enemy.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.IDLE.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
       this._enemy.x + offsetX,
       this._enemy.y,
       this._enemy.radius * 2,
       this._enemy.radius * 2
     )
-
-    canvasCtx.restore()
   }
 }
 
-class Idle extends OctopusState {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  protected _update() {}
-}
-
 class MoveLeft extends OctopusState {
-  protected _update() {
+  protected move() {
     const { curPosX, curPosY } = this._enemy.getCurPos()
 
     const adjUnit = this._enemy.levelMatrix.getIn(curPosY, curPosX - 1)
@@ -55,12 +78,38 @@ class MoveLeft extends OctopusState {
     }
 
     this._enemy.x -= this._velocity
-    this._enemy.onMoveCommand?.(this._enemy)
+    this._enemy.onMoveCommand?.()
+  }
+
+  protected update() {
+    this.frame++
+
+    if (this.frame % 8 === 0) {
+      this.frame = 0
+      this.sprite = (this.sprite + 1) % SPRITE_INDEX.LEFT.frames
+    }
+  }
+
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
+    this.update()
+    this.move()
+
+    canvasCtx.drawImage(
+      this._enemy.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.LEFT.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this._enemy.x + offsetX,
+      this._enemy.y,
+      this._enemy.radius * 2,
+      this._enemy.radius * 2
+    )
   }
 }
 
 class MoveRight extends OctopusState {
-  protected _update() {
+  protected move() {
     const { curPosX, curPosY } = this._enemy.getCurPos()
 
     const adjUnit = this._enemy.levelMatrix.getIn(curPosY, curPosX + 1)
@@ -72,12 +121,38 @@ class MoveRight extends OctopusState {
     }
 
     this._enemy.x += this._velocity
-    this._enemy.onMoveCommand?.(this._enemy)
+    this._enemy.onMoveCommand?.()
+  }
+
+  protected update() {
+    this.frame++
+
+    if (this.frame % 8 === 0) {
+      this.frame = 0
+      this.sprite = (this.sprite + 1) % SPRITE_INDEX.RIGHT.frames
+    }
+  }
+
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
+    this.update()
+    this.move()
+
+    canvasCtx.drawImage(
+      this._enemy.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.RIGHT.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this._enemy.x + offsetX,
+      this._enemy.y,
+      this._enemy.radius * 2,
+      this._enemy.radius * 2
+    )
   }
 }
 
 class MoveUp extends OctopusState {
-  protected _update() {
+  protected move() {
     const { curPosX, curPosY } = this._enemy.getCurPos()
 
     const adjUnit = this._enemy.levelMatrix.getIn(curPosY - 1, curPosX)
@@ -89,12 +164,38 @@ class MoveUp extends OctopusState {
     }
 
     this._enemy.y -= this._velocity
-    this._enemy.onMoveCommand?.(this._enemy)
+    this._enemy.onMoveCommand?.()
+  }
+
+  protected update() {
+    this.frame++
+
+    if (this.frame % 8 === 0) {
+      this.frame = 0
+      this.sprite = (this.sprite + 1) % SPRITE_INDEX.UP.frames
+    }
+  }
+
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
+    this.update()
+    this.move()
+
+    canvasCtx.drawImage(
+      this._enemy.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.UP.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this._enemy.x + offsetX,
+      this._enemy.y,
+      this._enemy.radius * 2,
+      this._enemy.radius * 2
+    )
   }
 }
 
 class MoveDown extends OctopusState {
-  protected _update() {
+  protected move() {
     const { curPosX, curPosY } = this._enemy.getCurPos()
 
     const adjUnit = this._enemy.levelMatrix.getIn(curPosY + 1, curPosX)
@@ -106,7 +207,65 @@ class MoveDown extends OctopusState {
     }
 
     this._enemy.y += this._velocity
-    this._enemy.onMoveCommand?.(this._enemy)
+    this._enemy.onMoveCommand?.()
+  }
+
+  protected update() {
+    this.frame++
+
+    if (this.frame % 8 === 0) {
+      this.frame = 0
+      this.sprite = (this.sprite + 1) % SPRITE_INDEX.DOWN.frames
+    }
+  }
+
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
+    this.update()
+    this.move()
+
+    canvasCtx.drawImage(
+      this._enemy.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.DOWN.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this._enemy.x + offsetX,
+      this._enemy.y,
+      this._enemy.radius * 2,
+      this._enemy.radius * 2
+    )
+  }
+}
+
+class Dead extends OctopusState {
+  protected update() {
+    this.frame++
+
+    if (this.frame % 8 !== 0) return
+
+    if (this.sprite === SPRITE_INDEX.DEAD.frames - 1) {
+      this._enemy.onDeadCommand?.execute()
+      return
+    }
+
+    this.frame = 0
+    this.sprite = (this.sprite + 1) % SPRITE_INDEX.DEAD.frames
+  }
+
+  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
+    this.update()
+
+    canvasCtx.drawImage(
+      this._enemy.image,
+      SPRITE_SIZE * this.sprite,
+      SPRITE_SIZE * SPRITE_INDEX.DEAD.posY,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
+      this._enemy.x + offsetX,
+      this._enemy.y,
+      this._enemy.radius * 2,
+      this._enemy.radius * 2
+    )
   }
 }
 
@@ -116,4 +275,5 @@ export const OCTOPUS = {
   UP: MoveUp,
   RIGHT: MoveRight,
   DOWN: MoveDown,
+  DEAD: Dead,
 }

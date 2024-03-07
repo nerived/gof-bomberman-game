@@ -17,6 +17,7 @@ interface TDrawable {
 }
 
 export class GameWindow {
+  private _context
   private _canvasCtx
   private _tileSize
   private _worldWidth
@@ -27,6 +28,11 @@ export class GameWindow {
   private _visibleHeight
   private _worldOffsetX
   private _backgroundImage
+  private _dt = 0
+  private _drawDt = 0
+  private _drawStamp = performance.now()
+  private _timeStamp = performance.now()
+  private readonly _drawInterval = 16
 
   constructor(canvasCtx: CanvasRenderingContext2D, context: TGameContext) {
     this._canvasCtx = canvasCtx
@@ -47,6 +53,7 @@ export class GameWindow {
 
     this._backgroundImage = new Image()
     this._backgroundImage.src = backgroundSrc
+    this._context = context
   }
 
   public resetOffset() {
@@ -68,16 +75,27 @@ export class GameWindow {
     }
   }
 
-  public draw(...drawable: TDrawable[]) {
-    this._canvasCtx.clearRect(0, 0, this._visibleWidth, this._visibleHeight)
-    this._canvasCtx.drawImage(
-      this._backgroundImage,
-      this._worldOffsetX,
-      0,
-      this._worldWidth,
-      this._worldHeight
-    )
+  private _fpsGuard() {
+    this._dt = (performance.now() - this._timeStamp) << 0
+    this._timeStamp = performance.now()
+    this._drawDt += this._dt
+    return this._drawDt
+  }
 
-    drawable.forEach(item => item.draw(this._canvasCtx, this._worldOffsetX))
+  public draw(...drawable: TDrawable[]) {
+    if (this._fpsGuard() >= this._drawInterval) {
+      this._canvasCtx.clearRect(0, 0, this._visibleWidth, this._visibleHeight)
+      this._canvasCtx.drawImage(
+        this._backgroundImage,
+        this._worldOffsetX,
+        0,
+        this._worldWidth,
+        this._worldHeight
+      )
+
+      drawable.forEach(item => item.draw(this._canvasCtx, this._worldOffsetX))
+
+      this._drawDt = this._drawDt - 16
+    }
   }
 }

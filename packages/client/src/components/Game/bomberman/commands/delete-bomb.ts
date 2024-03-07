@@ -11,7 +11,7 @@ export class DeleteBomb implements ICommand {
   ) {}
 
   public execute() {
-    this.player.bombAmmo++
-    this.playground.endExplode(this.bomb)
+    this.player.ammo++
+    this.playground.deleteBomb(this.bomb)
   }
 }

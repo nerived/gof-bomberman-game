@@ -6,7 +6,7 @@ import {
 import { ICommand } from '../basics/command'
 import { Mechanics } from '../mechanics'
 import { Playground } from '../playground'
-import { EnemyUnit } from '../units/enemy/enemy.unit'
+import { EnemyState, EnemyUnit } from '../units/enemy/enemy.unit'
 import { PlayerUnit } from '../units/player/player.unit'
 
 export class MoveEnemy implements ICommand {
@@ -34,10 +34,7 @@ export class MoveEnemy implements ICommand {
         if (!isOverlap) continue
 
         this.mechanics.plusScore(this.enemy.getScore())
-        this.playground.enemies = this.playground.enemies.filter(
-          sEnemyUnit => sEnemyUnit !== this.enemy
-        )
-
+        this.enemy.setState(EnemyState.DEAD)
         return
       }
     }

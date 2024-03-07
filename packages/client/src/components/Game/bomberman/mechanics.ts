@@ -1,4 +1,8 @@
 import { ICommand } from './basics/command'
+import loadingImageSrc from './assets/loading-level.png'
+
+const LOADING_IMAGE_W = 2464
+const LOADING_IMAGE_H = 1456
 
 interface TGameContext {
   pixelRatio: number
@@ -19,11 +23,14 @@ export class Mechanics {
   private _score = 0
   private _context
   private _loadingEndStamp = -1
+  private _loadingImage
   public level = 1
 
   constructor(context: TGameContext) {
     this._context = context
     this._endTime = this.start()
+    this._loadingImage = new Image()
+    this._loadingImage.src = loadingImageSrc
   }
 
   private _updateRemainingTime() {
@@ -40,7 +47,7 @@ export class Mechanics {
     this._updateRemainingTime()
 
     if (this._time === '0:00') {
-      this._gameOverCommand?.execute()
+      this.minusLife()
     }
   }
 
@@ -92,17 +99,17 @@ export class Mechanics {
 
   public draw(canvasCtx: CanvasRenderingContext2D) {
     if (this._loadingEndStamp > performance.now()) {
-      //TO DO draw loading level screen, need take window size from context
-
-      canvasCtx.save()
-      canvasCtx.fillStyle = '#34353d'
-      canvasCtx.fillRect(
+      canvasCtx.drawImage(
+        this._loadingImage,
+        0,
+        0,
+        LOADING_IMAGE_W,
+        LOADING_IMAGE_H,
         0,
         0,
         this._context.visibleWidth,
         this._context.visibleHeight
       )
-      canvasCtx.restore()
 
       canvasCtx.save()
       const fontSize = 48 * this._context.pixelRatio

@@ -119,17 +119,13 @@ export class MazeBuilder {
         if (tileType === TILE_TYPE.ENEMY) {
           matrix.setIn(posY, posX, new PassageUnit(x, y, width, height))
 
-          const enemyType = [ENEMY.DRAGON, ENEMY.OCTOPUS][
-            Math.floor(Math.random() * 2)
-          ]
-
           const enemy = new EnemyUnit(
             this._context,
             x,
             y,
             radius,
             matrix,
-            enemyType
+            ENEMY.OCTOPUS
           )
           enemy.setStrategy(new ClassicStrategy(enemy))
           enemies.push(enemy)
@@ -190,7 +186,7 @@ export class MazeBuilder {
     }
   }
 
-  public addBomb(x: number, y: number, power: number) {
+  public makeBomb(x: number, y: number, power: number) {
     const cX = x
     const cY = y
 

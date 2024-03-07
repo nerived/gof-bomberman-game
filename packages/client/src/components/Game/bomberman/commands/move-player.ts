@@ -40,7 +40,7 @@ export class MovePlayer implements ICommand {
       return
     }
 
-    curThing.getThingType() === THING_TYPE.AMMO && this.player.bombAmmo++
+    curThing.getThingType() === THING_TYPE.AMMO && this.player.maxAmmo++
     curThing.getThingType() === THING_TYPE.POWER && this.player.bombPower++
     curThing.getThingType() === THING_TYPE.LIFE && this.mechanics.plusLife()
 
@@ -62,7 +62,7 @@ export class MovePlayer implements ICommand {
       if (!bomb.exploded) continue
 
       for (const flame of bomb.magnitude) {
-        const { isOverlap } = circleVsRectCollision(this.player, flame, 0.4)
+        const { isOverlap } = circleVsRectCollision(this.player, flame, 0.2)
         if (!isOverlap) continue
         this.mechanics.minusLife()
         return

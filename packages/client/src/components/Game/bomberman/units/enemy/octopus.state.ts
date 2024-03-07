@@ -5,12 +5,12 @@ import { IEnemyState } from './state'
 const SPRITE_SIZE = 112
 
 const SPRITE_INDEX = {
-  IDLE: { posY: 0, frames: 4 },
-  RIGHT: { posY: 1, frames: 4 },
-  LEFT: { posY: 2, frames: 4 },
-  UP: { posY: 3, frames: 4 },
-  DOWN: { posY: 4, frames: 4 },
-  DEAD: { posY: 5, frames: 5 },
+  IDLE: { posY: 0, frames: 4, throttle: 8 },
+  RIGHT: { posY: 1, frames: 4, throttle: 8 },
+  LEFT: { posY: 2, frames: 4, throttle: 8 },
+  UP: { posY: 3, frames: 4, throttle: 8 },
+  DOWN: { posY: 4, frames: 4, throttle: 8 },
+  DEAD: { posY: 5, frames: 5, throttle: 8 },
 }
 
 export abstract class OctopusState implements IEnemyState {
@@ -42,7 +42,7 @@ class Idle extends OctopusState {
   protected update() {
     this.frame++
 
-    if (this.frame % 8 === 0) {
+    if (this.frame % SPRITE_INDEX.IDLE.throttle === 0) {
       this.frame = 0
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.IDLE.frames
     }
@@ -84,7 +84,7 @@ class MoveLeft extends OctopusState {
   protected update() {
     this.frame++
 
-    if (this.frame % 8 === 0) {
+    if (this.frame % SPRITE_INDEX.LEFT.throttle === 0) {
       this.frame = 0
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.LEFT.frames
     }
@@ -127,7 +127,7 @@ class MoveRight extends OctopusState {
   protected update() {
     this.frame++
 
-    if (this.frame % 8 === 0) {
+    if (this.frame % SPRITE_INDEX.RIGHT.throttle === 0) {
       this.frame = 0
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.RIGHT.frames
     }
@@ -170,7 +170,7 @@ class MoveUp extends OctopusState {
   protected update() {
     this.frame++
 
-    if (this.frame % 8 === 0) {
+    if (this.frame % SPRITE_INDEX.UP.throttle === 0) {
       this.frame = 0
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.UP.frames
     }
@@ -213,7 +213,7 @@ class MoveDown extends OctopusState {
   protected update() {
     this.frame++
 
-    if (this.frame % 8 === 0) {
+    if (this.frame % SPRITE_INDEX.DOWN.throttle === 0) {
       this.frame = 0
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.DOWN.frames
     }
@@ -241,7 +241,7 @@ class Dead extends OctopusState {
   protected update() {
     this.frame++
 
-    if (this.frame % 8 !== 0) return
+    if (this.frame % SPRITE_INDEX.DEAD.throttle !== 0) return
 
     if (this.sprite === SPRITE_INDEX.DEAD.frames - 1) {
       this._enemy.onDeadCommand?.execute()

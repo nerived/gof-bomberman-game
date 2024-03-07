@@ -91,7 +91,7 @@ class MoveLeft extends MoveState {
   private update() {
     this.frame++
 
-    if (this.frame % 6 === 0) {
+    if (this.frame % SPRITE_INDEX.LEFT.throttle === 0) {
       this.frame = 0
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.LEFT.frames
     }
@@ -124,7 +124,7 @@ class MoveRight extends MoveState {
   private update() {
     this.frame++
 
-    if (this.frame % 6 === 0) {
+    if (this.frame % SPRITE_INDEX.RIGHT.throttle === 0) {
       this.frame = 0
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.RIGHT.frames
     }
@@ -157,7 +157,7 @@ class MoveUp extends MoveState {
   private update() {
     this.frame++
 
-    if (this.frame % 6 === 0) {
+    if (this.frame % SPRITE_INDEX.UP.throttle === 0) {
       this.frame = 0
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.UP.frames
     }
@@ -190,7 +190,7 @@ class MoveDown extends MoveState {
   private update() {
     this.frame++
 
-    if (this.frame % 6 === 0) {
+    if (this.frame % SPRITE_INDEX.DOWN.throttle === 0) {
       this.frame = 0
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.DOWN.frames
     }

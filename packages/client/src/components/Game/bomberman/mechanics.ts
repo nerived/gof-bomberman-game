@@ -130,10 +130,10 @@ export class Mechanics {
     this._update()
 
     const fontSize = 20 * this._context.pixelRatio
-    const textShadowX = 6 * this._context.pixelRatio
-    const textShadowY = 6 * this._context.pixelRatio
     const textX = 5 * this._context.pixelRatio
     const textY = 5 * this._context.pixelRatio
+    const textShadowX = 6 * this._context.pixelRatio
+    const textShadowY = 6 * this._context.pixelRatio
 
     canvasCtx.textBaseline = 'top'
     canvasCtx.font = `${fontSize}px Helvetica`

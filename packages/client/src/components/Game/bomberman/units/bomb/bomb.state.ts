@@ -23,7 +23,7 @@ class Idle extends BombState {
   private _update() {
     this.frame++
 
-    if (this.frame % 8 === 0) {
+    if (this.frame % SPRITE_INDEX.IDLE.throttle === 0) {
       this.frame = 0
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.IDLE.frames
     }
@@ -61,11 +61,11 @@ class Explode extends BombState {
   private _update() {
     this.frame++
 
-    if (this.frame % 4 === 0) {
+    if (this.frame % SPRITE_INDEX.EXPLODE.throttle === 0) {
       this.sprite = (this.sprite + 1) % SPRITE_INDEX.EXPLODE.frames
     }
 
-    if (this.frame === 4 && !this.bomb.exploded) {
+    if (this.frame === SPRITE_INDEX.EXPLODE.throttle && !this.bomb.exploded) {
       this.bomb.exploded = true
       this.bomb.command?.execute()
     }

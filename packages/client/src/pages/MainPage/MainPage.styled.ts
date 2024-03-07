@@ -15,6 +15,7 @@ export const DecsrWrapper = styled.div`
   margin: 0 auto;
   max-width: 600px;
   color: #fff;
+  padding-bottom: 30px;
 `
 
 export const H3 = styled.h3`

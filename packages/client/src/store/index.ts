@@ -3,11 +3,13 @@ import { useDispatch } from 'react-redux'
 
 import { userReducer } from '../features/user'
 import { forumReducer } from '../features/forum'
+import { popupsReducer } from '../features/popups'
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     forum: forumReducer,
+    popups: popupsReducer,
   },
 })
 

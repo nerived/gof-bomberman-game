@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addTopicMessage, forumSelectors } from '../../features/forum'
 import {
   ButtonsWrapper,
+  CustomTopic,
   MessagesWrapper,
   TopicMainTitle,
 } from './ForumTopicPage.styled'
@@ -71,17 +72,17 @@ export const ForumTopicPage: FC = () => {
   return (
     <ForumPageWrapper>
       <TopicMainTitle>Топик:</TopicMainTitle>
-      <Topic>
+      <CustomTopic>
         <TopicTitle>{topic?.title}</TopicTitle>
         <TopicDescription>{topic?.description}</TopicDescription>
-      </Topic>
+      </CustomTopic>
       <TopicMainTitle>Сообщения:</TopicMainTitle>
       <MessagesWrapper>
         {(currentMessages[id || '0'] || []).map(message => (
-          <Topic key={message.id}>
+          <CustomTopic key={message.id}>
             <TopicTitle>{message.author}</TopicTitle>
             <TopicDescription>{message.text}</TopicDescription>
-          </Topic>
+          </CustomTopic>
         ))}
       </MessagesWrapper>
       <CustomField

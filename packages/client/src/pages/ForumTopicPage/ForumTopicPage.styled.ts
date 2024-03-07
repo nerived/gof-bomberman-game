@@ -1,5 +1,6 @@
 import { styled } from 'styled-components'
-import { ForumTitle } from '../ForumMainPage/ForumMainPage.styled'
+import { ForumTitle, Topic } from '../ForumMainPage/ForumMainPage.styled'
+import { Colors } from '../../tokens'
 
 export const MessagesWrapper = styled.div`
   width: 100%;
@@ -18,4 +19,11 @@ export const ButtonsWrapper = styled.div`
 
 export const TopicMainTitle = styled(ForumTitle)`
   padding-block: 32px;
+`
+export const CustomTopic = styled(Topic)`
+  cursor: default;
+
+  &:hover {
+    background-color: ${Colors.ELEVATION};
+  }
 `

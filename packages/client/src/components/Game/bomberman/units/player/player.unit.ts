@@ -7,12 +7,12 @@ import playerImageSrc from '../../assets/player-sprite.png'
 export const SPRITE_SIZE = 112
 
 export const SPRITE_INDEX = {
-  IDLE: { posY: 0, frames: 1 },
-  RIGHT: { posY: 1, frames: 4 },
-  LEFT: { posY: 2, frames: 4 },
-  UP: { posY: 3, frames: 4 },
-  DOWN: { posY: 4, frames: 4 },
-  BOMB: { posY: 5, frames: 1 },
+  IDLE: { posY: 0, frames: 1, throttle: 1 },
+  RIGHT: { posY: 1, frames: 4, throttle: 6 },
+  LEFT: { posY: 2, frames: 4, throttle: 6 },
+  UP: { posY: 3, frames: 4, throttle: 6 },
+  DOWN: { posY: 4, frames: 4, throttle: 6 },
+  BOMB: { posY: 5, frames: 1, throttle: 1 },
 }
 
 interface TGameContext {

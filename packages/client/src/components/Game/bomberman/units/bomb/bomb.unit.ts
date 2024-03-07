@@ -6,8 +6,8 @@ import bombImageSrc from '../../assets/bomb-sprite.png'
 export const SPRITE_SIZE = 112
 
 export const SPRITE_INDEX = {
-  IDLE: { posY: 0, frames: 8 },
-  EXPLODE: { posY: 1, frames: 15 },
+  IDLE: { posY: 0, frames: 8, throttle: 8 },
+  EXPLODE: { posY: 1, frames: 15, throttle: 4 },
 }
 
 export class BombUnit extends RectGameUnit {

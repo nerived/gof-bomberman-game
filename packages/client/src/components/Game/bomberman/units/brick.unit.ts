@@ -1,6 +1,6 @@
 import { Queue } from '../basics/queue'
 import { RectGameUnit } from '../basics/unit'
-import brickImageSrc from '../assets//brick.png'
+import brickImageSrc from '../assets/brick.png'
 
 export class BrickUnit extends RectGameUnit {
   private _image: HTMLImageElement

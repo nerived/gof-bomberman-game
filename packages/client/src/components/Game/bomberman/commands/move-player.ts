@@ -62,7 +62,7 @@ export class MovePlayer implements ICommand {
       if (!bomb.exploded) continue
 
       for (const flame of bomb.magnitude) {
-        const { isOverlap } = circleVsRectCollision(this.player, flame, 0.4)
+        const { isOverlap } = circleVsRectCollision(this.player, flame, 0.2)
         if (!isOverlap) continue
         this.mechanics.minusLife()
         return

@@ -100,7 +100,5 @@ export class EnemyUnit extends CircleGameUnit {
   public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {
     this._strategy?.doMovingAlgorithm()
     this._curState.draw(canvasCtx, offsetX)
-    // console.log(this.state)
-    // console.log(this._curState)
   }
 }

@@ -18,7 +18,7 @@ export class ExplodeBomb implements ICommand {
 
   private _doCollideWithEnemy(flame: TGameUnit) {
     for (const enemy of this.playground.enemies) {
-      const { isOverlap } = circleVsRectCollision(enemy, flame, 0.4)
+      const { isOverlap } = circleVsRectCollision(enemy, flame, 0.2)
       if (isOverlap) {
         this.mechanics.plusScore(enemy.getScore())
         enemy.setState(EnemyState.DEAD)
@@ -27,7 +27,7 @@ export class ExplodeBomb implements ICommand {
   }
 
   private _doCollideWithPlayer(flame: TGameUnit) {
-    const { isOverlap } = circleVsRectCollision(this.player, flame, 0.4)
+    const { isOverlap } = circleVsRectCollision(this.player, flame, 0.2)
     if (!isOverlap) return false
     this.mechanics.minusLife()
     return true

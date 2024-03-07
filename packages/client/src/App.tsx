@@ -6,6 +6,7 @@ import ErrorBoundary from './shared/ErrorBoundary'
 import { store } from './store'
 import { AppInitializer } from './AppInitializer'
 import { Loader } from './components/Loader'
+import { PopupManager } from './components/PopupManager'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Loader>
             <PagesRoutes />
           </Loader>
+          <PopupManager />
         </BrowserRouter>
       </ErrorBoundary>
     </Provider>

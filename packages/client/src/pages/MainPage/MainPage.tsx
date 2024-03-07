@@ -3,6 +3,7 @@ import { FC } from 'react'
 import { LinkButton, LinkButtonMode, Layout } from '../../ui-kit'
 import { Logo } from '../../ui-kit/Logo/Logo.styled'
 import { RoutesPaths } from '../../routes/constants'
+import { Instruction } from '../../components/Instruction'
 
 import * as S from './MainPage.styled'
 
@@ -21,10 +22,7 @@ export const MainPage: FC = () => {
         />
       </S.MarginWrapper>
       <S.DecsrWrapper>
-        <S.H3>Инструкция</S.H3>
-        <S.P>Управленние стрелками с клавиатуры</S.P>
-        <S.P>Установка бомбы "B"</S.P>
-        <S.P>Переход в фулскринн режим "F"</S.P>
+        <Instruction />
 
         <S.H3>Описание</S.H3>
         <S.P>

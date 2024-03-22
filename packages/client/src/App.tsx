@@ -7,20 +7,20 @@ import { store } from './store'
 import { AppInitializer } from './AppInitializer'
 import { Loader } from './components/Loader'
 import { PopupManager } from './components/PopupManager'
-import { MainPage } from './pages/MainPage'
 
 function App() {
+  return <div>START SSR RENDER</div>
+
   return (
     <Provider store={store}>
       <ErrorBoundary>
-        <div>SSR RENDER</div>
-        {/* <BrowserRouter>
+        <BrowserRouter>
           <AppInitializer />
           <Loader>
             <PagesRoutes />
           </Loader>
           <PopupManager />
-        </BrowserRouter> */}
+        </BrowserRouter>
       </ErrorBoundary>
     </Provider>
   )

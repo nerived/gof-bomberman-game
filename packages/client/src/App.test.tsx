@@ -8,6 +8,6 @@ global.fetch = jest.fn(() =>
 
 test('Redirects user to main page', async () => {
   render(<App />)
-  const loginElement = await screen.findByText('START')
+  const loginElement = await screen.getByText('START SSR RENDER')
   expect(loginElement).toBeDefined()
 })

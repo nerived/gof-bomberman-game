@@ -25,12 +25,12 @@ export const CustomField = ({
           maxLength={250}
           rows={6}
           cols={6}
+          $hasError={!!error}
           {...field}
           {...props}
-          $hasError={!!error}
         />
       ) : (
-        <S.Input {...field} {...props} $hasError={!!error} />
+        <S.Input $hasError={!!error} {...field} {...props} />
       )}
       {error && <S.Error>{errors[field?.name || props.name]}</S.Error>}
     </S.CustomField>

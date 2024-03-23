@@ -56,6 +56,31 @@ export const LoginPage: FC = () => {
     setIsLoading(false)
   }
 
+  const handleOAuthLogin = async () => {
+    const redirectURI = globalThis.location.href
+
+    try {
+      setIsLoading(true)
+
+      const { payload } = await dispatch(userThunks.fetchOauthId(redirectURI))
+
+      if (!payload) return
+
+      if (payload.isSuccess) {
+        //redirect to yandex page
+        console.log(payload.serviceId)
+      } else {
+        if (payload.reason) {
+          setErrorMessage(payload.reason)
+        }
+      }
+    } catch (err) {
+      //navigate to 500 page
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <Layout title={'Вход'}>
       <S.Content>
@@ -95,6 +120,9 @@ export const LoginPage: FC = () => {
             )
           }}
         </Formik>
+        <button style={{ color: 'white' }} onClick={handleOAuthLogin}>
+          Войти c Яндекс ID
+        </button>
       </S.Content>
       {isLoading && <Loader />}
     </Layout>

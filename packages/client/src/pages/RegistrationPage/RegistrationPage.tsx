@@ -74,7 +74,6 @@ export const RegistrationPage: FC = () => {
           onSubmit={handleSave}
           enableReinitialize>
           {({ handleSubmit, dirty, isSubmitting, isValid, ...other }) => {
-            console.log('other', other)
             return (
               <Form onSubmit={handleSubmit}>
                 <S.Content>

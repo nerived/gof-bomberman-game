@@ -16,7 +16,7 @@ export type RowFieldProps = RowValueProps & {
 export const RowField: FC<RowFieldProps> = props => {
   const { label, value, isEditable, hasError = false, ...inputProps } = props
   return (
-    <S.RowField hasError={hasError}>
+    <S.RowField $hasError={hasError}>
       <RowLabel label={label} />
       <RowValue value={value} isEditable={isEditable} {...inputProps} />
     </S.RowField>

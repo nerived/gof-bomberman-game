@@ -36,16 +36,12 @@ const defaultFieldStyles = css`
   }
 `
 
-export const Input = styled.input<{ hasError: boolean }>`
+export const Input = styled.input<{ $hasError: boolean }>`
   ${defaultFieldStyles}
-  ${({ hasError }) =>
-    hasError &&
-    css`
-      border-color: ${Colors.TERRACOTTA};
-    `}
+  border-color: ${props => props.$hasError && Colors.TERRACOTTA};
 `
 
-export const TextArea = styled.textarea<{ hasError: boolean }>`
+export const TextArea = styled.textarea<{ $hasError: boolean }>`
   ${defaultFieldStyles}
 
   min-width: 100%;
@@ -53,11 +49,7 @@ export const TextArea = styled.textarea<{ hasError: boolean }>`
   height: 150px;
   resize: none;
 
-  ${({ hasError }) =>
-    hasError &&
-    css`
-      border-color: ${Colors.TERRACOTTA};
-    `}
+  border-color: ${props => props.$hasError && Colors.TERRACOTTA};
 `
 
 export const Error = styled.div`

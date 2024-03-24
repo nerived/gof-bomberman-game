@@ -20,7 +20,7 @@ export const Instruction: FC = () => {
       <S.P>Управленние Bomberman с клавиатуры:</S.P>
       <S.List>
         <S.ListItem>
-          <Button isImg>{<img src={playerImage} alt="" />}</Button>
+          <Button $isImg>{<img src={playerImage} alt="" />}</Button>
           <S.Descr>игрок</S.Descr>
         </S.ListItem>
         <S.ListItem>
@@ -56,47 +56,47 @@ export const Instruction: FC = () => {
           <S.Descr>переход в фулскринн режим</S.Descr>
         </S.ListItem>
         <S.ListItem>
-          <Button isImg>
+          <Button $isImg>
             <img src={brickImage} alt="" />
           </Button>
           <S.Descr>разрушаемый блок</S.Descr>
         </S.ListItem>
         <S.ListItem>
-          <Button isImg>
+          <Button $isImg>
             <img src={purpleOctopusImage} alt="" />
           </Button>
-          <Button isImg>
+          <Button $isImg>
             <img src={blueOctopusImage} alt="" />
           </Button>
           <S.Descr>враги</S.Descr>
         </S.ListItem>
 
         <S.ListItem>
-          <Button isImg>
+          <Button $isImg>
             <img src={bombImage} alt="" />
           </Button>
           <S.Descr>бомба</S.Descr>
         </S.ListItem>
         <S.ListItem>
-          <Button isImg>
+          <Button $isImg>
             <img src={addBombImage} alt="" />
           </Button>
           <S.Descr>+1 дополнительная бомба</S.Descr>
         </S.ListItem>
         <S.ListItem>
-          <Button isImg>
+          <Button $isImg>
             <img src={addLifeImage} alt="" />
           </Button>
           <S.Descr>+1 дополнительная жизнь</S.Descr>
         </S.ListItem>
         <S.ListItem>
-          <Button isImg>
+          <Button $isImg>
             <img src={powerImage} alt="" />
           </Button>
           <S.Descr>увеличение радиуса взрыва</S.Descr>
         </S.ListItem>
         <S.ListItem>
-          <Button isImg>
+          <Button $isImg>
             <img src={doorImage} alt="" />
           </Button>
           <S.Descr>портал окончания уровня</S.Descr>

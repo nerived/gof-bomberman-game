@@ -80,7 +80,7 @@ export const ProfileEdit: FC = () => {
                         key={field.name}
                         {...field}
                         isEditable
-                        hasError={!!errors?.[field.name as keyof UserData]}
+                        error={!!errors?.[field.name as keyof UserData]}
                       />
                     )
                   })}

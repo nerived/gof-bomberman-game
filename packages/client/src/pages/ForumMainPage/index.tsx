@@ -19,7 +19,7 @@ import { RoutesPaths } from '../../routes/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { addTopic, forumSelectors } from '../../features/forum'
 
-import * as S from '../Login/Login.styled'
+import * as S from '../LoginPage/Login.styled'
 
 const initialValues = { title: '', description: '' }
 

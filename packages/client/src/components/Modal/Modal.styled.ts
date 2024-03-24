@@ -1,7 +1,7 @@
 import { styled, css } from 'styled-components'
 import { Colors } from '../../tokens'
 
-export const Root = styled.div<{ isOpen: boolean }>`
+export const Root = styled.div<{ $isOpen: boolean }>`
   width: 100%;
   height: 100%;
   position: fixed;
@@ -13,15 +13,15 @@ export const Root = styled.div<{ isOpen: boolean }>`
   transition: all 0.25s ease-in-out;
   z-index: 100000;
   color: ${Colors.YELLOW};
-  ${({ isOpen }) =>
-    isOpen &&
+  ${({ $isOpen }) =>
+    $isOpen &&
     css`
       opacity: 1;
       visibility: visible;
     `}
 `
 
-export const ModalBody = styled.div<{ isOpen: boolean }>`
+export const ModalBody = styled.div<{ $isOpen: boolean }>`
   width: 600px;
   min-height: 110px;
   display: block;
@@ -32,8 +32,8 @@ export const ModalBody = styled.div<{ isOpen: boolean }>`
   background: ${Colors.ELEVATION};
   opacity: 0;
   transition: all 0.5s ease-in-out;
-  ${({ isOpen }) =>
-    isOpen &&
+  ${({ $isOpen }) =>
+    $isOpen &&
     css`
       margin-top: -200px;
       opacity: 1;

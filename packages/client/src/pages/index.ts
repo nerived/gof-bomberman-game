@@ -1,5 +1,5 @@
 export { MainPage } from './MainPage'
-export { LoginPage } from './Login/LoginPage'
+export { LoginPage } from './LoginPage/LoginPage'
 export { RegistrationPage } from './RegistrationPage'
 export { GamePage } from './GamePage/GamePage'
 export { GameOverPage } from './GameOverPage'

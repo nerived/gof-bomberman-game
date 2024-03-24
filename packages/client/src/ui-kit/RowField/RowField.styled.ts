@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Colors } from '../../tokens'
 
-export const RowField = styled.div<{ $hasError: boolean }>`
+export const RowField = styled.div<{ $error: boolean }>`
   display: flex;
   color: ${Colors.WHITE};
   border-bottom: 1px solid ${Colors.YELLOW};
@@ -9,5 +9,5 @@ export const RowField = styled.div<{ $hasError: boolean }>`
   font-size: 16px;
   line-height: 32px;
 
-  border-color: ${props => props.$hasError && Colors.TERRACOTTA};
+  border-color: ${props => props.$error && Colors.TERRACOTTA};
 `

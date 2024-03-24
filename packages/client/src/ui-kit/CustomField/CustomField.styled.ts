@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { Colors } from '../../tokens'
 
 export const CustomField = styled.div`
@@ -17,7 +17,7 @@ export const Label = styled.label`
   color: ${Colors.WHITE};
 `
 
-const defaultFieldStyles = css`
+const defaultFieldStyles = `
   padding: 0 5px;
   margin: 0;
   outline: none;
@@ -36,20 +36,19 @@ const defaultFieldStyles = css`
   }
 `
 
-export const Input = styled.input<{ $hasError: boolean }>`
+export const Input = styled.input<{ $error: boolean }>`
   ${defaultFieldStyles}
-  border-color: ${props => props.$hasError && Colors.TERRACOTTA};
+  border-color: ${props => props.$error && Colors.TERRACOTTA};
 `
 
-export const TextArea = styled.textarea<{ $hasError: boolean }>`
+export const TextArea = styled.textarea<{ $error: boolean }>`
   ${defaultFieldStyles}
-
   min-width: 100%;
   max-width: 100%;
   height: 150px;
   resize: none;
 
-  border-color: ${props => props.$hasError && Colors.TERRACOTTA};
+  border-color: ${props => props.$error && Colors.TERRACOTTA};
 `
 
 export const Error = styled.div`

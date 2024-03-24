@@ -4,7 +4,7 @@ import { Colors } from '../../../../tokens'
 
 export type SButtonProps = {
   rotate?: number
-  isImg?: boolean
+  $isImg?: boolean
 }
 
 export const Button = styled.div<SButtonProps>`
@@ -24,8 +24,8 @@ export const Button = styled.div<SButtonProps>`
     css`
       transform: rotate(${rotate}deg);
     `}
-  ${({ isImg = false }) => {
-    return isImg
+  ${({ $isImg = false }) => {
+    return $isImg
       ? css`
           border-color: transparent;
         `

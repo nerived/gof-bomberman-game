@@ -8,7 +8,7 @@ export interface OAuthIdResp {
   service_id: string
 }
 
-export interface OAuthSigninData {
+export interface OAuthLoginData {
   code: string
   redirect_uri: string
 }
@@ -24,7 +24,7 @@ export class OAuthAPI {
     )
   }
 
-  oauthSignin(data: OAuthSigninData) {
+  login(data: OAuthLoginData) {
     return request.post<'OK'>(`${GATE}`, data)
   }
 }

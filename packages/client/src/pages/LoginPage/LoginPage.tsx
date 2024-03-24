@@ -1,5 +1,5 @@
-import { FC, useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { FC, useMemo, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import { Formik, Form, FastField } from 'formik'
 
 import { useAppDispatch } from '../../store'
@@ -25,7 +25,6 @@ import * as S from './Login.styled'
 
 export const LoginPage: FC = () => {
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
   const { isUserAuthenticated } = useAuth()
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -33,12 +32,6 @@ export const LoginPage: FC = () => {
   const initialValues = useMemo(() => {
     return { login: '', password: '' }
   }, [])
-
-  useEffect(() => {
-    if (isUserAuthenticated) {
-      navigate(RoutesPaths.Main)
-    }
-  }, [isUserAuthenticated, navigate])
 
   const handleLogin = async (data: SigninData) => {
     setIsLoading(true)
@@ -57,7 +50,9 @@ export const LoginPage: FC = () => {
     setIsLoading(false)
   }
 
-  return (
+  return isUserAuthenticated ? (
+    <Navigate to={RoutesPaths.Main} />
+  ) : (
     <Layout title={'Вход'}>
       <S.Content>
         <Formik initialValues={initialValues} onSubmit={handleLogin}>

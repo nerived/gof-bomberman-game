@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import { IconButton } from '../../ui-kit/IconButton/IconButton'
-import { useAppDispatch } from '../../store'
 import { useNavigate } from 'react-router-dom'
+import { IconButton, Loader } from '../../ui-kit'
+import { useAppDispatch } from '../../store'
 import { toOAuthPage, userThunks } from '../../features/user'
 import { RoutesPaths } from '../../routes/constants'
-import { Loader } from '../../ui-kit'
 
 const yaIcon = `\
 url("data:image/svg+xml,%3Csvg width='44' height='44' \
@@ -21,7 +20,6 @@ fill='white'/%3E%3C/svg%3E%0A")\
 export function OauthYaButton() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { Colors } from '../../../../tokens'
 
 export const Arrow = () => {

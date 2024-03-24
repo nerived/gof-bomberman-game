@@ -77,7 +77,7 @@ export class MazeBuilder {
     return bricks
   }
 
-  public buildMaze(player: PlayerUnit, level = 1) {
+  public buildMaze(player: PlayerUnit) {
     const { mazeLines, mazeColumns } = this._context
     const matrix = new Matrix(mazeLines, mazeColumns)
 

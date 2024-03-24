@@ -9,7 +9,6 @@ import {
   TopicTitle,
   TopicsWrapper,
 } from './ForumMainPage.styled'
-import { topicsMessages } from './mock'
 import { Button, ButtonMode, CustomField } from '../../ui-kit'
 import { Modal } from '../../components/Modal'
 import { useFormik } from 'formik'

@@ -22,7 +22,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   res => res,
   (error: AxiosError) => {
-    const { data, status } = error.response!
+    const { status } = error.response!
     switch (status) {
       case 400:
         break

@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { FieldAttributes } from 'formik'
 
 import * as S from './FileField.styled'

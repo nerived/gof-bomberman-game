@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import * as S from './PopupManager.styled'

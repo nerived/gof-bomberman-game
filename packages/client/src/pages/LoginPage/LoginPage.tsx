@@ -16,10 +16,11 @@ import {
 
 import { RoutesPaths } from '../../routes/constants'
 import { SigninData } from '../../api/AuthAPI'
-import { toOAuthPage, userThunks } from '../../features/user'
+import { userThunks } from '../../features/user'
 import { useAuth } from '../../features/user/hooks/useAuth'
 
 import { loginFields } from './constants'
+import { OauthYaButton } from '../../components/OauthYaButton/OauthYaButton'
 import * as S from './Login.styled'
 
 export const LoginPage: FC = () => {
@@ -39,30 +40,6 @@ export const LoginPage: FC = () => {
     }
   }, [isUserAuthenticated, navigate])
 
-  useEffect(() => {
-    let canceled = false
-
-    const { search, href, origin, pathname } = globalThis.location
-
-    if (!search) return
-
-    const url = new URL(href)
-    const code = url.searchParams.get('code')
-
-    if (!code) return
-
-    dispatch(
-      userThunks.userOauthLogin({ code, redirect_uri: origin + pathname })
-    ).then(data => {
-      if (!data.payload?.isSuccess || canceled) return
-      return dispatch(userThunks.fetchUser())
-    })
-
-    return () => {
-      canceled = true
-    }
-  })
-
   const handleLogin = async (data: SigninData) => {
     setIsLoading(true)
 
@@ -78,31 +55,6 @@ export const LoginPage: FC = () => {
       }
     }
     setIsLoading(false)
-  }
-
-  const handleOAuthLogin = async () => {
-    const { origin, pathname } = globalThis.location
-    const redirectURI = origin + pathname
-
-    try {
-      setIsLoading(true)
-
-      const { payload } = await dispatch(userThunks.fetchOauthId(redirectURI))
-
-      if (!payload) return
-
-      if (payload.isSuccess) {
-        toOAuthPage(payload.serviceId, redirectURI)
-      } else {
-        if (payload.reason) {
-          setErrorMessage(payload.reason)
-        }
-      }
-    } catch (err) {
-      //navigate to 500 page
-    } finally {
-      setIsLoading(false)
-    }
   }
 
   return (
@@ -144,9 +96,7 @@ export const LoginPage: FC = () => {
             )
           }}
         </Formik>
-        <button style={{ color: 'white' }} onClick={handleOAuthLogin}>
-          Войти c Яндекс ID
-        </button>
+        <OauthYaButton />
       </S.Content>
       {isLoading && <Loader />}
     </Layout>

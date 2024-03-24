@@ -3,8 +3,6 @@ import { AxiosError } from 'axios'
 
 import OAuthAPI, { CommonError } from '../../../api/OAuthAPI'
 
-import { TechnicalError } from '../constants'
-
 export const fetchOauthId = createAsyncThunk<
   { isSuccess: true; serviceId: string },
   string,
@@ -24,7 +22,7 @@ export const fetchOauthId = createAsyncThunk<
           serviceId: response.service_id,
         })
       } else {
-        return rejectWithValue(TechnicalError)
+        throw response
       }
     } catch (err) {
       const error = err as AxiosError<CommonError>

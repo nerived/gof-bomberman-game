@@ -1,6 +1,6 @@
 import { CommonResult } from './types'
 
-export const TechnicalError = {
+export const TechnicalError: CommonResult = {
   isSuccess: false,
   reason: 'Technical error',
-} satisfies CommonResult
+}

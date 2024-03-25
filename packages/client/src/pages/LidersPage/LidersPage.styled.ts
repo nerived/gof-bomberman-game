@@ -29,4 +29,6 @@ export const AvatarWrapperStyled = styled.div`
   aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
+  text-align: center;
+  background-color: ${Colors.ELEVATION_HOVER};
 `

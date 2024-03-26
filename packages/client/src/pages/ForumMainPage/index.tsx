@@ -9,7 +9,6 @@ import {
   TopicTitle,
   TopicsWrapper,
 } from './ForumMainPage.styled'
-import { topicsMessages } from './mock'
 import { Button, ButtonMode, CustomField } from '../../ui-kit'
 import { Modal } from '../../components/Modal'
 import { useFormik } from 'formik'
@@ -19,7 +18,7 @@ import { RoutesPaths } from '../../routes/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { addTopic, forumSelectors } from '../../features/forum'
 
-import * as S from '../Login/Login.styled'
+import * as S from '../LoginPage/Login.styled'
 
 const initialValues = { title: '', description: '' }
 

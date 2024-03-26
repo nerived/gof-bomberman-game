@@ -1,7 +1,6 @@
 import { ChangeEvent, FC, useState } from 'react'
 import {
   ForumPageWrapper,
-  Topic,
   TopicDescription,
   TopicTitle,
 } from '../ForumMainPage/ForumMainPage.styled'

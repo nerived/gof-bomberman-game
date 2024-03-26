@@ -10,13 +10,13 @@ export type RowFieldProps = RowValueProps & {
   value: string
   name: string
   isEditable?: boolean
-  hasError?: boolean
+  error?: boolean
 }
 
 export const RowField: FC<RowFieldProps> = props => {
-  const { label, value, isEditable, hasError = false, ...inputProps } = props
+  const { label, value, isEditable, error = false, ...inputProps } = props
   return (
-    <S.RowField hasError={hasError}>
+    <S.RowField $error={error}>
       <RowLabel label={label} />
       <RowValue value={value} isEditable={isEditable} {...inputProps} />
     </S.RowField>

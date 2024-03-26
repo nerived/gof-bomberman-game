@@ -83,8 +83,8 @@ class MoveState extends PlayerState {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public useAction(): void {}
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public draw(canvasCtx: CanvasRenderingContext2D, offsetX: number): void {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  public draw(_canvasCtx: CanvasRenderingContext2D, _offsetX: number): void {}
 }
 
 class MoveLeft extends MoveState {

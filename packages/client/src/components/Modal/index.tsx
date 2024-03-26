@@ -33,8 +33,8 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
   }
 
   return (
-    <Root isOpen={isOpen} onClick={handleBlur}>
-      <ModalBody isOpen={isOpen} ref={modalRef}>
+    <Root $isOpen={isOpen} onClick={handleBlur}>
+      <ModalBody $isOpen={isOpen} ref={modalRef}>
         <Head>
           {title}
           <CloseBtn onClick={handleCloseModal} />

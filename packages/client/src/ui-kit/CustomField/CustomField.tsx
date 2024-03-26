@@ -1,4 +1,3 @@
-import React from 'react'
 import { FieldAttributes } from 'formik'
 
 import * as S from './CustomField.styled'
@@ -26,12 +25,12 @@ export const CustomField = ({
           maxLength={250}
           rows={6}
           cols={6}
+          $error={Boolean(error)}
           {...field}
           {...props}
-          hasError={!!error}
         />
       ) : (
-        <S.Input {...field} {...props} hasError={!!error} />
+        <S.Input $error={Boolean(error)} {...field} {...props} />
       )}
       {error && <S.Error>{errors[field?.name || props.name]}</S.Error>}
     </S.CustomField>

@@ -7,8 +7,12 @@ import { PopupTypes, popupsThunk } from '../../features/popups'
 
 import { Bomberman } from './bomberman'
 import { Canvas, Wrapper } from './GameComponent.styled'
+import { useSelector } from 'react-redux'
+import { userSelectors } from '../../features/user'
+import LeaderBoardAPI from '../../api/LiderBoardAPI'
 
 export const GameComponent: FC = () => {
+  const user = useSelector(userSelectors.getUser)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -42,6 +46,11 @@ export const GameComponent: FC = () => {
   }
 
   const onGameOver = async (_totalScore: number) => {
+    LeaderBoardAPI.sendGameResult({
+      user: { avatar: user.avatar, email: user.email },
+      gofResult: _totalScore,
+    })
+
     const result = await dispatch(
       popupsThunk.showPopupThunk({
         popupId: PopupTypes.GAME_OVER,

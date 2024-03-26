@@ -44,7 +44,7 @@ export function OauthYaButton() {
     return () => {
       canceled = true
     }
-  })
+  }, [])
 
   const handleOAuthLogin = async () => {
     const { origin, pathname } = globalThis.location

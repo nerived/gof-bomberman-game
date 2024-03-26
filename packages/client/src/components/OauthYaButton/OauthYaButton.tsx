@@ -36,10 +36,14 @@ export function OauthYaButton() {
 
     dispatch(
       userThunks.userOauthLogin({ code, redirect_uri: origin + pathname })
-    ).then(data => {
-      if (!data.payload?.isSuccess || canceled) return
-      return dispatch(userThunks.fetchUser())
-    })
+    )
+      .then(data => {
+        if (!data.payload?.isSuccess || canceled) return
+        return dispatch(userThunks.fetchUser())
+      })
+      .catch(err => {
+        console.warn(err)
+      })
 
     return () => {
       canceled = true

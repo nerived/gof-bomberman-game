@@ -9,6 +9,8 @@ import { Loader } from './components/Loader'
 import { PopupManager } from './components/PopupManager'
 
 function App() {
+  return <div>START SSR RENDER</div>
+
   return (
     <Provider store={store}>
       <ErrorBoundary>
